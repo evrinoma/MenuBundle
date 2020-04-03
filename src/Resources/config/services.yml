@@ -1,0 +1,22 @@
+services:
+  evrinoma.menu.manager:
+    alias: Evrinoma\MenuBundle\Manager\MenuManager
+
+  Evrinoma\MenuBundle\Manager\MenuManager:
+    arguments: ['@doctrine.orm.entity_manager','@knp_menu.factory', '@evrinoma.menu.voter']
+    tags:
+      - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
+
+  Evrinoma\MenuBundle\Voter\MenuVoter:
+    autowire: true
+
+  evrinoma.menu.voter:
+    alias: Evrinoma\MenuBundle\Voter\MenuVoter
+
+  Evrinoma\MenuBundle\Controller\MenuApiController:
+    autowire: true
+    public: true
+
+  Evrinoma\MenuBundle\Menu\PredefinedMenu:
+    tags:
+      - { name: evrinoma.menu }

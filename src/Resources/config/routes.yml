@@ -1,0 +1,4 @@
+menuapi:
+  resource: "@EvrinomaMenuBundle/Resources/config/routing/api.yml"
+  prefix: evrinoma
+
