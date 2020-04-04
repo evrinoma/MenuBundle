@@ -7,11 +7,11 @@ services:
     tags:
       - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
 
-  Evrinoma\MenuBundle\Voter\MenuVoter:
+  Evrinoma\MenuBundle\Voiter\MenuVoiter:
     autowire: true
 
   evrinoma.menu.voter:
-    alias: Evrinoma\MenuBundle\Voter\MenuVoter
+    alias: Evrinoma\MenuBundle\Voiter\MenuVoiter
 
   Evrinoma\MenuBundle\Controller\MenuApiController:
     autowire: true

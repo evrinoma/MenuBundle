@@ -2,12 +2,12 @@
 
 namespace Evrinoma\MenuBundle\Manager;
 
-use Evrinoma\LiveVideoBundle\Voter\LiveVideoRoleInterface;
+use Evrinoma\LiveVideoBundle\Voiter\LiveVideoRoleInterface;
 use Evrinoma\MenuBundle\Entity\MenuItem;
 use Doctrine\ORM\EntityManagerInterface;
 use Evrinoma\UtilsBundle\Manager\AbstractEntityManager;
-use Evrinoma\UtilsBundle\Voter\RoleInterface;
-use Evrinoma\UtilsBundle\Voter\VoterInterface;
+use Evrinoma\UtilsBundle\Voiter\RoleInterface;
+use Evrinoma\UtilsBundle\Voiter\VoiterInterface;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 
@@ -24,7 +24,7 @@ class MenuManager extends AbstractEntityManager
      */
     protected $repositoryClass = MenuItem::class;
     /**
-     * @var VoterInterface
+     * @var VoiterInterface
      */
     private $voterManager;
     /**
@@ -44,9 +44,9 @@ class MenuManager extends AbstractEntityManager
      *
      * @param EntityManagerInterface $entityManager
      * @param FactoryInterface       $factory
-     * @param VoterInterface           $voterManager
+     * @param VoiterInterface           $voterManager
      */
-    public function __construct(EntityManagerInterface $entityManager, FactoryInterface $factory, VoterInterface $voterManager)
+    public function __construct(EntityManagerInterface $entityManager, FactoryInterface $factory, VoiterInterface $voterManager)
     {
         parent::__construct($entityManager);
         $this->factory      = $factory;
