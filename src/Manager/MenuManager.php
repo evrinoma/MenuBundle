@@ -26,7 +26,7 @@ class MenuManager extends AbstractEntityManager
     /**
      * @var VoiterInterface
      */
-    private $voterManager;
+    private $voiterManager;
     /**
      * @var FactoryInterface
      */
@@ -44,13 +44,13 @@ class MenuManager extends AbstractEntityManager
      *
      * @param EntityManagerInterface $entityManager
      * @param FactoryInterface       $factory
-     * @param VoiterInterface           $voterManager
+     * @param VoiterInterface           $voiterManager
      */
-    public function __construct(EntityManagerInterface $entityManager, FactoryInterface $factory, VoiterInterface $voterManager)
+    public function __construct(EntityManagerInterface $entityManager, FactoryInterface $factory, VoiterInterface $voiterManager)
     {
         parent::__construct($entityManager);
         $this->factory      = $factory;
-        $this->voterManager = $voterManager;
+        $this->voiterManager = $voiterManager;
     }
 //endregion Constructor
 
@@ -115,7 +115,7 @@ class MenuManager extends AbstractEntityManager
     private function createMenu($menu, array $items)
     {
         foreach ($items as $menuItem) {
-            if ($this->voterManager->checkPermission($menuItem->getRole())) {
+            if ($this->voiterManager->checkPermission($menuItem->getRole())) {
                 if ($menuItem->hasChildren()) {
                     $menuLevel = $this->createItem($menu, $menuItem);
                     $this->createMenu($menuLevel, $menuItem->getChildren()->getValues());

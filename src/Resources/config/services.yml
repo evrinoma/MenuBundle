@@ -3,14 +3,14 @@ services:
     alias: Evrinoma\MenuBundle\Manager\MenuManager
 
   Evrinoma\MenuBundle\Manager\MenuManager:
-    arguments: ['@doctrine.orm.entity_manager','@knp_menu.factory', '@evrinoma.menu.voter']
+    arguments: ['@doctrine.orm.entity_manager','@knp_menu.factory', '@evrinoma.menu.voiter']
     tags:
       - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
 
   Evrinoma\MenuBundle\Voiter\MenuVoiter:
     autowire: true
 
-  evrinoma.menu.voter:
+  evrinoma.menu.voiter:
     alias: Evrinoma\MenuBundle\Voiter\MenuVoiter
 
   Evrinoma\MenuBundle\Controller\MenuApiController:
