@@ -83,16 +83,21 @@ class MenuManager extends AbstractEntityManager
 
     public function addMenuIte(MenuInterface $item):void
     {
-        $this->menuItems[] = $item;
+        if (!array_key_exists($item->order(),$this->menuItems)) {
+            $this->menuItems[$item->order()] = $item;
+        } else {
+            throw new \Exception('MenuItem '.get_class($item).'override another MenuItem');
+        }
     }
 
     public function createDefaultMenu(): void
     {
         if (count($this->menuItems)) {
+            ksort($this->menuItems);
             foreach ($this->menuItems as $item) {
                 $item->createMenu($this->entityManager);
             }
-           // $this->entityManager->flush();
+           $this->entityManager->flush();
         }
     }
 //endregion Public
