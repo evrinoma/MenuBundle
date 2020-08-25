@@ -2,12 +2,12 @@
 
 namespace Evrinoma\MenuBundle\Manager;
 
-use Evrinoma\LiveVideoBundle\Voiter\LiveVideoRoleInterface;
+use Evrinoma\LiveVideoBundle\Voter\LiveVideoRoleInterface;
 use Evrinoma\MenuBundle\Entity\MenuItem;
 use Doctrine\ORM\EntityManagerInterface;
 use Evrinoma\UtilsBundle\Manager\AbstractEntityManager;
-use Evrinoma\UtilsBundle\Voiter\RoleInterface;
-use Evrinoma\UtilsBundle\Voiter\VoiterInterface;
+use Evrinoma\UtilsBundle\Voter\RoleInterface;
+use Evrinoma\UtilsBundle\Voter\VoterInterface;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 
@@ -24,9 +24,9 @@ class MenuManager extends AbstractEntityManager
      */
     protected $repositoryClass = MenuItem::class;
     /**
-     * @var VoiterInterface
+     * @var VoterInterface
      */
-    private $voiterManager;
+    private $voterManager;
     /**
      * @var FactoryInterface
      */
@@ -44,13 +44,13 @@ class MenuManager extends AbstractEntityManager
      *
      * @param EntityManagerInterface $entityManager
      * @param FactoryInterface       $factory
-     * @param VoiterInterface           $voiterManager
+     * @param VoterInterface           $voterManager
      */
-    public function __construct(EntityManagerInterface $entityManager, FactoryInterface $factory, VoiterInterface $voiterManager)
+    public function __construct(EntityManagerInterface $entityManager, FactoryInterface $factory, VoterInterface $voterManager)
     {
         parent::__construct($entityManager);
         $this->factory      = $factory;
-        $this->voiterManager = $voiterManager;
+        $this->voterManager = $voterManager;
     }
 //endregion Constructor
 
@@ -120,7 +120,7 @@ class MenuManager extends AbstractEntityManager
     private function createMenu($menu, array $items)
     {
         foreach ($items as $menuItem) {
-            if ($this->voiterManager->checkPermission($menuItem->getRole())) {
+            if ($this->voterManager->checkPermission($menuItem->getRole())) {
                 if ($menuItem->hasChildren()) {
                     $menuLevel = $this->createItem($menu, $menuItem);
                     $this->createMenu($menuLevel, $menuItem->getChildren()->getValues());
