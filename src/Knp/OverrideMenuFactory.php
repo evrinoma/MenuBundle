@@ -27,7 +27,7 @@ final class OverrideMenuFactory extends MenuFactory
     private $sorted;
 
     /**
-     * CustomMenuFactory constructor.
+     * OverrideMenuFactory constructor.
      */
     public function __construct()
     {
