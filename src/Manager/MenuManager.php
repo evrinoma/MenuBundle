@@ -6,6 +6,7 @@ use Evrinoma\LiveVideoBundle\Voter\LiveVideoRoleInterface;
 use Evrinoma\MenuBundle\Entity\MenuItem;
 use Doctrine\ORM\EntityManagerInterface;
 use Evrinoma\UtilsBundle\Manager\AbstractEntityManager;
+use Evrinoma\UtilsBundle\Rest\RestTrait;
 use Evrinoma\UtilsBundle\Voter\RoleInterface;
 use Evrinoma\UtilsBundle\Voter\VoterInterface;
 use Knp\Menu\FactoryInterface;
@@ -18,6 +19,8 @@ use Knp\Menu\ItemInterface;
  */
 class MenuManager extends AbstractEntityManager
 {
+    use RestTrait;
+    
 //region SECTION: Fields
     /**
      * @var string
@@ -132,11 +135,41 @@ class MenuManager extends AbstractEntityManager
     }
 
     /**
+     * @param MenuItem[] $items
+     */
+    private function getMenu($menu, array $items)
+    {
+        foreach ($items as $menuItem) {
+            if ($this->voterManager->checkPermission($menuItem->getRole())) {
+                if ($menuItem->hasChildren()) {
+                    $menuLevel = $this->createItem($menu, $menuItem);
+                    $this->createMenu($menuLevel, $menuItem->getChildren()->getValues());
+                } else {
+                    $this->createItem($menu, $menuItem);
+                }
+            }
+        }
+    }
+    
+    public function get($options = [])
+    {
+       $this->setData($this->createMainMenu($options));
+
+       return $this;
+    }
+    
+    /**
      * @return mixed
      */
     private function getMenuItems()
     {
         return $this->repository->findBy(['parent' => null]);
+    }
+
+
+    public function getRestStatus(): int
+    {
+        return $this->status;
     }
 //endregion Private
 }

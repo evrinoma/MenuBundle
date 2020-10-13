@@ -3,6 +3,7 @@
 namespace Evrinoma\MenuBundle\Controller;
 
 
+use Evrinoma\MenuBundle\Knp\OverrideMenuItem;
 use Evrinoma\MenuBundle\Manager\MenuManager;
 use Evrinoma\UtilsBundle\Controller\AbstractApiController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -53,6 +54,19 @@ final class MenuApiController extends AbstractApiController
         $this->menuManager->createDefaultMenu();
 
         return $this->json(['message' => 'the Menu was generate successFully']);
+    }
+
+    /**
+     * @Rest\Get("/api/menu/get", name="api_get_menu")
+     * @SWG\Get(tags={"menu"})
+     * @SWG\Response(response=200,description="Get menu")
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function menuGetAction()
+    {
+        $reflect = new \ReflectionClass(OverrideMenuItem::class);
+        return $this->setSerializeGroup($reflect->getShortName())->json( $this->menuManager->setRestSuccessOk()->get()->getData(), $this->menuManager->getRestStatus());
     }
 
     /**
