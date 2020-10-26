@@ -4,6 +4,7 @@ namespace Evrinoma\MenuBundle\Dto;
 
 
 use Evrinoma\DtoBundle\Dto\AbstractDto;
+use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\MenuBundle\Entity\MenuItem;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -43,11 +44,11 @@ class MenuDto extends AbstractDto
     }
 
     /**
-     * @return string|null
+     * @inheritDoc
      */
     public function lookingForRequest()
     {
-        return null;
+        return DtoInterface::DEFAULT_LOOKING_REQUEST;
     }
 
 //endregion Public
