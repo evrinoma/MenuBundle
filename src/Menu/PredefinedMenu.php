@@ -6,7 +6,7 @@ namespace Evrinoma\MenuBundle\Menu;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Evrinoma\MenuBundle\Entity\MenuItem;
-use Evrinoma\MenuBundle\Manager\MenuInterface;
+use Evrinoma\MenuBundle\Menu\MenuInterface;
 use Evrinoma\UtilsBundle\Voter\RoleInterface;
 
 /**
@@ -16,32 +16,28 @@ use Evrinoma\UtilsBundle\Voter\RoleInterface;
  */
 final class PredefinedMenu implements MenuInterface
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
 //region SECTION: Public
-    public function createMenu(EntityManagerInterface $em):void
-    {
-        $this->em = $em;
-        $this->createLogout($em);
-    }
-
-    private function createLogout()
+    public function create(EntityManagerInterface $em):void
     {
         $logout = new MenuItem();
         $logout
             ->setRole([RoleInterface::ROLE_USER])
             ->setName('Logout')
             ->setRoute('fos_user_security_logout')
-            ->setAttributes(['class' => 'logout']);
-        $this->em->persist($logout);
+            ->setAttributes(['class' => 'logout'])
+            ->setTag($this->tag());
 
-        return $this;
+        $em->persist($logout);
     }
+
 //endregion Public
     public function order(): int
     {
         return 1000;
+    }
+
+    public function tag(): string
+    {
+        return MenuInterface::DEFAULT_TAG;
     }
 }

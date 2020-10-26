@@ -76,10 +76,23 @@ class MenuItem
      * @ORM\Column(name="role", type="array", nullable=true)
      */
     protected $role = null;
+
+    /**
+     * @var string
+     * @ORM\Column(name="tag", type="string")
+     */
+    protected $tag;
 //endregion Fields
 
-
 //region SECTION: Getters/Setters
+    /**
+     * @return string
+     */
+    public function getTag(): string
+    {
+        return $this->tag;
+    }
+
     /**
      * @return mixed
      */
@@ -131,6 +144,18 @@ class MenuItem
     public function getOptions()
     {
         return (array)$this->getUri() + (array)$this->getRoute() + (array)$this->getAttributes() + (array)$this->getRouteParameters();
+    }
+
+    /**
+     * @param string $tag
+     *
+     * @return MenuItem
+     */
+    public function setTag(string $tag): self
+    {
+        $this->tag = $tag;
+
+        return $this;
     }
 
     /**

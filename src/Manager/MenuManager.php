@@ -2,25 +2,27 @@
 
 namespace Evrinoma\MenuBundle\Manager;
 
-use Evrinoma\LiveVideoBundle\Voter\LiveVideoRoleInterface;
-use Evrinoma\MenuBundle\Entity\MenuItem;
 use Doctrine\ORM\EntityManagerInterface;
+use Evrinoma\MenuBundle\Dto\MenuDto;
+use Evrinoma\MenuBundle\Entity\MenuItem;
+use Evrinoma\MenuBundle\Menu\MenuInterface;
 use Evrinoma\UtilsBundle\Manager\AbstractEntityManager;
 use Evrinoma\UtilsBundle\Rest\RestTrait;
-use Evrinoma\UtilsBundle\Voter\RoleInterface;
 use Evrinoma\UtilsBundle\Voter\VoterInterface;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
+use Evrinoma\UtilsBundle\Voter\RoleInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class MenuManager
  *
  * @package App\Manager
  */
-class MenuManager extends AbstractEntityManager
+class MenuManager extends AbstractEntityManager implements MenuManagerInterface
 {
     use RestTrait;
-    
+
 //region SECTION: Fields
     /**
      * @var string
@@ -34,11 +36,15 @@ class MenuManager extends AbstractEntityManager
      * @var FactoryInterface
      */
     private $factory;
-
     /**
      * @var MenuInterface[]
      */
     private $menuItems = [];
+
+    /**
+     * @var MenuDto
+     */
+    private $dto;
 //endregion Fields
 
 //region SECTION: Constructor
@@ -47,7 +53,7 @@ class MenuManager extends AbstractEntityManager
      *
      * @param EntityManagerInterface $entityManager
      * @param FactoryInterface       $factory
-     * @param VoterInterface           $voterManager
+     * @param VoterInterface         $voterManager
      */
     public function __construct(EntityManagerInterface $entityManager, FactoryInterface $factory, VoterInterface $voterManager)
     {
@@ -59,22 +65,24 @@ class MenuManager extends AbstractEntityManager
 
 //region SECTION: Public
     /**
-     * @param array $options
+     * @param mixed $options
      *
      * @return ItemInterface
      */
-    public function createMainMenu(array $options)
+    public function createMainMenu($options)
     {
+        $this->toDto($options);
+
         $root = $this->factory->createItem('root');
 
-        $items = $this->getMenuItems($root);
+        $items = $this->findMenuItems();
 
         $this->createMenu($root, $items);
 
         return $root;
     }
 
-    public function deleteDefaultMenu(): void
+    public function delete(): void
     {
         $allMenuItems = $this->repository->findAll();
         foreach ($allMenuItems as $menu) {
@@ -84,23 +92,27 @@ class MenuManager extends AbstractEntityManager
     }
 
 
-    public function addMenuIte(MenuInterface $item):void
+    public function addMenuItem(MenuInterface $item): void
     {
-        if (!array_key_exists($item->order(),$this->menuItems)) {
-            $this->menuItems[$item->order()] = $item;
+        if (!array_key_exists($item->order(), $this->menuItems)) {
+            $this->menuItems[$item->tag()][$item->order()] = $item;
         } else {
             throw new \Exception('MenuItem '.get_class($item).'override another MenuItem');
         }
     }
 
-    public function createDefaultMenu(): void
+    public function create(): void
     {
         if (count($this->menuItems)) {
-            ksort($this->menuItems);
-            foreach ($this->menuItems as $item) {
-                $item->createMenu($this->entityManager);
+            foreach ($this->menuItems as $tag) {
+                if (count($tag)) {
+                    ksort($tag);
+                    foreach ($tag as $item) {
+                        $item->create($this->entityManager);
+                    }
+                }
             }
-           $this->entityManager->flush();
+            $this->entityManager->flush();
         }
     }
 //endregion Public
@@ -135,41 +147,72 @@ class MenuManager extends AbstractEntityManager
     }
 
     /**
-     * @param MenuItem[] $items
+     * @return mixed
      */
-    private function getMenu($menu, array $items)
+    private function findTagItems()
     {
-        foreach ($items as $menuItem) {
-            if ($this->voterManager->checkPermission($menuItem->getRole())) {
-                if ($menuItem->hasChildren()) {
-                    $menuLevel = $this->createItem($menu, $menuItem);
-                    $this->createMenu($menuLevel, $menuItem->getChildren()->getValues());
-                } else {
-                    $this->createItem($menu, $menuItem);
-                }
-            }
-        }
-    }
-    
-    public function get($options = [])
-    {
-       $this->setData($this->createMainMenu($options));
+        $query = $this->repository
+            ->createQueryBuilder("menu")
+            ->select("menu.tag")
+            ->groupBy("menu.tag");
 
-       return $this;
+        return array_column($query->getQuery()->getResult(), 'tag');
     }
-    
+
     /**
      * @return mixed
      */
-    private function getMenuItems()
+    private function findMenuItems()
     {
-        return $this->repository->findBy(['parent' => null]);
+        $query = $this->repository
+            ->createQueryBuilder("menu")
+            ->where('menu.parent is NULL');
+
+        if ($this->dto->hasTag()) {
+            $query->andWhere("menu.tag = :tag")
+                ->setParameter("tag", $this->dto->getTag());
+        }
+
+        return $query->getQuery()->getResult();
+    }
+//endregion Private
+
+//region SECTION: Dto
+    public function setDto($dto): MenuManagerInterface
+    {
+        $this->dto = $dto;
+
+        return $this;
     }
 
+    private function toDto($options): void
+    {
+        if ($this->dto === null) {
+            $this->dto = new MenuDto();
+        }
+
+        if ($options && !($options instanceof MenuDto)) {
+            $this->dto->setTag(array_key_exists('tag', $options) ? $options['tag'] : null);
+        }
+    }
+//endregion SECTION: Dto
+
+//region SECTION: Getters/Setters
+    public function get($options = []): MenuManagerInterface
+    {
+        $this->setData($this->createMainMenu($options));
+
+        return $this;
+    }
+
+    public function getTags(): array
+    {
+        return $this->findTagItems();
+    }
 
     public function getRestStatus(): int
     {
         return $this->status;
     }
-//endregion Private
+//endregion Getters/Setters
 }

@@ -28,7 +28,7 @@ class MenuItemPass implements CompilerPassInterface
         $taggedServices = $container->findTaggedServiceIds('evrinoma.menu');
 
         foreach ($taggedServices as $id => $tags) {
-            $definition->addMethodCall('addMenuIte', [new Reference($id)]);
+            $definition->addMethodCall('addMenuItem', [new Reference($id)]);
         }
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Evrinoma\MenuBundle\Manager;
+namespace Evrinoma\MenuBundle\Menu;
 
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,8 +13,10 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 interface MenuInterface
 {
+    public const DEFAULT_TAG = 'default';
 //region SECTION: Public
-    public function createMenu(EntityManagerInterface $em): void;
+    public function create(EntityManagerInterface $em): void;
+    public function tag(): string;
     public function order(): int;
 //endregion Public
 }

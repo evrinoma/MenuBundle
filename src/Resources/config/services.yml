@@ -13,10 +13,30 @@ services:
   evrinoma.menu.voter:
     alias: Evrinoma\MenuBundle\Voter\MenuVoter
 
+  evrinoma.menu.api.controller:
+    class: Evrinoma\MenuBundle\Controller\MenuApiController
+    arguments:
+      - '@jms_serializer'
+      - '@request_stack'
+      - '@evrinoma.dto.factory'
+      - '@evrinoma.menu.manager'
+
   Evrinoma\MenuBundle\Controller\MenuApiController:
-    autowire: true
+    alias: evrinoma.menu.api.controller
     public: true
 
   Evrinoma\MenuBundle\Menu\PredefinedMenu:
     tags:
       - { name: evrinoma.menu }
+
+  evrinoma.menu.form.rest.tag:
+    class: Evrinoma\MenuBundle\Form\Rest\TagType
+    arguments:
+      - '@evrinoma.menu.manager'
+    tags: { - name: form.type }
+
+  Evrinoma\MenuBundle\Form\Rest\TagType:
+    alias: evrinoma.menu.form.rest.tag
+    public: true
+
+
