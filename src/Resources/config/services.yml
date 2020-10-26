@@ -20,6 +20,7 @@ services:
       - '@request_stack'
       - '@evrinoma.dto.factory'
       - '@evrinoma.menu.manager'
+    autowire: true
 
   Evrinoma\MenuBundle\Controller\MenuApiController:
     alias: evrinoma.menu.api.controller
