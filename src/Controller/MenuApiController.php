@@ -85,7 +85,7 @@ final class MenuApiController extends AbstractApiController
      *     description="tag menu",
      *     items=@SWG\Items(
      *         type="string",
-     *         @Model(type=Evrinoma\MenuBundle\Form\Rest\TagType::class)
+     *         ref=@Model(type=Evrinoma\MenuBundle\Form\Rest\TagType::class)
      *     )
      * )
      * @SWG\Response(response=200,description="Get menu")
