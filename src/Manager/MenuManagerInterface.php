@@ -3,7 +3,7 @@
 
 namespace Evrinoma\MenuBundle\Manager;
 
-use Evrinoma\UtilsBundle\Manager\BaseEntityInterface;
+use Evrinoma\UtilsBundle\Manager\EntityInterface;
 use Evrinoma\UtilsBundle\Rest\RestInterface;
 
 /**
@@ -11,7 +11,7 @@ use Evrinoma\UtilsBundle\Rest\RestInterface;
  *
  * @package Evrinoma\MenuBundle\Manager
  */
-interface MenuManagerInterface extends RestInterface, BaseEntityInterface
+interface MenuManagerInterface extends RestInterface, EntityInterface
 {
     public function setDto($dto): MenuManagerInterface;
 
