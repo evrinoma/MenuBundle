@@ -5,6 +5,7 @@ namespace Evrinoma\MenuBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Evrinoma\UtilsBundle\Entity\IdTrait;
 use Evrinoma\UtilsBundle\Entity\RelationTrait;
 use Evrinoma\UtilsBundle\Entity\RoleTrait;
 
@@ -18,16 +19,9 @@ use Evrinoma\UtilsBundle\Entity\RoleTrait;
  */
 class MenuItem
 {
-    use RelationTrait, RoleTrait;
+    use IdTrait, RelationTrait, RoleTrait;
 
 //region SECTION: Fields
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
     /**
      * @var MenuItem
      *
@@ -91,14 +85,6 @@ class MenuItem
     public function getTag(): string
     {
         return $this->tag;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
