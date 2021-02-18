@@ -18,8 +18,7 @@
         "evrinoma/dto-bundle": "dev-master",
         "evrinoma/utils-bundle": "dev-master",
         "knplabs/knp-menu-bundle": "^3.0"
-    }
-    ,
+    },
     "autoload": {
         "psr-4": {
             "Evrinoma\\MenuBundle\\": "src/"
