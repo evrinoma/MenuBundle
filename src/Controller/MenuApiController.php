@@ -9,9 +9,9 @@ use Evrinoma\MenuBundle\Knp\OverrideMenuItem;
 use Evrinoma\MenuBundle\Manager\MenuManagerInterface;
 use Evrinoma\UtilsBundle\Controller\AbstractApiController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Swagger\Annotations as SWG;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use JMS\Serializer\SerializerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -62,8 +62,8 @@ final class MenuApiController extends AbstractApiController
 
     /**
      * @Rest\Get("/api/menu/create", name="api_create_menu")
-     * @SWG\Get(tags={"menu"})
-     * @SWG\Response(response=200,description="Returns the rewards of default generated menu")
+     * @OA\Get(tags={"menu"})
+     * @OA\Response(response=200,description="Returns the rewards of default generated menu")
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
@@ -76,19 +76,24 @@ final class MenuApiController extends AbstractApiController
 
     /**
      * @Rest\Get("/api/menu/get", name="api_get_menu")
-     * @SWG\Get(tags={"menu"})
-     * @SWG\Parameter(
-     *     name="Evrinoma\MenuBundle\Dto\MenuDto[tag]",
-     *     in="query",
-     *     type="array",
-     *     default=null,
-     *     description="tag menu",
-     *     items=@SWG\Items(
-     *         type="string",
-     *         ref=@Model(type=Evrinoma\MenuBundle\Form\Rest\TagType::class)
-     *     )
+     * @OA\Get(
+     *     tags={"menu"}),
+     *     @OA\Parameter(
+     *         name="Evrinoma\MenuBundle\Dto\MenuDto[tag]",
+     *         in="query",
+     *         description="tag menu",
+     *         required=true,
+     *         @OA\Schema(
+     *              type="array",
+     *              @OA\Items(
+     *                  type="string",
+     *                  ref=@Model(type=Evrinoma\MenuBundle\Form\Rest\TagType::class),
+     *              ),
+     *          ),
+     *         style="form"
+     *     ),
      * )
-     * @SWG\Response(response=200,description="Get menu")
+     * @OA\Response(response=200,description="Get menu")
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
@@ -102,8 +107,8 @@ final class MenuApiController extends AbstractApiController
 
     /**
      * @Rest\Delete("/api/menu/delete", name="api_delete_menu")
-     * @SWG\Delete(tags={"menu"})
-     * @SWG\Response(response=200,description="Returns nothing")
+     * @OA\Delete(tags={"menu"})
+     * @OA\Response(response=200,description="Returns nothing")
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
