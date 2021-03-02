@@ -3,6 +3,7 @@
 namespace Evrinoma\MenuBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query;
 use Evrinoma\MenuBundle\Dto\MenuDto;
 use Evrinoma\MenuBundle\Entity\MenuItem;
 use Evrinoma\MenuBundle\Menu\MenuInterface;
@@ -11,8 +12,6 @@ use Evrinoma\UtilsBundle\Rest\RestTrait;
 use Evrinoma\UtilsBundle\Voter\VoterInterface;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
-use Evrinoma\UtilsBundle\Voter\RoleInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class MenuManager
@@ -166,14 +165,18 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
     {
         $query = $this->repository
             ->createQueryBuilder("menu")
+            ->select("menu, children")
+            ->leftJoin('menu.children', 'children')
             ->where('menu.parent is NULL');
 
         if ($this->dto->hasTag()) {
-            $query->andWhere("menu.tag = :tag")
+            $query->andWhere("menu.tag = :tag AND children.tag = :tag")
                 ->setParameter("tag", $this->dto->getTag());
         }
 
-        return $query->getQuery()->getResult();
+        return $query->getQuery()
+            ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
+            ->getResult();
     }
 //endregion Private
 
