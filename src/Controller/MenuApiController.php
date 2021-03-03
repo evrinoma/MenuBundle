@@ -5,7 +5,6 @@ namespace Evrinoma\MenuBundle\Controller;
 
 use Evrinoma\DtoBundle\Factory\FactoryDto;
 use Evrinoma\MenuBundle\Dto\MenuDto;
-use Evrinoma\MenuBundle\Knp\OverrideMenuItem;
 use Evrinoma\MenuBundle\Manager\MenuManagerInterface;
 use Evrinoma\UtilsBundle\Controller\AbstractApiController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -78,7 +77,7 @@ final class MenuApiController extends AbstractApiController
      * @Rest\Get("/api/menu/get", name="api_get_menu")
      * @OA\Get(
      *     tags={"menu"}),
-     *     @OA\Parameter(
+     * @OA\Parameter(
      *         name="Evrinoma\MenuBundle\Dto\MenuDto[tag]",
      *         in="query",
      *         description="tag menu",
@@ -100,9 +99,8 @@ final class MenuApiController extends AbstractApiController
     public function menuGetAction()
     {
         $menuDto = $this->factoryDto->setRequest($this->request)->createDto(MenuDto::class);
-        $reflect = new \ReflectionClass(OverrideMenuItem::class);
 
-        return $this->setSerializeGroup($reflect->getShortName())->json($this->menuManager->setRestSuccessOk()->setDto($menuDto)->get()->getData(), $this->menuManager->getRestStatus());
+        return $this->setSerializeGroup("api_get_menu")->json($this->menuManager->setRestSuccessOk()->setDto($menuDto)->get()->getData(), $this->menuManager->getRestStatus());
     }
 
     /**

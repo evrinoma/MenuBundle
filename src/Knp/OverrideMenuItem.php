@@ -19,7 +19,7 @@ final class OverrideMenuItem extends MenuItem
      *
      * @var string
      * @JMS\Type("string")
-     * @JMS\Groups("OverrideMenuItem")
+     * @JMS\Groups("api_get_menu")
      */
     protected $name;
 
@@ -28,7 +28,7 @@ final class OverrideMenuItem extends MenuItem
      *
      * @var string|null
      * @JMS\Type("string")
-     * @JMS\Groups("OverrideMenuItem")
+     * @JMS\Groups("api_get_menu")
      */
     protected $label;
 
@@ -37,7 +37,7 @@ final class OverrideMenuItem extends MenuItem
      *
      * @var array
      * @JMS\Type("array")
-     * @JMS\Groups("OverrideMenuItem")
+     * @JMS\Groups("api_get_menu")
      */
     protected $linkAttributes = [];
 
@@ -46,7 +46,7 @@ final class OverrideMenuItem extends MenuItem
      *
      * @var array
      * @JMS\Type("array")
-     * @JMS\Groups("OverrideMenuItem")
+     * @JMS\Groups("api_get_menu")
      */
     protected $childrenAttributes = [];
 
@@ -55,7 +55,7 @@ final class OverrideMenuItem extends MenuItem
      *
      * @var array
      * @JMS\Type("array")
-     * @JMS\Groups("OverrideMenuItem")
+     * @JMS\Groups("api_get_menu")
      */
     protected $labelAttributes = [];
 
@@ -64,7 +64,7 @@ final class OverrideMenuItem extends MenuItem
      *
      * @var string|null
      * @JMS\Type("string")
-     * @JMS\Groups("OverrideMenuItem")
+     * @JMS\Groups("api_get_menu")
      */
     protected $uri;
 
@@ -73,7 +73,7 @@ final class OverrideMenuItem extends MenuItem
      *
      * @var array
      * @JMS\Type("array")
-     * @JMS\Groups("OverrideMenuItem")
+     * @JMS\Groups("api_get_menu")
      */
     protected $attributes = [];
 
@@ -82,7 +82,7 @@ final class OverrideMenuItem extends MenuItem
      *
      * @var array
      * @JMS\Type("array")
-     * @JMS\Groups("OverrideMenuItem")
+     * @JMS\Groups("api_get_menu")
      */
     protected $extras = [];
 
@@ -91,7 +91,7 @@ final class OverrideMenuItem extends MenuItem
      *
      * @var bool
      * @JMS\Type("bool")
-     * @JMS\Groups("OverrideMenuItem")
+     * @JMS\Groups("api_get_menu")
      */
     protected $display = true;
 
@@ -100,7 +100,7 @@ final class OverrideMenuItem extends MenuItem
      *
      * @var bool
      * @JMS\Type("bool")
-     * @JMS\Groups("OverrideMenuItem")
+     * @JMS\Groups("api_get_menu")
      */
     protected $displayChildren = true;
 
@@ -109,7 +109,7 @@ final class OverrideMenuItem extends MenuItem
      *
      * @var ItemInterface[]
      * @JMS\Type("array<Evrinoma\MenuBundle\Knp\OverrideMenuItem>")
-     * @JMS\Groups("OverrideMenuItem")
+     * @JMS\Groups("api_get_menu")
      */
     protected $children = [];
 
@@ -118,7 +118,7 @@ final class OverrideMenuItem extends MenuItem
      *
      * @var ItemInterface|null
      * @JMS\Type("Evrinoma\MenuBundle\Knp\OverrideMenuItem")
-     * @JMS\Groups("OverrideMenuItem")
+     * @JMS\Groups("api_get_menu")
      */
     protected $parent;
 
@@ -127,7 +127,7 @@ final class OverrideMenuItem extends MenuItem
      *
      * @var bool|null
      * @JMS\Type("bool")
-     * @JMS\Groups("OverrideMenuItem")
+     * @JMS\Groups("api_get_menu")
      */
     protected $isCurrent;
 
