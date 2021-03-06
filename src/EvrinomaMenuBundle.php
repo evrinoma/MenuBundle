@@ -16,6 +16,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class EvrinomaMenuBundle extends Bundle
 {
+    public const MENU_BUNDLE = 'menu';
+
     public function build(ContainerBuilder $container)
     {
         parent::build($container);

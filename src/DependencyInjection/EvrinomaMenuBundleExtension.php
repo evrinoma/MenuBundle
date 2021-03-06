@@ -3,6 +3,7 @@
 
 namespace Evrinoma\MenuBundle\DependencyInjection;
 
+use Evrinoma\MenuBundle\EvrinomaMenuBundle;
 use Evrinoma\MenuBundle\Knp\OverrideMenuFactory;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
@@ -41,7 +42,7 @@ class EvrinomaMenuBundleExtension extends Extension
 //region SECTION: Getters/Setters
     public function getAlias()
     {
-        return 'menu';
+        return EvrinomaMenuBundle::MENU_BUNDLE;
     }
 //endregion Getters/Setters
 }
