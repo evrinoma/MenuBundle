@@ -170,7 +170,7 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
             ->where('menu.parent is NULL');
 
         if ($this->dto->hasTag()) {
-            $query->andWhere("menu.tag = :tag AND children.tag = :tag")
+            $query->andWhere("menu.tag = :tag")
                 ->setParameter("tag", $this->dto->getTag());
         }
 
