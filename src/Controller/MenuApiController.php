@@ -77,8 +77,19 @@ final class MenuApiController extends AbstractApiController
      * @Rest\Get("/api/menu/get", name="api_get_menu")
      * @OA\Get(
      *     tags={"menu"}),
-     * @OA\Parameter(
-     *         name="Evrinoma\MenuBundle\Dto\MenuDto[tag]",
+     *     @OA\Parameter(
+     *         description="class",
+     *         in="query",
+     *         name="class",
+     *         required=true,
+     *         @OA\Schema(
+     *           type="string",
+     *           default="Evrinoma\MenuBundle\Dto\MenuDto",
+     *           readOnly=true
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="tag",
      *         in="query",
      *         description="tag menu",
      *         required=true,

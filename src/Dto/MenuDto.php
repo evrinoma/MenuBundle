@@ -26,31 +26,20 @@ class MenuDto extends AbstractDto
     /**
      * @return mixed
      */
-    protected function getClassEntity()
+    protected function getClassEntity(): ?string
     {
-        return MenuItem::class;
+        return null;
     }
 //endregion Protected
 
 //region SECTION: Public
     /**
-     * @param $entity
-     *
-     * @return mixed
+     * @return bool
      */
-    public function fillEntity($entity)
+    public function hasTag(): bool
     {
-        return $entity;
+        return $this->tag !== '';
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function lookingForRequest()
-    {
-        return DtoInterface::DEFAULT_LOOKING_REQUEST;
-    }
-
 //endregion Public
 
 //region SECTION: Dto
@@ -59,34 +48,31 @@ class MenuDto extends AbstractDto
      *
      * @return AbstractDto
      */
-    public function toDto($request)
+    public function toDto(Request $request): DtoInterface
     {
-        $tag = $request->get('tag');
+        $class = $request->get(DtoInterface::DTO_CLASS);
 
-        if ($tag) {
-            $this->setTag($tag);
+        if ($class === $this->getClass()) {
+            $tag = $request->get('tag');
+
+            if ($tag) {
+                $this->setTag($tag);
+            }
         }
 
 
         return $this;
     }
+//endregion SECTION: Dto
 
+//region SECTION: Getters/Setters
     /**
      * @return string
      */
-    public function getTag():string
+    public function getTag(): string
     {
         return $this->tag;
     }
-
-    /**
-     * @return bool
-     */
-    public function hasTag():bool
-    {
-        return $this->tag !== '';
-    }
-
 
     /**
      * @param mixed $tag
@@ -99,7 +85,7 @@ class MenuDto extends AbstractDto
 
         return $this;
     }
-//endregion SECTION: Dto
+//endregion Getters/Setters
 
 
 }
