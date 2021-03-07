@@ -22,16 +22,6 @@ class MenuDto extends AbstractDto
     private $tag = '';
 //endregion Fields
 
-//region SECTION: Protected
-    /**
-     * @return mixed
-     */
-    protected function getClassEntity(): ?string
-    {
-        return null;
-    }
-//endregion Protected
-
 //region SECTION: Public
     /**
      * @return bool
