@@ -15,7 +15,7 @@
     "version": "1.1.0",
     "require": {
         "php": "^7.4",
-        "evrinoma/dto-bundle": "^1.0.1",
+        "evrinoma/dto-bundle": "dev-master",
         "evrinoma/utils-bundle": "dev-master",
         "nelmio/api-doc-bundle": "^4",
         "knplabs/knp-menu-bundle": "^3.0"
