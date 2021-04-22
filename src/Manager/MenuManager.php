@@ -165,9 +165,10 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
     {
         $query = $this->repository
             ->createQueryBuilder("menu")
-            ->select("menu, children")
-            ->leftJoin('menu.children', 'children')
-            ->where('menu.parent is NULL');
+            ->select("menu, level0, level1")
+            ->leftJoin('menu.children', 'level0')
+            ->leftJoin('level0.children', 'level1')
+           ->where('menu.parent is NULL');
 
         if ($this->dto->hasTag()) {
             $query->andWhere("menu.tag = :tag")
