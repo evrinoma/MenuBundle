@@ -96,40 +96,72 @@ class MenuItem
     }
 
     /**
-     * @return array|null
+     * @return string
      */
-    public function getRoute(): ?array
+    public function getRoute(): ?string
     {
-        return $this->route ? ['route' => $this->route] : null;
+        return $this->route;
     }
 
     /**
-     * @return array|null
-     */
-    public function getUri(): ?array
-    {
-        return $this->uri ? ['uri' => $this->uri] : null;
-    }
-
-    /**
-     * @return array|null
+     * @return array
      */
     public function getRouteParameters(): ?array
     {
-        return $this->routeParameters ? ['routeParameters' => $this->routeParameters] : null;
+        return $this->routeParameters;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUri(): ?string
+    {
+        return $this->uri;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttributes(): ?array
+    {
+        return $this->attributes;
     }
 
     /**
      * @return array|null
      */
-    public function getAttributes(): ?array
+    public function toRoute(): array
     {
-        return $this->attributes ? ['attributes' => $this->attributes] : null;
+        return $this->getRoute() ? ['route' => $this->getRoute()] : [];
+    }
+
+    /**
+     * @return array|null
+     */
+    public function toUri(): ?array
+    {
+        return $this->getUri() ? ['uri' => $this->getUri()] : [];
+    }
+
+    /**
+     * @return array|null
+     */
+    public function toRouteParameters(): array
+    {
+        return $this->getRouteParameters() ? ['routeParameters' => $this->getRouteParameters()] : [];
+    }
+
+    /**
+     * @return array|null
+     */
+    public function toAttributes(): array
+    {
+        return $this->getAttributes() ? ['attributes' => $this->getAttributes()] : [];
     }
 
     public function getOptions()
     {
-        return (array)$this->getUri() + (array)$this->getRoute() + (array)$this->getAttributes() + (array)$this->getRouteParameters();
+        return $this->toUri() + $this->toRoute() + $this->toAttributes() + $this->toRouteParameters();
     }
 
     /**
