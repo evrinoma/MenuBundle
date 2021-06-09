@@ -111,7 +111,7 @@ final class MenuApiController extends AbstractApiController
     {
         $menuDto = $this->factoryDto->setRequest($this->request)->createDto(MenuDto::class);
 
-        return $this->setSerializeGroup("api_get_menu")->json($this->menuManager->setRestSuccessOk()->setDto($menuDto)->get()->getData(), $this->menuManager->getRestStatus());
+        return $this->setSerializeGroup("api_get_menu")->json($this->menuManager->setRestOk()->setDto($menuDto)->get()->getData(), $this->menuManager->getRestStatus());
     }
 
     /**
