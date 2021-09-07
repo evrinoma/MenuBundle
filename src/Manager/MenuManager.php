@@ -9,7 +9,7 @@ use Evrinoma\MenuBundle\Entity\MenuItem;
 use Evrinoma\MenuBundle\Menu\MenuInterface;
 use Evrinoma\UtilsBundle\Manager\AbstractEntityManager;
 use Evrinoma\UtilsBundle\Rest\RestTrait;
-use Evrinoma\UtilsBundle\Voter\VoterInterface;
+use Evrinoma\SecurityBundle\Voter\VoterInterface;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 
@@ -30,20 +30,20 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
     /**
      * @var VoterInterface
      */
-    private $voterManager;
+    private VoterInterface $voterManager;
     /**
      * @var FactoryInterface
      */
-    private $factory;
+    private FactoryInterface $factory;
     /**
      * @var MenuInterface[]
      */
-    private $menuItems = [];
+    private array $menuItems = [];
 
     /**
      * @var MenuDto
      */
-    private $dto;
+    private MenuDto $dto;
 //endregion Fields
 
 //region SECTION: Constructor
