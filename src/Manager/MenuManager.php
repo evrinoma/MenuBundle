@@ -41,9 +41,9 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
     private array $menuItems = [];
 
     /**
-     * @var MenuDto
+     * @var MenuDto|null
      */
-    private MenuDto $dto;
+    private ?MenuDto $dto;
 //endregion Fields
 
 //region SECTION: Constructor
