@@ -43,7 +43,7 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
     /**
      * @var MenuDto|null
      */
-    private ?MenuDto $dto;
+    private ?MenuDto $dto = null;
 //endregion Fields
 
 //region SECTION: Constructor
