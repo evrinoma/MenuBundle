@@ -3,7 +3,7 @@ services:
     alias: Evrinoma\MenuBundle\Manager\MenuManager
 
   Evrinoma\MenuBundle\Manager\MenuManager:
-    arguments: ['@doctrine.orm.entity_manager','@knp_menu.factory', '@evrinoma.menu.voter']
+    arguments: [ '@doctrine.orm.entity_manager','@knp_menu.factory', '@evrinoma.menu.voter' ]
     tags:
       - { name: knp_menu.menu_builder, method: createMainMenu, alias: main }
 
@@ -40,4 +40,12 @@ services:
     alias: evrinoma.menu.form.rest.tag
     public: true
 
+  evrinoma.menu.command.create:
+    class: Evrinoma\MenuBundle\Command\MenuCommand
+    arguments: [ '@evrinoma.menu.manager' ]
+    tags: { - name: console.command }'
+
+  Evrinoma\MenuBundle\Command\MenuCommand:
+    alias: evrinoma.menu.command.create
+    public: true
 
