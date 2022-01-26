@@ -31,12 +31,12 @@ services:
       - { name: evrinoma.menu }
 
   evrinoma.menu.form.rest.tag:
-    class: Evrinoma\MenuBundle\Form\Rest\TagType
+    class: Evrinoma\MenuBundle\Form\Rest\MenuTagChoiceType
     arguments:
       - '@evrinoma.menu.manager'
     tags: { - name: form.type }
 
-  Evrinoma\MenuBundle\Form\Rest\TagType:
+  Evrinoma\MenuBundle\Form\Rest\MenuTagChoiceType:
     alias: evrinoma.menu.form.rest.tag
     public: true
 

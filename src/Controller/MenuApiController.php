@@ -97,7 +97,7 @@ final class MenuApiController extends AbstractApiController
      *              type="array",
      *              @OA\Items(
      *                  type="string",
-     *                  ref=@Model(type=Evrinoma\MenuBundle\Form\Rest\TagType::class),
+     *                  ref=@Model(type=Evrinoma\MenuBundle\Form\Rest\MenuTagChoiceType::class),
      *              ),
      *          ),
      *         style="form"

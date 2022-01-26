@@ -13,11 +13,11 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class TagType
+ * Class MenuTagType
  *
  * @package Evrinoma\MenuBundle\Form\Rest
  */
-class TagType extends AbstractType
+class MenuTagChoiceType extends AbstractType
 {
 //region SECTION: Fields
     /**
