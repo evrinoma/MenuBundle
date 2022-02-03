@@ -2,7 +2,9 @@
 
 namespace Evrinoma\MenuBundle\Dto;
 
-interface MenuDtoInterface
+use Evrinoma\DtoBundle\Dto\DtoInterface;
+
+interface MenuDtoInterface extends DtoInterface
 {
     public const TAG = 'tag';
 
