@@ -66,10 +66,14 @@ class MenuDto extends AbstractDto implements MenuDtoInterface
 
     /**
      * @param mixed $tag
+     *
+     * @return DtoInterface
      */
-    public function setTag($tag): void
+    public function setTag($tag): DtoInterface
     {
         $this->tag = $tag;
+
+        return $this;
     }
 //endregion Getters/Setters
 
