@@ -13,13 +13,13 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @package Evrinoma\MenuBundle\Dto
  */
-class MenuDto extends AbstractDto
+class MenuDto extends AbstractDto implements MenuDtoInterface
 {
 //region SECTION: Fields
     /**
      * @var string
      */
-    private $tag = '';
+    protected string $tag = '';
 //endregion Fields
 
 //region SECTION: Public
@@ -43,7 +43,7 @@ class MenuDto extends AbstractDto
         $class = $request->get(DtoInterface::DTO_CLASS);
 
         if ($class === $this->getClass()) {
-            $tag = $request->get('tag');
+            $tag = $request->get(MenuDtoInterface::TAG);
 
             if ($tag) {
                 $this->setTag($tag);
@@ -66,14 +66,10 @@ class MenuDto extends AbstractDto
 
     /**
      * @param mixed $tag
-     *
-     * @return MenuDto
      */
-    public function setTag($tag): self
+    public function setTag($tag): void
     {
         $this->tag = $tag;
-
-        return $this;
     }
 //endregion Getters/Setters
 
