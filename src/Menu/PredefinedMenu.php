@@ -22,7 +22,7 @@ final class PredefinedMenu implements MenuInterface
         $logout
             ->setRole([RoleInterface::ROLE_SUPER_ADMIN, RoleInterface::ROLE_USER])
             ->setName('Logout')
-            ->setRoute('fos_user_security_logout')
+            ->setRoute('security_logout')
             ->setAttributes(['class' => 'logout'])
             ->setTag($this->tag());
 
