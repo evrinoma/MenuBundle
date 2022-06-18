@@ -5,24 +5,19 @@ namespace Evrinoma\MenuBundle\Dto;
 
 use Evrinoma\DtoBundle\Dto\AbstractDto;
 use Evrinoma\DtoBundle\Dto\DtoInterface;
+use Evrinoma\DtoCommon\ValueObject\Mutable\IdTrait;
+use Evrinoma\FcrBundle\Dto\FcrApiDtoInterface;
 use Evrinoma\MenuBundle\Entity\MenuItem;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * Class MenuDto
- *
- * @package Evrinoma\MenuBundle\Dto
- */
-class MenuDto extends AbstractDto implements MenuDtoInterface
+
+class MenuApiDto extends AbstractDto implements MenuDtoInterface
 {
-//region SECTION: Fields
+    use IdTrait;
     /**
      * @var string
      */
     protected string $tag = '';
-//endregion Fields
-
-//region SECTION: Public
     /**
      * @return bool
      */
@@ -30,9 +25,7 @@ class MenuDto extends AbstractDto implements MenuDtoInterface
     {
         return $this->tag !== '';
     }
-//endregion Public
 
-//region SECTION: Dto
     /**
      * @param Request $request
      *
@@ -44,7 +37,10 @@ class MenuDto extends AbstractDto implements MenuDtoInterface
 
         if ($class === $this->getClass()) {
             $tag = $request->get(MenuDtoInterface::TAG);
-
+            $id = $request->get(FcrApiDtoInterface::ID, -1);
+            if ($id) {
+                $this->setId((int) $id);
+            }
             if ($tag) {
                 $this->setTag($tag);
             }
@@ -53,9 +49,7 @@ class MenuDto extends AbstractDto implements MenuDtoInterface
 
         return $this;
     }
-//endregion SECTION: Dto
 
-//region SECTION: Getters/Setters
     /**
      * @return string
      */
@@ -75,7 +69,4 @@ class MenuDto extends AbstractDto implements MenuDtoInterface
 
         return $this;
     }
-//endregion Getters/Setters
-
-
 }

@@ -3,8 +3,9 @@
 namespace Evrinoma\MenuBundle\Dto;
 
 use Evrinoma\DtoBundle\Dto\DtoInterface;
+use Evrinoma\DtoCommon\ValueObject\Immutable\IdInterface;
 
-interface MenuDtoInterface extends DtoInterface
+interface MenuApiDtoInterface extends DtoInterface, IdInterface
 {
     public const TAG = 'tag';
 
