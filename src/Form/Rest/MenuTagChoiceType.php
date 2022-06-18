@@ -23,7 +23,7 @@ class MenuTagChoiceType extends AbstractType
     /**
      * @var MenuManagerInterface
      */
-    private $menuManager;
+    private MenuManagerInterface $menuManager;
 //endregion Fields
 //endregion Fields
 

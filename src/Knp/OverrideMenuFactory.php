@@ -24,7 +24,7 @@ final class OverrideMenuFactory extends MenuFactory
     /**
      * @var ExtensionInterface[]|null
      */
-    private $sorted;
+    private ?ExtensionInterface $sorted = null;
 
     /**
      * OverrideMenuFactory constructor.
