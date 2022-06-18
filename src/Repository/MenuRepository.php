@@ -63,6 +63,7 @@ class MenuRepository extends ServiceEntityRepository implements MenuRepositoryIn
      * @param MenuInterface $menu
      *
      * @return bool
+     *
      * @throws MenuCannotBeRemovedException
      * @throws ORMException
      */

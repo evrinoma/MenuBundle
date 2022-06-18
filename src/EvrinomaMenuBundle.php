@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Evrinoma\MenuBundle;
 
@@ -9,11 +19,6 @@ use Evrinoma\MenuBundle\DependencyInjection\EvrinomaMenuBundleExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-/**
- * Class EvrinomaMenuBundle
- *
- * @package Evrinoma\MenuBundle
- */
 class EvrinomaMenuBundle extends Bundle
 {
     public const MENU_BUNDLE = 'menu';
@@ -39,6 +44,7 @@ class EvrinomaMenuBundle extends Bundle
         if (null === $this->extension) {
             $this->extension = new EvrinomaMenuBundleExtension();
         }
+
         return $this->extension;
     }
 }

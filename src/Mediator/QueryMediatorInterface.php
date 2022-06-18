@@ -25,7 +25,7 @@ interface QueryMediatorInterface
 
     /**
      * @param MenuApiDtoInterface $dto
-     * @param QueryBuilder       $builder
+     * @param QueryBuilder        $builder
      *
      * @return mixed
      */
@@ -33,7 +33,7 @@ interface QueryMediatorInterface
 
     /**
      * @param MenuApiDtoInterface $dto
-     * @param QueryBuilder       $builder
+     * @param QueryBuilder        $builder
      *
      * @return array
      */

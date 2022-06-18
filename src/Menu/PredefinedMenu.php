@@ -1,21 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Evrinoma\MenuBundle\Menu;
-
 
 use Doctrine\ORM\EntityManagerInterface;
 use Evrinoma\MenuBundle\Entity\MenuItem;
 use Evrinoma\SecurityBundle\Voter\RoleInterface;
 
-/**
- * Class PredefinedMenu
- *
- * @package Evrinoma\MenuBundle\Menu
- */
 final class PredefinedMenu implements MenuInterface
 {
-
     public function create(EntityManagerInterface $em): void
     {
         $logout = new MenuItem();
@@ -38,5 +41,4 @@ final class PredefinedMenu implements MenuInterface
     {
         return MenuInterface::DEFAULT_TAG;
     }
-
 }

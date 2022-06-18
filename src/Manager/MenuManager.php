@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\MenuBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -7,21 +18,18 @@ use Doctrine\ORM\Query;
 use Evrinoma\MenuBundle\Dto\MenuDto;
 use Evrinoma\MenuBundle\Entity\MenuItem;
 use Evrinoma\MenuBundle\Menu\MenuInterface;
+use Evrinoma\SecurityBundle\Voter\VoterInterface;
 use Evrinoma\UtilsBundle\Manager\AbstractEntityManager;
 use Evrinoma\UtilsBundle\Rest\RestTrait;
-use Evrinoma\SecurityBundle\Voter\VoterInterface;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 
 /**
- * Class MenuManager
- *
- * @package App\Manager
+ * @deprecated
  */
 class MenuManager extends AbstractEntityManager implements MenuManagerInterface
 {
     use RestTrait;
-
 
     /**
      * @var string
@@ -45,8 +53,6 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
      */
     private ?MenuDto $dto = null;
 
-
-
     /**
      * MenuManager constructor.
      *
@@ -57,11 +63,9 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
     public function __construct(EntityManagerInterface $entityManager, FactoryInterface $factory, VoterInterface $voterManager)
     {
         parent::__construct($entityManager);
-        $this->factory      = $factory;
+        $this->factory = $factory;
         $this->voterManager = $voterManager;
     }
-
-
 
     /**
      * @param mixed $options
@@ -90,21 +94,20 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
         $this->entityManager->flush();
     }
 
-
     public function addMenuItem(MenuInterface $item): void
     {
-        if (!array_key_exists($item->order(), $this->menuItems)) {
+        if (!\array_key_exists($item->order(), $this->menuItems)) {
             $this->menuItems[$item->tag()][$item->order()] = $item;
         } else {
-            throw new \Exception('MenuItem '.get_class($item).'override another MenuItem');
+            throw new \Exception('MenuItem '.\get_class($item).'override another MenuItem');
         }
     }
 
     public function create(): void
     {
-        if (count($this->menuItems)) {
+        if (\count($this->menuItems)) {
             foreach ($this->menuItems as $tag) {
-                if (count($tag)) {
+                if (\count($tag)) {
                     ksort($tag);
                     foreach ($tag as $item) {
                         $item->create($this->entityManager);
@@ -114,8 +117,6 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
             $this->entityManager->flush();
         }
     }
-
-
 
     /**
      * @param ItemInterface $menuLevel
@@ -151,9 +152,9 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
     private function findTagItems()
     {
         $query = $this->repository
-            ->createQueryBuilder("menu")
-            ->select("menu.tag")
-            ->groupBy("menu.tag");
+            ->createQueryBuilder('menu')
+            ->select('menu.tag')
+            ->groupBy('menu.tag');
 
         return array_column($query->getQuery()->getResult(), 'tag');
     }
@@ -164,23 +165,21 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
     private function findMenuItems()
     {
         $query = $this->repository
-            ->createQueryBuilder("menu")
-            ->select("menu, level0, level1")
+            ->createQueryBuilder('menu')
+            ->select('menu, level0, level1')
             ->leftJoin('menu.children', 'level0')
             ->leftJoin('level0.children', 'level1')
            ->where('menu.parent is NULL');
 
         if ($this->dto->hasTag()) {
-            $query->andWhere("menu.tag = :tag")
-                ->setParameter("tag", $this->dto->getTag());
+            $query->andWhere('menu.tag = :tag')
+                ->setParameter('tag', $this->dto->getTag());
         }
 
         return $query->getQuery()
             ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
             ->getResult();
     }
-
-
 
     public function setDto($dto): MenuManagerInterface
     {
@@ -191,15 +190,14 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
 
     private function toDto($options): void
     {
-        if ($this->dto === null) {
+        if (null === $this->dto) {
             $this->dto = new MenuDto();
         }
 
         if ($options && !($options instanceof MenuDto)) {
-            $this->dto->setTag(array_key_exists('tag', $options) ? $options['tag'] : null);
+            $this->dto->setTag(\array_key_exists('tag', $options) ? $options['tag'] : null);
         }
     }
-
 
     public function get($options = []): MenuManagerInterface
     {
@@ -217,5 +215,4 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
     {
         return $this->status;
     }
-
 }

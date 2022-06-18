@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Evrinoma\MenuBundle\Knp;
 
@@ -7,13 +17,6 @@ use Knp\Menu\Factory\ExtensionInterface;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\MenuFactory;
 
-/**
- * @TODO refactoring MenuFactory
- *
- * Class OverrideMenuFactory
- *
- * @package Evrinoma\MenuBundle\Knp
- */
 final class OverrideMenuFactory extends MenuFactory
 {
     /**
@@ -31,9 +34,8 @@ final class OverrideMenuFactory extends MenuFactory
      */
     public function __construct()
     {
-       parent::__construct();
+        parent::__construct();
     }
-
 
     public function createItem(string $name, array $options = []): ItemInterface
     {
@@ -58,7 +60,7 @@ final class OverrideMenuFactory extends MenuFactory
     private function getExtensions(): ?array
     {
         if (null === $this->sorted) {
-            \krsort($this->extensions);
+            krsort($this->extensions);
             $this->sorted = !empty($this->extensions) ? \call_user_func_array('array_merge', $this->extensions) : [];
         }
 

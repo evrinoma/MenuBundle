@@ -1,7 +1,17 @@
 <?php
 
-namespace Evrinoma\MenuBundle\Model\Menu;
+declare(strict_types=1);
 
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Evrinoma\MenuBundle\Model\Menu;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,8 +25,10 @@ use Evrinoma\UtilsBundle\Entity\RolesTrait;
  */
 abstract class AbstractMenuItem implements MenuInterface
 {
-    use IdTrait, RelationTrait, RolesTrait, NameTrait;
-
+    use IdTrait;
+    use NameTrait;
+    use RelationTrait;
+    use RolesTrait;
 
     /**
      * @var MenuInterface
@@ -133,7 +145,7 @@ abstract class AbstractMenuItem implements MenuInterface
         return $this->getAttributes() ? ['attributes' => $this->getAttributes()] : [];
     }
 
-    public function getOptions():array
+    public function getOptions(): array
     {
         return $this->toUri() + $this->toRoute() + $this->toAttributes() + $this->toRouteParameters();
     }

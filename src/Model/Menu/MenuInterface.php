@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Model\Menu;
 
-
 use Evrinoma\UtilsBundle\Entity\IdInterface;
 use Evrinoma\UtilsBundle\Entity\NameInterface;
 use Evrinoma\UtilsBundle\Entity\RelationInterface;
@@ -69,7 +68,7 @@ interface MenuInterface extends IdInterface, RolesInterface, RelationInterface, 
     /**
      * @return array
      */
-    public function getOptions():array;
+    public function getOptions(): array;
 
     /**
      * @param string $tag
@@ -105,5 +104,4 @@ interface MenuInterface extends IdInterface, RolesInterface, RelationInterface, 
      * @return MenuInterface
      */
     public function setRouteParameters(array $routeParameters): MenuInterface;
-
 }

@@ -1,7 +1,17 @@
 <?php
 
-namespace Evrinoma\MenuBundle\Entity;
+declare(strict_types=1);
 
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Evrinoma\MenuBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,17 +20,14 @@ use Evrinoma\UtilsBundle\Entity\RelationTrait;
 use Evrinoma\UtilsBundle\Entity\RoleTrait;
 
 /**
- * Class MenuItem
- *
- * @package Evrinoma\MenuBundle\Entity
- *
  * @ORM\Entity
  * @ORM\Table(name="menu_items")
  */
 class MenuItem
 {
-    use IdTrait, RelationTrait, RoleTrait;
-
+    use IdTrait;
+    use RelationTrait;
+    use RoleTrait;
 
     /**
      * @var MenuItem
@@ -76,8 +83,6 @@ class MenuItem
      * @ORM\Column(name="tag", type="string")
      */
     protected $tag;
-
-
 
     /**
      * @return string
@@ -247,5 +252,4 @@ class MenuItem
 
         return $this;
     }
-
 }

@@ -1,21 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\MenuBundle\Knp;
 
+use JMS\Serializer\Annotation as JMS;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\MenuItem;
-use JMS\Serializer\Annotation as JMS;
 
-/**
- * Class OverrideMenuItem
- *
- * @package Evrinoma\MenuBundle\Knp
- */
 final class OverrideMenuItem extends MenuItem
 {
     /**
-     * Name of this menu item (used for id by parent menu)
+     * Name of this menu item (used for id by parent menu).
      *
      * @var string
      * @JMS\Type("string")
@@ -24,7 +30,7 @@ final class OverrideMenuItem extends MenuItem
     protected $name;
 
     /**
-     * Label to output, name is used by default
+     * Label to output, name is used by default.
      *
      * @var string|null
      * @JMS\Type("string")
@@ -33,7 +39,7 @@ final class OverrideMenuItem extends MenuItem
     protected $label;
 
     /**
-     * Attributes for the item link
+     * Attributes for the item link.
      *
      * @var array
      * @JMS\Type("array")
@@ -42,7 +48,7 @@ final class OverrideMenuItem extends MenuItem
     protected $linkAttributes = [];
 
     /**
-     * Attributes for the children list
+     * Attributes for the children list.
      *
      * @var array
      * @JMS\Type("array")
@@ -51,7 +57,7 @@ final class OverrideMenuItem extends MenuItem
     protected $childrenAttributes = [];
 
     /**
-     * Attributes for the item text
+     * Attributes for the item text.
      *
      * @var array
      * @JMS\Type("array")
@@ -60,7 +66,7 @@ final class OverrideMenuItem extends MenuItem
     protected $labelAttributes = [];
 
     /**
-     * Uri to use in the anchor tag
+     * Uri to use in the anchor tag.
      *
      * @var string|null
      * @JMS\Type("string")
@@ -69,7 +75,7 @@ final class OverrideMenuItem extends MenuItem
     protected $uri;
 
     /**
-     * Attributes for the item
+     * Attributes for the item.
      *
      * @var array
      * @JMS\Type("array")
@@ -78,7 +84,7 @@ final class OverrideMenuItem extends MenuItem
     protected $attributes = [];
 
     /**
-     * Extra stuff associated to the item
+     * Extra stuff associated to the item.
      *
      * @var array
      * @JMS\Type("array")
@@ -87,7 +93,7 @@ final class OverrideMenuItem extends MenuItem
     protected $extras = [];
 
     /**
-     * Whether the item is displayed
+     * Whether the item is displayed.
      *
      * @var bool
      * @JMS\Type("bool")
@@ -96,7 +102,7 @@ final class OverrideMenuItem extends MenuItem
     protected $display = true;
 
     /**
-     * Whether the children of the item are displayed
+     * Whether the children of the item are displayed.
      *
      * @var bool
      * @JMS\Type("bool")
@@ -105,7 +111,7 @@ final class OverrideMenuItem extends MenuItem
     protected $displayChildren = true;
 
     /**
-     * Child items
+     * Child items.
      *
      * @var ItemInterface[]
      * @JMS\Type("array<Evrinoma\MenuBundle\Knp\OverrideMenuItem>")
@@ -114,7 +120,7 @@ final class OverrideMenuItem extends MenuItem
     protected $children = [];
 
     /**
-     * Parent item
+     * Parent item.
      *
      * @var ItemInterface|null
      * @JMS\Type("Evrinoma\MenuBundle\Knp\OverrideMenuItem")
@@ -123,7 +129,7 @@ final class OverrideMenuItem extends MenuItem
     protected $parent;
 
     /**
-     * whether the item is current. null means unknown
+     * whether the item is current. null means unknown.
      *
      * @var bool|null
      * @JMS\Type("bool")

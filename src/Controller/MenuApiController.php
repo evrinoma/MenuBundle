@@ -1,7 +1,17 @@
 <?php
 
-namespace Evrinoma\MenuBundle\Controller;
+declare(strict_types=1);
 
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Evrinoma\MenuBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Evrinoma\DtoBundle\Factory\FactoryDto;
@@ -26,11 +36,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-/**
- * Class MenuApiController
- *
- * @package Evrinoma\MenuBundle\Controller
- */
 final class MenuApiController extends AbstractApiController implements ApiControllerInterface
 {
     private string $dtoClass = MenuDto::class;
@@ -59,9 +64,6 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      */
     private DtoPreValidatorInterface $preValidator;
 
-
-
-
     /**
      * @param SerializerInterface      $serializer
      * @param RequestStack             $requestStack
@@ -85,9 +87,6 @@ DtoPreValidatorInterface $preValidator
         $this->queryManager = $queryManager;
         $this->preValidator = $preValidator;
     }
-
-
-
 
 //    /**
 //     * @Rest\Get("/api/menu/create", name="api_create_menu")
@@ -165,7 +164,6 @@ DtoPreValidatorInterface $preValidator
 //
 //        return $this->json(['message' => 'the Menu was delete successFully']);
 //    }
-
 
     /**
      * @param RestInterface $manager

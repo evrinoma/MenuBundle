@@ -1,15 +1,23 @@
 <?php
 
-namespace Evrinoma\MenuBundle\Dto;
+declare(strict_types=1);
 
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Evrinoma\MenuBundle\Dto;
 
 use Evrinoma\DtoBundle\Dto\AbstractDto;
 use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\DtoCommon\ValueObject\Mutable\IdTrait;
 use Evrinoma\FcrBundle\Dto\FcrApiDtoInterface;
-use Evrinoma\MenuBundle\Entity\MenuItem;
 use Symfony\Component\HttpFoundation\Request;
-
 
 class MenuApiDto extends AbstractDto implements MenuDtoInterface
 {
@@ -18,12 +26,13 @@ class MenuApiDto extends AbstractDto implements MenuDtoInterface
      * @var string
      */
     protected string $tag = '';
+
     /**
      * @return bool
      */
     public function hasTag(): bool
     {
-        return $this->tag !== '';
+        return '' !== $this->tag;
     }
 
     /**
@@ -45,7 +54,6 @@ class MenuApiDto extends AbstractDto implements MenuDtoInterface
                 $this->setTag($tag);
             }
         }
-
 
         return $this;
     }
