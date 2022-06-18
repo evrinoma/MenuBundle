@@ -17,7 +17,7 @@ abstract class AbstractMenuItem implements MenuInterface
 {
     use IdTrait, RelationTrait, RolesTrait, NameTrait;
 
-//region SECTION: Fields
+
     /**
      * @var MenuInterface
      *

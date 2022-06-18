@@ -22,7 +22,7 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
 {
     use RestTrait;
 
-//region SECTION: Fields
+
     /**
      * @var string
      */
@@ -44,9 +44,9 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
      * @var MenuDto|null
      */
     private ?MenuDto $dto = null;
-//endregion Fields
 
-//region SECTION: Constructor
+
+
     /**
      * MenuManager constructor.
      *
@@ -60,9 +60,9 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
         $this->factory      = $factory;
         $this->voterManager = $voterManager;
     }
-//endregion Constructor
 
-//region SECTION: Public
+
+
     /**
      * @param mixed $options
      *
@@ -114,9 +114,9 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
             $this->entityManager->flush();
         }
     }
-//endregion Public
 
-//region SECTION: Private
+
+
     /**
      * @param ItemInterface $menuLevel
      * @param MenuItem      $menuItem
@@ -179,9 +179,9 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
             ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
             ->getResult();
     }
-//endregion Private
 
-//region SECTION: Dto
+
+
     public function setDto($dto): MenuManagerInterface
     {
         $this->dto = $dto;
@@ -199,9 +199,8 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
             $this->dto->setTag(array_key_exists('tag', $options) ? $options['tag'] : null);
         }
     }
-//endregion SECTION: Dto
 
-//region SECTION: Getters/Setters
+
     public function get($options = []): MenuManagerInterface
     {
         $this->setData($this->createMainMenu($options));
@@ -218,5 +217,5 @@ class MenuManager extends AbstractEntityManager implements MenuManagerInterface
     {
         return $this->status;
     }
-//endregion Getters/Setters
+
 }

@@ -21,7 +21,7 @@ class MenuItem
 {
     use IdTrait, RelationTrait, RoleTrait;
 
-//region SECTION: Fields
+
     /**
      * @var MenuItem
      *
@@ -76,9 +76,9 @@ class MenuItem
      * @ORM\Column(name="tag", type="string")
      */
     protected $tag;
-//endregion Fields
 
-//region SECTION: Getters/Setters
+
+
     /**
      * @return string
      */
@@ -247,5 +247,5 @@ class MenuItem
 
         return $this;
     }
-//endregion Getters/Setters
+
 }

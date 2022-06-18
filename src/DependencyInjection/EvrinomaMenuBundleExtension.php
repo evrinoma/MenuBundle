@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  */
 class EvrinomaMenuBundleExtension extends Extension
 {
-//region SECTION: Public
+
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -37,12 +37,12 @@ class EvrinomaMenuBundleExtension extends Extension
         $container->addDefinitions(['knp_menu.factory' => $definition]);
         $container->addAliases([OverrideMenuFactory::class => $alias]);
     }
-//endregion Public
 
-//region SECTION: Getters/Setters
+
+
     public function getAlias()
     {
         return EvrinomaMenuBundle::MENU_BUNDLE;
     }
-//endregion Getters/Setters
+
 }

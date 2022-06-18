@@ -15,7 +15,7 @@ use Evrinoma\SecurityBundle\Voter\RoleInterface;
  */
 final class PredefinedMenu implements MenuInterface
 {
-//region SECTION: Public
+
     public function create(EntityManagerInterface $em): void
     {
         $logout = new MenuItem();
@@ -38,5 +38,5 @@ final class PredefinedMenu implements MenuInterface
     {
         return MenuInterface::DEFAULT_TAG;
     }
-//endregion Public
+
 }

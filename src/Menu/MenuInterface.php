@@ -14,9 +14,9 @@ use Doctrine\ORM\EntityManagerInterface;
 interface MenuInterface
 {
     public const DEFAULT_TAG = 'default';
-//region SECTION: Public
+
     public function create(EntityManagerInterface $em): void;
     public function tag(): string;
     public function order(): int;
-//endregion Public
+
 }

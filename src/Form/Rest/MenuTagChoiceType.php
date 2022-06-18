@@ -19,15 +19,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class MenuTagChoiceType extends AbstractType
 {
-//region SECTION: Fields
+
     /**
      * @var MenuManagerInterface
      */
     private MenuManagerInterface $menuManager;
-//endregion Fields
-//endregion Fields
 
-//region SECTION: Constructor
+
+
+
     /**
      * ServerType constructor.
      */
@@ -36,8 +36,8 @@ class MenuTagChoiceType extends AbstractType
         $this->menuManager = $menuManager;
     }
 
-//endregion Constructor
-//region SECTION: Public
+
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $callback = function (Options $options) {
@@ -47,12 +47,12 @@ class MenuTagChoiceType extends AbstractType
         $resolver->setDefault(RestChoiceType::REST_DESCRIPTION, 'tagList');
         $resolver->setDefault(RestChoiceType::REST_CHOICES, $callback);
     }
-//endregion Public
 
-//region SECTION: Getters/Setters
+
+
     public function getParent()
     {
         return RestChoiceType::class;
     }
-//endregion Getters/Setters
+
 }

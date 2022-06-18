@@ -58,9 +58,9 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      * @var DtoPreValidatorInterface
      */
     private DtoPreValidatorInterface $preValidator;
-//endregion Fields
 
-//region SECTION: Constructor
+
+
 
     /**
      * @param SerializerInterface      $serializer
@@ -85,9 +85,9 @@ DtoPreValidatorInterface $preValidator
         $this->queryManager = $queryManager;
         $this->preValidator = $preValidator;
     }
-//endregion Constructor
 
-//region SECTION: Public
+
+
 
 //    /**
 //     * @Rest\Get("/api/menu/create", name="api_create_menu")
@@ -165,7 +165,7 @@ DtoPreValidatorInterface $preValidator
 //
 //        return $this->json(['message' => 'the Menu was delete successFully']);
 //    }
-//endregion Public
+
 
     /**
      * @param RestInterface $manager
