@@ -14,12 +14,15 @@ declare(strict_types=1);
 namespace Evrinoma\MenuBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Evrinoma\DtoBundle\Factory\FactoryDto;
 use Evrinoma\DtoBundle\Factory\FactoryDtoInterface;
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
+use Evrinoma\MenuBundle\Dto\MenuDto;
 use Evrinoma\MenuBundle\Exception\MenuCannotBeSavedException;
 use Evrinoma\MenuBundle\Exception\MenuInvalidException;
 use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
 use Evrinoma\MenuBundle\Manager\CommandManagerInterface;
+use Evrinoma\MenuBundle\Manager\MenuManagerInterface;
 use Evrinoma\MenuBundle\Manager\QueryManagerInterface;
 use Evrinoma\MenuBundle\PreValidator\DtoPreValidatorInterface;
 use Evrinoma\UtilsBundle\Controller\AbstractApiController;
@@ -33,10 +36,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class MenuApiController extends AbstractApiController implements ApiControllerInterface
+final class MenuExtendApiController extends AbstractApiController implements ApiControllerInterface
 {
-    private string $dtoClass;
-
+    private string $dtoClass = MenuDto::class;
+//    /**
+//     * @var MenuManagerInterface
+//     */
+//    private MenuManagerInterface $menuManager;
     /**
      * @var ?Request
      */
@@ -65,25 +71,99 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      * @param CommandManagerInterface  $commandManager
      * @param QueryManagerInterface    $queryManager
      * @param DtoPreValidatorInterface $preValidator
-     * @param string                   $dtoClass
      */
     public function __construct(
-        SerializerInterface $serializer,
-        RequestStack $requestStack,
-        FactoryDtoInterface $factoryDto,
-        CommandManagerInterface $commandManager,
-        QueryManagerInterface $queryManager,
-        DtoPreValidatorInterface $preValidator,
-        string $dtoClass
+SerializerInterface $serializer,
+RequestStack $requestStack,
+FactoryDtoInterface $factoryDto,
+CommandManagerInterface $commandManager,
+QueryManagerInterface $queryManager,
+DtoPreValidatorInterface $preValidator
     ) {
         parent::__construct($serializer);
         $this->request = $requestStack->getCurrentRequest();
         $this->factoryDto = $factoryDto;
         $this->commandManager = $commandManager;
         $this->queryManager = $queryManager;
-        $this->dtoClass = $dtoClass;
         $this->preValidator = $preValidator;
     }
+
+//    /**
+//     * @Rest\Get("/api/menu/create", name="api_create_menu")
+//     * @OA\Get(tags={"menu"})
+//     * @OA\Response(response=200,description="Returns the rewards of default generated menu")
+//     *
+//     * @return \Symfony\Component\HttpFoundation\JsonResponse
+//     */
+//    public function menuCreateAction()
+//    {
+//        $this->menuManager->create();
+//
+//        return $this->json(['message' => 'the Menu was generate successFully']);
+//    }
+//
+//    /**
+//     * @Rest\Get("/api/menu/get", name="api_get_menu")
+//     * @OA\Get(
+//     *     tags={"menu"}),
+//     *     @OA\Parameter(
+//     *         description="class",
+//     *         in="query",
+//     *         name="class",
+//     *         required=true,
+//     *         @OA\Schema(
+//     *           type="string",
+//     *           default="Evrinoma\MenuBundle\Dto\MenuDto",
+//     *           readOnly=true
+//     *         )
+//     *     ),
+//     *     @OA\Parameter(
+//     *         name="tag",
+//     *         in="query",
+//     *         description="tag menu",
+//     *         required=true,
+//     *         @OA\Schema(
+//     *              type="array",
+//     *              @OA\Items(
+//     *                  type="string",
+//     *                  ref=@Model(type=Evrinoma\MenuBundle\Form\Rest\MenuTagChoiceType::class),
+//     *              ),
+//     *          ),
+//     *         style="form"
+//     *     ),
+//     * )
+//     * @OA\Response(response=200,description="Get menu")
+//     *
+//     * @return \Symfony\Component\HttpFoundation\JsonResponse
+//     */
+//    public function menuGetAction()
+//    {
+//        $menuDto = $this->factoryDto->setRequest($this->request)->createDto(MenuDto::class);
+//
+//        return $this->setSerializeGroup("api_get_menu")->json($this->menuManager->setRestOk()->setDto($menuDto)->get()->getData(), $this->menuManager->getRestStatus());
+//
+//        try {
+//            $json = $this->queryManager->get($menuDto);
+//        } catch (\Exception $e) {
+//            $json = $this->setRestStatus($this->queryManager, $e);
+//        }
+//
+//        return $this->setSerializeGroup('api_get_menu')->json(['message' => 'Get project', 'data' => $json], $this->queryManager->getRestStatus());
+//    }
+//
+//    /**
+//     * @Rest\Delete("/api/menu/delete", name="api_delete_menu")
+//     * @OA\Delete(tags={"menu"})
+//     * @OA\Response(response=200,description="Returns nothing")
+//     *
+//     * @return \Symfony\Component\HttpFoundation\JsonResponse
+//     */
+//    public function menuDeleteAction()
+//    {
+//        $this->menuManager->delete();
+//
+//        return $this->json(['message' => 'the Menu was delete successFully']);
+//    }
 
     /**
      * @param RestInterface $manager
@@ -124,28 +204,11 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      *             @OA\Schema(
      *                 example={
      *                     "class": "Evrinoma\MenuBundle\Dto\MenuApiDto",
-     *                     "name": "Service",
-     *                     "roles": {"A", "B", "C"},
-     *                     "route": "core_home",
-     *                     "uri": "#",
-     *                     "attributes": {"D": "d", "E": "e", "F": "f"},
-     *                     "children": {
-     *                         {"id": 1},
-     *                         {"id": 2},
-     *                     },
+     *                     "id": "1"
      *                 },
      *                 type="object",
      *                 @OA\Property(property="class", type="string", default="Evrinoma\MenuBundle\Dto\MenuApiDto"),
-     *                 @OA\Property(property="name", type="string"),
-     *                 @OA\Property(property="route", type="string"),
-     *                 @OA\Property(property="roles", type="array", @OA\Items(type="string")),
-     *                 @OA\Property(property="attributes", type="array", @OA\Items(type="string")),
-     *                 @OA\Property(
-     *                     property="children",
-     *                     type="array",
-     *                     @OA\Items(type="object", ref=@Model(type=Evrinoma\MenuBundle\Dto\MenuApiDto::class))
-     *                 ),
-     *                 @OA\Property(property="tag", type="string")
+     *                 @OA\Property(property="id", type="string")
      *             )
      *         )
      *     )
@@ -190,30 +253,11 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      *             @OA\Schema(
      *                 example={
      *                     "class": "Evrinoma\MenuBundle\Dto\MenuApiDto",
-     *                     "id": "3",
-     *                     "name": "Service",
-     *                     "roles": {"A", "B", "C"},
-     *                     "route": "core_home",
-     *                     "uri": "#",
-     *                     "attributes": {"D": "d", "E": "e", "F": "f"},
-     *                     "children": {
-     *                         {"id": 1},
-     *                         {"id": 2},
-     *                     },
+     *                     "id": "1"
      *                 },
      *                 type="object",
      *                 @OA\Property(property="class", type="string", default="Evrinoma\MenuBundle\Dto\MenuApiDto"),
-     *                 @OA\Property(property="id", type="string"),
-     *                 @OA\Property(property="name", type="string"),
-     *                 @OA\Property(property="route", type="string"),
-     *                 @OA\Property(property="roles", type="array", @OA\Items(type="string")),
-     *                 @OA\Property(property="attributes", type="array", @OA\Items(type="string")),
-     *                 @OA\Property(
-     *                     property="children",
-     *                     type="array",
-     *                     @OA\Items(type="object", ref=@Model(type=Evrinoma\MenuBundle\Dto\MenuApiDto::class))
-     *                 ),
-     *                 @OA\Property(property="tag", type="string")
+     *                 @OA\Property(property="id", type="string")
      *             )
      *         )
      *     )
