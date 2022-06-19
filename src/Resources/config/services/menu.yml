@@ -1,0 +1,85 @@
+services:
+  Evrinoma\MenuBundle\Controller\MenuApiController:
+    alias: evrinoma.menu.api.controller
+    public: true
+
+  evrinoma.menu.api.controller:
+    class: Evrinoma\MenuBundle\Controller\MenuApiController
+    arguments:
+      - '@jms_serializer'
+      - '@request_stack'
+      - '@evrinoma.dto.factory'
+      - '@evrinoma.menu.command.manager'
+      - '@evrinoma.menu.query.manager'
+      - '@evrinoma.menu.pre.validator'
+    autowire: true
+
+  evrinoma.menu.factory:
+    class: Evrinoma\MenuBundle\Factory\MenuFactory
+    public: true
+    arguments:
+
+  evrinoma.menu.repository:
+    class: Evrinoma\MenuBundle\Repository\MenuRepository
+    public: true
+    arguments:
+
+  evrinoma.menu.command.manager:
+    class: Evrinoma\MenuBundle\Manager\CommandManager
+    arguments:
+      - '@evrinoma.menu.validator'
+      - '@evrinoma.menu.repository'
+      - '@evrinoma.menu.factory'
+      - '@evrinoma.menu.command.mediator'
+
+  Evrinoma\MenuBundle\Manager\CommandManagerInterface:
+    alias: evrinoma.menu.command.manager
+
+  evrinoma.menu.query.manager:
+    class: Evrinoma\MenuBundle\Manager\QueryManager
+    arguments:
+      - '@evrinoma.menu.repository'
+
+  Evrinoma\MenuBundle\Manager\QueryManagerInterface:
+    alias: evrinoma.menu.query.manager
+
+  evrinoma.menu.validator:
+    class: Evrinoma\MenuBundle\Validator\MenuValidator
+    public: true
+    arguments:
+
+  Evrinoma\MenuBundle\Validator\MenuValidator:
+    alias: evrinoma.menu.validator
+
+  evrinoma.menu.query.mediator:
+    class: Evrinoma\MenuBundle\Mediator\QueryMediator
+    public: true
+    arguments:
+
+  Evrinoma\MenuBundle\Mediator\QueryMediator:
+    alias: evrinoma.menu.query.mediator
+
+  Evrinoma\MenuBundle\Mediator\QueryMediatorInterface:
+    alias: evrinoma.menu.query.mediator
+
+  evrinoma.menu.command.mediator:
+    class: Evrinoma\MenuBundle\Mediator\CommandMediator
+    public: true
+    arguments:
+
+  Evrinoma\MenuBundle\Mediator\CommandMediator:
+    alias: evrinoma.menu.command.mediator
+
+  Evrinoma\MenuBundle\Mediator\CommandMediatorInterface:
+    alias: evrinoma.menu.command.mediator
+
+  evrinoma.menu.pre.validator:
+    class: Evrinoma\MenuBundle\PreValidator\DtoPreValidator
+    public: true
+    arguments:
+
+  Evrinoma\MenuBundle\PreValidator\DtoPreValidator:
+    alias: evrinoma.menu.pre.validator
+
+  Evrinoma\MenuBundle\PreValidator\DtoPreValidatorInterface:
+    alias: evrinoma.menu.pre.validator
