@@ -33,13 +33,13 @@ abstract class AbstractMenuItem implements MenuInterface
     /**
      * @var MenuInterface
      *
-     * @ORM\ManyToOne(targetEntity="Evrinoma\MenuBundle\Entity\MenuInterface", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="Evrinoma\MenuBundle\Model\Menu\MenuInterface", inversedBy="children")
      */
     protected $parent = null;
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Evrinoma\MenuBundle\Entity\MenuInterface", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="Evrinoma\MenuBundle\Model\Menu\MenuInterface", mappedBy="parent")
      */
     protected $children = null;
 
