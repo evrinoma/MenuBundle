@@ -25,20 +25,53 @@ use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\TagTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\UriTrait;
 use Symfony\Component\HttpFoundation\Request;
 
-class MenuApiDto extends AbstractDto implements MenuDtoInterface
+class MenuApiDto extends AbstractDto implements MenuApiDtoInterface
 {
-    use IdTrait, NameTrait, RouteTrait, TagTrait, AttributesTrait, RolesTrait, UriTrait;
+    use AttributesTrait;
+    use IdTrait;
+    use NameTrait;
+    use RolesTrait;
+    use RouteTrait;
+    use TagTrait;
+    use UriTrait;
 
     /**
-     * @Dtos(class="Evrinoma\MenuBundle\Dto\MenuApiDtoInterface", generator="genRequestChildMenuApiDto", add="addChildMenuDto")
+     * @Dtos(class="Evrinoma\MenuBundle\Dto\MenuApiDto", generator="genRequestChildMenuApiDto", add="addChildMenuApiDto")
+     *
      * @var MenuApiDtoInterface[]
      */
     private array $childMenuApiDto = [];
 
     /**
+     * @return MenuApiDtoInterface[]
+     */
+    public function getChildMenuApiDto(): array
+    {
+        return $this->childMenuApiDto;
+    }
+
+    /**
+     * @param MenuApiDtoInterface[] $childMenuApiDto
+     */
+    public function setChildMenuApiDto(array $childMenuApiDto): DtoInterface
+    {
+        $this->childMenuApiDto = $childMenuApiDto;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasChildMenuApiDto(): bool
+    {
+        return null !== $this->childMenuApiDto;
+    }
+
+    /**
      * @param Request $request
      *
-     * @return AbstractDto
+     * @return DtoInterface
      */
     public function toDto(Request $request): DtoInterface
     {
@@ -84,12 +117,12 @@ class MenuApiDto extends AbstractDto implements MenuDtoInterface
     public function genRequestChildMenuApiDto(?Request $request): ?\Generator
     {
         if ($request) {
-            $childs = $request->get('childMenu');
-            if ($childs) {
-                foreach ($childs as $child) {
-                    $newRequest                       = $this->getCloneRequest();
-                    $comment[DtoInterface::DTO_CLASS] = MenuApiDto::class;
-                    $newRequest->request->add($comment);
+            $child = $request->get(MenuApiDtoInterface::CHILDREN);
+            if ($child) {
+                foreach ($child as $menu) {
+                    $newRequest = $this->getCloneRequest();
+                    $menu[DtoInterface::DTO_CLASS] = MenuApiDto::class;
+                    $newRequest->request->add($menu);
 
                     yield $newRequest;
                 }
@@ -100,13 +133,12 @@ class MenuApiDto extends AbstractDto implements MenuDtoInterface
     /**
      * @param MenuApiDtoInterface $dto
      *
-     * @return $this
+     * @return DtoInterface
      */
-    public function addChildMenuDto(MenuApiDtoInterface $dto): DtoInterface
+    public function addChildMenuApiDto(MenuApiDtoInterface $dto): DtoInterface
     {
         $this->childMenuApiDto[] = $dto;
 
         return $this;
     }
-
 }
