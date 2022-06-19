@@ -15,18 +15,13 @@ namespace Evrinoma\MenuBundle\Dto;
 
 use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\DtoCommon\ValueObject\Immutable\IdInterface;
+use Evrinoma\DtoCommon\ValueObject\Immutable\NameInterface;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\AttributesInterface;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\RolesInterface;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\RouteInterface;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\TagInterface;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\UriInterface;
 
-interface MenuApiDtoInterface extends DtoInterface, IdInterface
+interface MenuApiDtoInterface extends DtoInterface, IdInterface, NameInterface, RouteInterface, AttributesInterface, RolesInterface, UriInterface, TagInterface
 {
-    public const TAG = 'tag';
-
-    /**
-     * @return string
-     */
-    public function getTag(): string;
-
-    /**
-     * @return bool
-     */
-    public function hasTag(): bool;
 }

@@ -13,27 +13,27 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Dto;
 
+use Evrinoma\DtoBundle\Annotation\Dtos;
 use Evrinoma\DtoBundle\Dto\AbstractDto;
 use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\DtoCommon\ValueObject\Mutable\IdTrait;
-use Evrinoma\FcrBundle\Dto\FcrApiDtoInterface;
+use Evrinoma\DtoCommon\ValueObject\Mutable\NameTrait;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\AttributesTrait;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RolesTrait;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RouteTrait;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\TagTrait;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\UriTrait;
 use Symfony\Component\HttpFoundation\Request;
 
 class MenuApiDto extends AbstractDto implements MenuDtoInterface
 {
-    use IdTrait;
-    /**
-     * @var string
-     */
-    protected string $tag = '';
+    use IdTrait, NameTrait, RouteTrait, TagTrait, AttributesTrait, RolesTrait, UriTrait;
 
     /**
-     * @return bool
+     * @Dtos(class="Evrinoma\MenuBundle\Dto\MenuApiDtoInterface", generator="genRequestChildMenuApiDto", add="addChildMenuDto")
+     * @var MenuApiDtoInterface[]
      */
-    public function hasTag(): bool
-    {
-        return '' !== $this->tag;
-    }
+    private array $childMenuApiDto = [];
 
     /**
      * @param Request $request
@@ -45,10 +45,30 @@ class MenuApiDto extends AbstractDto implements MenuDtoInterface
         $class = $request->get(DtoInterface::DTO_CLASS);
 
         if ($class === $this->getClass()) {
-            $tag = $request->get(MenuDtoInterface::TAG);
-            $id = $request->get(FcrApiDtoInterface::ID, -1);
+            $tag = $request->get(MenuApiDtoInterface::TAG);
+            $name = $request->get(MenuApiDtoInterface::NAME);
+            $uri = $request->get(MenuApiDtoInterface::URI);
+            $route = $request->get(MenuApiDtoInterface::ROUTE);
+            $id = $request->get(MenuApiDtoInterface::ID, -1);
+            $attributes = $request->get(MenuApiDtoInterface::ATTRIBUTES, []);
+            $roles = $request->get(MenuApiDtoInterface::ROLES, []);
             if ($id) {
                 $this->setId((int) $id);
+            }
+            if ($name) {
+                $this->setName($name);
+            }
+            if ($uri) {
+                $this->setUri($uri);
+            }
+            if ($roles) {
+                $this->setRoles($roles);
+            }
+            if ($attributes) {
+                $this->setAttributes($attributes);
+            }
+            if ($route) {
+                $this->setRoute($route);
             }
             if ($tag) {
                 $this->setTag($tag);
@@ -59,22 +79,34 @@ class MenuApiDto extends AbstractDto implements MenuDtoInterface
     }
 
     /**
-     * @return string
+     * @return \Generator
      */
-    public function getTag(): string
+    public function genRequestChildMenuApiDto(?Request $request): ?\Generator
     {
-        return $this->tag;
+        if ($request) {
+            $childs = $request->get('childMenu');
+            if ($childs) {
+                foreach ($childs as $child) {
+                    $newRequest                       = $this->getCloneRequest();
+                    $comment[DtoInterface::DTO_CLASS] = MenuApiDto::class;
+                    $newRequest->request->add($comment);
+
+                    yield $newRequest;
+                }
+            }
+        }
     }
 
     /**
-     * @param mixed $tag
+     * @param MenuApiDtoInterface $dto
      *
-     * @return DtoInterface
+     * @return $this
      */
-    public function setTag($tag): DtoInterface
+    public function addChildMenuDto(MenuApiDtoInterface $dto): DtoInterface
     {
-        $this->tag = $tag;
+        $this->childMenuApiDto[] = $dto;
 
         return $this;
     }
+
 }
