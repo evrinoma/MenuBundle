@@ -65,7 +65,7 @@ class MenuApiDto extends AbstractDto implements MenuApiDtoInterface
      */
     public function hasChildMenuApiDto(): bool
     {
-        return null !== $this->childMenuApiDto;
+        return null !== \count($this->childMenuApiDto);
     }
 
     /**
@@ -82,11 +82,11 @@ class MenuApiDto extends AbstractDto implements MenuApiDtoInterface
             $name = $request->get(MenuApiDtoInterface::NAME);
             $uri = $request->get(MenuApiDtoInterface::URI);
             $route = $request->get(MenuApiDtoInterface::ROUTE);
-            $id = $request->get(MenuApiDtoInterface::ID, -1);
+            $id = $request->get(MenuApiDtoInterface::ID);
             $attributes = $request->get(MenuApiDtoInterface::ATTRIBUTES, []);
             $roles = $request->get(MenuApiDtoInterface::ROLES, []);
             if ($id) {
-                $this->setId((int) $id);
+                $this->setId($id);
             }
             if ($name) {
                 $this->setName($name);
