@@ -13,29 +13,30 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\PreValidator;
 
-use Evrinoma\MenuBundle\Dto\MenuDtoInterface;
+
+use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Evrinoma\MenuBundle\Exception\MenuInvalidException;
 
 interface DtoPreValidatorInterface
 {
     /**
-     * @param MenuDtoInterface $dto
+     * @param MenuApiDtoInterface $dto
      *
      * @throws MenuInvalidException
      */
-    public function onPost(MenuDtoInterface $dto): void;
+    public function onPost(MenuApiDtoInterface $dto): void;
 
     /**
-     * @param MenuDtoInterface $dto
+     * @param MenuApiDtoInterface $dto
      *
      * @throws MenuInvalidException
      */
-    public function onPut(MenuDtoInterface $dto): void;
+    public function onPut(MenuApiDtoInterface $dto): void;
 
     /**
-     * @param MenuDtoInterface $dto
+     * @param MenuApiDtoInterface $dto
      *
      * @throws MenuInvalidException
      */
-    public function onDelete(MenuDtoInterface $dto): void;
+    public function onDelete(MenuApiDtoInterface $dto): void;
 }
