@@ -22,13 +22,44 @@ class DtoPreValidator extends AbstractPreValidator implements DtoPreValidatorInt
 {
     public function onPost(DtoInterface $dto): void
     {
+        $this->check($dto);
     }
 
     public function onPut(DtoInterface $dto): void
     {
+        $this->checkId($dto);
+        $this->check($dto);
     }
 
     public function onDelete(DtoInterface $dto): void
+    {
+        $this->checkId($dto);
+    }
+
+    private function check(DtoInterface $dto): void
+    {
+        /** @var MenuApiDtoInterface $dto */
+        if (!$dto->hasRoles()) {
+            throw new MenuInvalidException('You can\'t create menu without ROLE');
+        }
+        if (!$dto->hasName()) {
+            throw new MenuInvalidException('You can\'t create menu without Name');
+        }
+        if (!$dto->hasTag()) {
+            throw new MenuInvalidException('You can\'t create menu without Tag');
+        }
+        if ($dto->hasChildMenuApiDto()) {
+            if (!$dto->hasUri()) {
+                throw new MenuInvalidException('You can\'t create menu without Uri');
+            }
+        } else {
+            if (!$dto->hasRoute()) {
+                throw new MenuInvalidException('You can\'t create menu without Route');
+            }
+        }
+    }
+
+    private function checkId(DtoInterface $dto): void
     {
         /** @var MenuApiDtoInterface $dto */
         if (!$dto->hasId()) {

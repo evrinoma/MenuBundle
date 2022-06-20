@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\PreValidator;
 
-
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Evrinoma\MenuBundle\Exception\MenuInvalidException;
 
