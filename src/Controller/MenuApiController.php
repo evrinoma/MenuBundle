@@ -129,9 +129,10 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      *                     "route": "core_home",
      *                     "uri": "#",
      *                     "attributes": {"D": "d", "E": "e", "F": "f"},
+     *                     "route_parameters": {"alias", "cam"},
      *                     "children": {
-     *                         {"id": 1},
-     *                         {"id": 2},
+     *                         {"id": "1"},
+     *                         {"id": "2"},
      *                     },
      *                     "tag": "default",
      *                 },
@@ -141,6 +142,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      *                 @OA\Property(property="route", type="string"),
      *                 @OA\Property(property="roles", type="array", @OA\Items(type="string")),
      *                 @OA\Property(property="attributes", type="array", @OA\Items(type="string")),
+     *                 @OA\Property(property="route_parameters", type="array", @OA\Items(type="string")),
      *                 @OA\Property(
      *                     property="children",
      *                     type="array",
@@ -197,9 +199,10 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      *                     "route": "core_home",
      *                     "uri": "#",
      *                     "attributes": {"D": "d", "E": "e", "F": "f"},
+     *                     "route_parameters": {"alias", "cam"},
      *                     "children": {
-     *                         {"id": 1},
-     *                         {"id": 2},
+     *                         {"id": "1"},
+     *                         {"id": "2"},
      *                     },
      *                     "tag": "default",
      *                 },
@@ -210,6 +213,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      *                 @OA\Property(property="route", type="string"),
      *                 @OA\Property(property="roles", type="array", @OA\Items(type="string")),
      *                 @OA\Property(property="attributes", type="array", @OA\Items(type="string")),
+     *                 @OA\Property(property="route_parameters", type="array", @OA\Items(type="string")),
      *                 @OA\Property(
      *                     property="children",
      *                     type="array",
