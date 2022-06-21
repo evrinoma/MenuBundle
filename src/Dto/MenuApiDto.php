@@ -20,6 +20,7 @@ use Evrinoma\DtoCommon\ValueObject\Mutable\IdTrait;
 use Evrinoma\DtoCommon\ValueObject\Mutable\NameTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\AttributesTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RolesTrait;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RouteParametersTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RouteTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\TagTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\UriTrait;
@@ -31,6 +32,7 @@ class MenuApiDto extends AbstractDto implements MenuApiDtoInterface
     use IdTrait;
     use NameTrait;
     use RolesTrait;
+    use RouteParametersTrait;
     use RouteTrait;
     use TagTrait;
     use UriTrait;
@@ -65,7 +67,7 @@ class MenuApiDto extends AbstractDto implements MenuApiDtoInterface
      */
     public function hasChildMenuApiDto(): bool
     {
-        return null !== \count($this->childMenuApiDto);
+        return 0 !== \count($this->childMenuApiDto);
     }
 
     /**
