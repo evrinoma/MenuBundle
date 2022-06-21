@@ -52,6 +52,11 @@ class DtoPreValidator extends AbstractPreValidator implements DtoPreValidatorInt
             if (!$dto->hasUri()) {
                 throw new MenuInvalidException('You can\'t create menu without Uri');
             }
+            foreach ($dto->getChildMenuApiDto() as $child) {
+                if (!$child->hasId() || !is_numeric($child->getId())) {
+                    throw new MenuInvalidException('You can\'t create menu with child, cause child doesn\'t have a id or id is not a digit');
+                }
+            }
         } else {
             if (!$dto->hasRoute()) {
                 throw new MenuInvalidException('You can\'t create menu without Route');
