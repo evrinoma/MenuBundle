@@ -15,7 +15,9 @@ namespace Evrinoma\MenuBundle\Mediator;
 
 use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
-use Evrinoma\MenuBundle\Exception\MenuProxyException;
+use Evrinoma\MenuBundle\Exception\MenuCannotBeCreatedException;
+use Evrinoma\MenuBundle\Exception\MenuCannotBeSavedException;
+use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
 use Evrinoma\MenuBundle\Repository\MenuQueryRepositoryInterface;
 use Evrinoma\UtilsBundle\Mediator\AbstractCommandMediator;
@@ -34,11 +36,11 @@ class CommandMediator extends AbstractCommandMediator implements CommandMediator
         /* @var $entity MenuInterface */
         /* @var $dto MenuApiDtoInterface */
         $entity
+            ->setRouteParameters($dto->getRouteParameters())
             ->setAttributes($dto->getAttributes())
             ->setTag($dto->getTag())
             ->setRoles($dto->getRoles())
-            ->setName($dto->getName())
-        ;
+            ->setName($dto->getName());
 
         foreach ($entity->getChildren() as $child) {
             $child->setParent();
@@ -48,21 +50,26 @@ class CommandMediator extends AbstractCommandMediator implements CommandMediator
             foreach ($dto->getChildMenuApiDto() as $child) {
                 /* @var $child MenuApiDtoInterface */
                 try {
-                    if ($child->hasId()) {
-                        $menu = $this->repository->proxy($dto->getId());
-                    } else {
-                        throw new MenuProxyException('Id value is not set while trying get proxy object');
-                    }
-                } catch (MenuProxyException $e) {
-                    throw $e;
+                    $menu = $this->repository->find($child->getId());
+                } catch (MenuNotFoundException $e) {
+                    throw new MenuCannotBeSavedException('Child element doesn\'t exist');
+                }
+
+                if ($menu->hasParent()) {
+                    throw new MenuCannotBeSavedException('Child element shouldn\'t have a parent');
                 }
 
                 $menu->setParent($entity);
             }
 
-            $entity->setUri($dto->getUri());
+            $entity
+                ->setUri($dto->getUri())
+                ->setRoute();
         } else {
-            $entity->setRoute($dto->getRoute());
+            $entity
+                ->setParent()
+                ->setRoute($dto->getRoute())
+                ->setUri();
         }
 
         return $entity;
@@ -70,29 +77,32 @@ class CommandMediator extends AbstractCommandMediator implements CommandMediator
 
     public function onDelete(DtoInterface $dto, $entity): void
     {
+        foreach ($entity->getChildren() as $child) {
+            $child->setParent();
+        }
     }
 
     public function onCreate(DtoInterface $dto, $entity): MenuInterface
     {
         /* @var $dto MenuApiDtoInterface */
         $entity
+            ->setRouteParameters($dto->getRouteParameters())
             ->setAttributes($dto->getAttributes())
             ->setTag($dto->getTag())
             ->setRoles($dto->getRoles())
-            ->setName($dto->getName())
-        ;
+            ->setName($dto->getName());
 
         if ($dto->hasChildMenuApiDto()) {
             foreach ($dto->getChildMenuApiDto() as $child) {
                 /* @var $child MenuApiDtoInterface */
                 try {
-                    if ($child->hasId()) {
-                        $menu = $this->repository->proxy($dto->getId());
-                    } else {
-                        throw new MenuProxyException('Id value is not set while trying get proxy object');
-                    }
-                } catch (MenuProxyException $e) {
-                    throw $e;
+                    $menu = $this->repository->find($child->getId());
+                } catch (MenuNotFoundException $e) {
+                    throw new MenuCannotBeCreatedException('Child element doesn\'t exist');
+                }
+
+                if ($menu->hasParent()) {
+                    throw new MenuCannotBeCreatedException('Child element shouldn\'t have a parent');
                 }
 
                 $menu->setParent($entity);
