@@ -78,18 +78,18 @@ interface MenuInterface extends IdInterface, RolesInterface, RelationInterface, 
     public function setTag(string $tag): MenuInterface;
 
     /**
-     * @param string $route
+     * @param string|null $route
      *
      * @return MenuInterface
      */
-    public function setRoute(string $route): MenuInterface;
+    public function setRoute(string $route = null): MenuInterface;
 
     /**
-     * @param string $uri
+     * @param string|null $uri
      *
      * @return MenuInterface
      */
-    public function setUri(string $uri): MenuInterface;
+    public function setUri(string $uri = null): MenuInterface;
 
     /**
      * @param array $attributes

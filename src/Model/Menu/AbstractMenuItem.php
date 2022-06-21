@@ -33,7 +33,8 @@ abstract class AbstractMenuItem implements MenuInterface
     /**
      * @var MenuInterface
      *
-     * @ORM\ManyToOne(targetEntity="Evrinoma\MenuBundle\Model\Menu\MenuInterface", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="Evrinoma\MenuBundle\Model\Menu\MenuInterface")
+     * @ORM\JoinColumn(name="children", referencedColumnName="id")
      */
     protected $parent = null;
 
@@ -44,34 +45,39 @@ abstract class AbstractMenuItem implements MenuInterface
     protected $children = null;
 
     /**
-     * @var string
+     * @var string|null
+     *
      * @ORM\Column(name="route", type="string", nullable=true)
      */
     protected ?string $route = null;
 
     /**
-     * @var array
+     * @var array|null
+     *
      * @ORM\Column(name="routeParameters ", type="array", nullable=true)
      */
     protected ?array $routeParameters = null;
 
     /**
-     * @var string
+     * @var string|null
+     *
      * @ORM\Column(name="uri", type="string", nullable=true)
      */
     protected ?string $uri = null;
 
     /**
-     * @var array
+     * @var array|null
+     *
      * @ORM\Column(name="attributes", type="array", nullable=true)
      */
     protected ?array $attributes = null;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="tag", type="string")
      */
-    protected $tag;
+    protected string $tag;
 
     /**
      * @return string
@@ -163,11 +169,11 @@ abstract class AbstractMenuItem implements MenuInterface
     }
 
     /**
-     * @param string $route
+     * @param string|null $route
      *
      * @return MenuInterface
      */
-    public function setRoute(string $route): MenuInterface
+    public function setRoute(string $route = null): MenuInterface
     {
         $this->route = $route;
 
@@ -175,11 +181,11 @@ abstract class AbstractMenuItem implements MenuInterface
     }
 
     /**
-     * @param string $uri
+     * @param string|null $uri
      *
      * @return MenuInterface
      */
-    public function setUri(string $uri): MenuInterface
+    public function setUri(string $uri = null): MenuInterface
     {
         $this->uri = $uri;
 
