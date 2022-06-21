@@ -254,7 +254,30 @@ final class MenuApiController extends AbstractApiController implements ApiContro
 
     /**
      * @Rest\Delete("/api/menu/delete", options={"expose": true}, name="api_delete_menu")
-     * @OA\Delete(tags={"menu"})
+     * @OA\Delete(
+     *     tags={"menu"},
+     *     @OA\Parameter(
+     *         description="class",
+     *         in="query",
+     *         name="class",
+     *         required=true,
+     *         @OA\Schema(
+     *           type="string",
+     *           default="Evrinoma\MenuBundle\Dto\MenuApiDto",
+     *           readOnly=true
+     *         )
+     *     ),
+     *      @OA\Parameter(
+     *         description="id Entity",
+     *         in="query",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(
+     *           type="string",
+     *           default="3",
+     *         )
+     *     )
+     * )
      * @OA\Response(response=200, description="Delete menu")
      *
      * @return JsonResponse
