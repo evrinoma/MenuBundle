@@ -66,6 +66,7 @@ services:
     class: Evrinoma\MenuBundle\Mediator\CommandMediator
     public: true
     arguments:
+      - '@evrinoma.menu.repository'
 
   Evrinoma\MenuBundle\Mediator\CommandMediator:
     alias: evrinoma.menu.command.mediator
