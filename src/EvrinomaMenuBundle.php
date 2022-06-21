@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle;
 
+use Evrinoma\MenuBundle\DependencyInjection\Compiler\MapEntityPass;
 use Evrinoma\MenuBundle\DependencyInjection\Compiler\MenuItemPass;
 use Evrinoma\MenuBundle\DependencyInjection\EvrinomaMenuExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -38,7 +39,7 @@ class EvrinomaMenuBundle extends Bundle
 
         parent::build($container);
         $container
-//            ->addCompilerPass(new MapEntityPass($this->getNamespace(), $this->getPath()))
+            ->addCompilerPass(new MapEntityPass($this->getNamespace(), $this->getPath()))
 //            ->addCompilerPass(new DecoratorPass())
 //            ->addCompilerPass(new ServicePass())
             ->addCompilerPass(new MenuItemPass())
