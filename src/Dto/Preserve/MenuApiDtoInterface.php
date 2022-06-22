@@ -11,18 +11,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Evrinoma\MenuBundle\Dto;
+namespace Evrinoma\MenuBundle\Dto\Preserve;
 
 use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\DtoCommon\ValueObject\Immutable\IdInterface;
 use Evrinoma\DtoCommon\ValueObject\Immutable\NameInterface;
-use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\AttributesInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\ChildMenuApiDtoInterface;
-use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\RolesInterface;
-use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\RouteInterface;
-use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\RouteParametersInterface;
-use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\TagInterface;
-use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\UriInterface;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\AttributesInterface;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RolesInterface;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RouteInterface;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RouteParametersInterface;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\TagInterface;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\UriInterface;
 
 interface MenuApiDtoInterface extends DtoInterface, IdInterface, NameInterface, RouteInterface, AttributesInterface, RolesInterface, UriInterface, TagInterface, RouteParametersInterface, ChildMenuApiDtoInterface
 {
