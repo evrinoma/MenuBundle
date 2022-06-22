@@ -13,7 +13,8 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Form\Rest;
 
-use Evrinoma\MenuBundle\Manager\MenuManagerInterface;
+use Evrinoma\MenuBundle\Dto\Preserve\MenuApiDto;
+use Evrinoma\MenuBundle\Manager\QueryManagerInterface;
 use Evrinoma\UtilsBundle\Form\Rest\RestChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;
@@ -22,22 +23,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class MenuTagChoiceType extends AbstractType
 {
     /**
-     * @var MenuManagerInterface
+     * @var QueryManagerInterface
      */
-    private MenuManagerInterface $menuManager;
+    private QueryManagerInterface $queryManager;
 
     /**
      * ServerType constructor.
      */
-    public function __construct(MenuManagerInterface $menuManager)
+    public function __construct(QueryManagerInterface $queryManager)
     {
-        $this->menuManager = $menuManager;
+        $this->queryManager = $queryManager;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $callback = function (Options $options) {
-            return $this->menuManager->getTags();
+            return $this->queryManager->tags(new MenuApiDto());
         };
         $resolver->setDefault(RestChoiceType::REST_COMPONENT_NAME, 'tag');
         $resolver->setDefault(RestChoiceType::REST_DESCRIPTION, 'tagList');

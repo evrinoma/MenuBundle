@@ -130,7 +130,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      *                     "uri": "#",
      *                     "attributes": {"D": "d", "E": "e", "F": "f"},
      *                     "route_parameters": {"alias", "cam"},
-     *                     "children": {
+     *                     "child_menu": {
      *                         {"id": "1"},
      *                         {"id": "2"},
      *                     },
@@ -144,7 +144,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      *                 @OA\Property(property="attributes", type="array", @OA\Items(type="string")),
      *                 @OA\Property(property="route_parameters", type="array", @OA\Items(type="string")),
      *                 @OA\Property(
-     *                     property="children",
+     *                     property="child_menu",
      *                     type="array",
      *                     @OA\Items(type="object", ref=@Model(type=Evrinoma\MenuBundle\Dto\MenuApiDto::class))
      *                 ),
@@ -200,7 +200,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      *                     "uri": "#",
      *                     "attributes": {"D": "d", "E": "e", "F": "f"},
      *                     "route_parameters": {"alias", "cam"},
-     *                     "children": {
+     *                     "child_menu": {
      *                         {"id": "1"},
      *                         {"id": "2"},
      *                     },
@@ -215,7 +215,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      *                 @OA\Property(property="attributes", type="array", @OA\Items(type="string")),
      *                 @OA\Property(property="route_parameters", type="array", @OA\Items(type="string")),
      *                 @OA\Property(
-     *                     property="children",
+     *                     property="child_menu",
      *                     type="array",
      *                     @OA\Items(type="object", ref=@Model(type=Evrinoma\MenuBundle\Dto\MenuApiDto::class))
      *                 ),
@@ -262,19 +262,19 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      *         name="class",
      *         required=true,
      *         @OA\Schema(
-     *           type="string",
-     *           default="Evrinoma\MenuBundle\Dto\MenuApiDto",
-     *           readOnly=true
+     *             type="string",
+     *             default="Evrinoma\MenuBundle\Dto\MenuApiDto",
+     *             readOnly=true
      *         )
      *     ),
-     *      @OA\Parameter(
+     *     @OA\Parameter(
      *         description="id Entity",
      *         in="query",
      *         name="id",
      *         required=true,
      *         @OA\Schema(
-     *           type="string",
-     *           default="3",
+     *             type="string",
+     *             default="3",
      *         )
      *     )
      * )
@@ -330,6 +330,20 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      *         @OA\Schema(
      *             type="string",
      *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="tag",
+     *         in="query",
+     *         description="tag menu",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="string",
+     *                 ref=@Model(type=Evrinoma\MenuBundle\Form\Rest\MenuTagChoiceType::class),
+     *             ),
+     *         ),
+     *         style="form"
      *     )
      * )
      * @OA\Response(response=200, description="Return menu")

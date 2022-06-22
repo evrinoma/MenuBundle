@@ -34,16 +34,6 @@ imports:
 #    tags:
 #      - { name: evrinoma.menu }
 #
-#  evrinoma.menu.form.rest.tag:
-#    class: Evrinoma\MenuBundle\Form\Rest\MenuTagChoiceType
-#    arguments:
-#      - '@evrinoma.menu.manager'
-#    tags: { - name: form.type }
-#
-#  Evrinoma\MenuBundle\Form\Rest\MenuTagChoiceType:
-#    alias: evrinoma.menu.form.rest.tag
-#    public: true
-#
 #  evrinoma.menu.command.create:
 #    class: Evrinoma\MenuBundle\Command\MenuCommand
 #    arguments: [ '@evrinoma.menu.manager' ]

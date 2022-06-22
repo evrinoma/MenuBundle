@@ -96,4 +96,14 @@ final class QueryManager implements QueryManagerInterface, RestInterface
 
         return $menu;
     }
+
+    /**
+     * @param MenuApiDtoInterface $dto
+     *
+     * @return array
+     */
+    public function tags(MenuApiDtoInterface $dto): array
+    {
+        return [];
+    }
 }

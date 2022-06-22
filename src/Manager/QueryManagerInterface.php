@@ -46,4 +46,11 @@ interface QueryManagerInterface
      * @throws MenuProxyException
      */
     public function proxy(MenuApiDtoInterface $dto): MenuInterface;
+
+    /**
+     * @param MenuApiDtoInterface $dto
+     *
+     * @return array
+     */
+    public function tags(MenuApiDtoInterface $dto): array;
 }
