@@ -141,4 +141,27 @@ class MenuRepository extends ServiceEntityRepository implements MenuRepositoryIn
 
         return $menu;
     }
+
+    /**
+     * @param MenuApiDtoInterface $dto
+     *
+     * @return array
+     *
+     * @throws MenuNotFoundException
+     */
+    public function findTags(MenuApiDtoInterface $dto): array
+    {
+        $query = $this
+            ->createQueryBuilder(AliasInterface::MENU)
+            ->select(AliasInterface::MENU.'.tag')
+            ->groupBy(AliasInterface::MENU.'.tag');
+
+        $tags = $query->getQuery()->getResult();
+
+        if (!\is_array($tags)) {
+            throw new MenuNotFoundException('Tags not found');
+        }
+
+        return array_column($tags, 'tag');
+    }
 }

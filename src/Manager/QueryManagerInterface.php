@@ -51,6 +51,8 @@ interface QueryManagerInterface
      * @param MenuApiDtoInterface $dto
      *
      * @return array
+     *
+     * @throws MenuNotFoundException
      */
     public function tags(MenuApiDtoInterface $dto): array;
 }

@@ -28,6 +28,15 @@ interface MenuQueryRepositoryInterface
      *
      * @throws MenuNotFoundException
      */
+    public function findTags(MenuApiDtoInterface $dto): array;
+
+    /**
+     * @param MenuApiDtoInterface $dto
+     *
+     * @return array
+     *
+     * @throws MenuNotFoundException
+     */
     public function findByCriteria(MenuApiDtoInterface $dto): array;
 
     /**

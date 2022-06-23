@@ -101,9 +101,17 @@ final class QueryManager implements QueryManagerInterface, RestInterface
      * @param MenuApiDtoInterface $dto
      *
      * @return array
+     *
+     * @throws MenuNotFoundException
      */
     public function tags(MenuApiDtoInterface $dto): array
     {
-        return [];
+        try {
+            $tags = $this->repository->findTags($dto);
+        } catch (MenuNotFoundException $e) {
+            throw $e;
+        }
+
+        return $tags;
     }
 }
