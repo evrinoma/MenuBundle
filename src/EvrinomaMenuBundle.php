@@ -13,36 +13,26 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle;
 
+use Evrinoma\MenuBundle\DependencyInjection\Compiler\DecoratorPass;
 use Evrinoma\MenuBundle\DependencyInjection\Compiler\MapEntityPass;
-use Evrinoma\MenuBundle\DependencyInjection\Compiler\MenuItemPass;
+use Evrinoma\MenuBundle\DependencyInjection\Compiler\ObjectRegistryPass;
+use Evrinoma\MenuBundle\DependencyInjection\Compiler\ServicePass;
 use Evrinoma\MenuBundle\DependencyInjection\EvrinomaMenuExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class EvrinomaMenuBundle extends Bundle
 {
-    public const MENU_BUNDLE = 'menu';
+    public const BUNDLE = 'menu';
 
     public function build(ContainerBuilder $container)
     {
-//        parent::build($container);
-//        $ormCompilerClass = 'Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass';
-//        if (class_exists($ormCompilerClass)) {
-//            $container->addCompilerPass(
-//                DoctrineOrmMappingsPass::createAnnotationMappingDriver(
-//                    ['Evrinoma\MenuBundle\Entity'],
-//                    [sprintf('%s/Entity', $this->getPath())]
-//                )
-//            );
-//        }
-        // $container->addCompilerPass(new MenuItemPass());
-
         parent::build($container);
         $container
             ->addCompilerPass(new MapEntityPass($this->getNamespace(), $this->getPath()))
-//            ->addCompilerPass(new DecoratorPass())
-//            ->addCompilerPass(new ServicePass())
-            ->addCompilerPass(new MenuItemPass())
+            ->addCompilerPass(new DecoratorPass())
+            ->addCompilerPass(new ServicePass())
+            ->addCompilerPass(new ObjectRegistryPass())
         ;
     }
 

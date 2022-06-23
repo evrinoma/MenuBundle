@@ -13,28 +13,28 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\DependencyInjection\Compiler;
 
-use Evrinoma\MenuBundle\Manager\MenuManager;
+use Evrinoma\MenuBundle\Registry\ObjectRegistry;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class MenuItemPass implements CompilerPassInterface
+class ObjectRegistryPass implements CompilerPassInterface
 {
     /**
      * {@inheritDoc}
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has(MenuManager::class)) {
+        if (!$container->has(ObjectRegistry::class)) {
             return;
         }
 
-        $definition = $container->findDefinition(MenuManager::class);
+        $definition = $container->findDefinition(ObjectRegistry::class);
 
         $taggedServices = $container->findTaggedServiceIds('evrinoma.menu');
 
         foreach ($taggedServices as $id => $tags) {
-            $definition->addMethodCall('addMenuItem', [new Reference($id)]);
+            $definition->addMethodCall('addObject', [new Reference($id)]);
         }
     }
 }

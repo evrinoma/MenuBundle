@@ -209,6 +209,6 @@ class EvrinomaMenuExtension extends Extension
 
     public function getAlias()
     {
-        return EvrinomaMenuBundle::MENU_BUNDLE;
+        return EvrinomaMenuBundle::BUNDLE;
     }
 }
