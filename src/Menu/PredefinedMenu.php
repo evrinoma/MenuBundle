@@ -15,9 +15,10 @@ namespace Evrinoma\MenuBundle\Menu;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Evrinoma\MenuBundle\Entity\MenuItem;
+use Evrinoma\MenuBundle\Registry\ObjectInterface;
 use Evrinoma\SecurityBundle\Voter\RoleInterface;
 
-final class PredefinedMenu implements MenuInterface
+final class PredefinedMenu implements ObjectInterface
 {
     public function create(EntityManagerInterface $em): void
     {
@@ -39,6 +40,6 @@ final class PredefinedMenu implements MenuInterface
 
     public function tag(): string
     {
-        return MenuInterface::DEFAULT_TAG;
+        return ObjectInterface::DEFAULT_TAG;
     }
 }

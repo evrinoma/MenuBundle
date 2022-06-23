@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Evrinoma\MenuBundle\Menu;
+namespace Evrinoma\MenuBundle\Registry;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-interface MenuInterface
+interface ObjectInterface
 {
     public const DEFAULT_TAG = 'default';
 
