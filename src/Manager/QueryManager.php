@@ -63,7 +63,7 @@ final class QueryManager implements QueryManagerInterface, RestInterface
     {
         try {
             if ($dto->hasId()) {
-                $menu = $this->repository->proxy($dto->getId());
+                $menu = $this->repository->proxy($dto->idToString());
             } else {
                 throw new MenuProxyException('Id value is not set while trying get proxy object');
             }
