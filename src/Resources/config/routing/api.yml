@@ -1,3 +1,7 @@
 menu_api:
   resource: "@EvrinomaMenuBundle/Controller/MenuApiController.php"
   type: annotation
+
+menu_registry_api:
+  resource: "@EvrinomaMenuBundle/Controller/MenuRegistryApiController.php"
+  type: annotation
