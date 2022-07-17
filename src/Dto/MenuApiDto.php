@@ -46,6 +46,19 @@ class MenuApiDto extends AbstractDto implements MenuApiDtoInterface
      */
     protected array $childMenuApiDto = [];
 
+
+    /**
+     * @param MenuApiDtoInterface $dto
+     *
+     * @return DtoInterface
+     */
+    public function addChildMenuApiDto(DtoInterface $dto): DtoInterface
+    {
+        $this->childMenuApiDto[] = $dto;
+
+        return $this;
+    }
+
     /**
      * @param Request $request
      *

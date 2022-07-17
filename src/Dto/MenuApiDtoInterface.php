@@ -26,4 +26,10 @@ use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\UriInterface;
 
 interface MenuApiDtoInterface extends DtoInterface, IdInterface, NameInterface, RouteInterface, AttributesInterface, RolesInterface, UriInterface, TagInterface, RouteParametersInterface, ChildMenuApiDtoInterface
 {
+    /**
+     * @param DtoInterface $dto
+     *
+     * @return DtoInterface
+     */
+    public function addChildMenuApiDto(DtoInterface $dto): DtoInterface;
 }

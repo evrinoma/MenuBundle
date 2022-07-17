@@ -14,18 +14,14 @@ declare(strict_types=1);
 namespace Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable;
 
 use Evrinoma\DtoBundle\Dto\DtoInterface;
+use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 
 interface ChildMenuApiDtoInterface
 {
     /**
-     * @param DtoInterface $dto
+     * @param MenuApiDtoInterface[] $childMenuApiDto
      *
      * @return DtoInterface
-     */
-    public function addChildMenuApiDto(DtoInterface $dto): DtoInterface;
-
-    /**
-     * @param DtoInterface[] $childMenuApiDto
      */
     public function setChildMenuApiDto(array $childMenuApiDto): DtoInterface;
 }

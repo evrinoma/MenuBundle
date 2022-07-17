@@ -22,19 +22,9 @@ trait ChildMenuApiDtoTrait
     use ChildMenuApiDtoImmutableTrait;
 
     /**
-     * @param MenuApiDtoInterface $dto
+     * @param MenuApiDtoInterface[] $childMenuApiDto
      *
      * @return DtoInterface
-     */
-    public function addChildMenuApiDto(MenuApiDtoInterface $dto): DtoInterface
-    {
-        $this->childMenuApiDto[] = $dto;
-
-        return $this;
-    }
-
-    /**
-     * @param MenuApiDtoInterface[] $childMenuApiDto
      */
     protected function setChildMenuApiDto(array $childMenuApiDto): DtoInterface
     {
