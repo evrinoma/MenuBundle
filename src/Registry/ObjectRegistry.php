@@ -18,7 +18,7 @@ use Evrinoma\MenuBundle\Exception\ObjetRegistryException;
 final class ObjectRegistry implements ObjectRegistryInterface
 {
     /**
-     * @var ObjectInterface[]
+     * @var ObjectInterface[][]
      */
     private array $menuItems = [];
 
@@ -31,8 +31,16 @@ final class ObjectRegistry implements ObjectRegistryInterface
         }
     }
 
-    public function getObjects(): array
+
+    public function getObjects():\Generator
     {
-        return $this->menuItems;
+        if (\count($this->menuItems)) {
+            foreach ($this->menuItems as $tag) {
+                if (\count($tag)) {
+                    ksort($tag);
+                    yield  $tag;
+                }
+            }
+        }
     }
 }

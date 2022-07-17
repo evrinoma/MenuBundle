@@ -16,4 +16,6 @@ namespace Evrinoma\MenuBundle\Registry;
 interface ObjectRegistryInterface
 {
     public function addObject(ObjectInterface $item): void;
+
+    public function getObjects():\Generator;
 }

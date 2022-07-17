@@ -13,13 +13,12 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Registry;
 
-use Doctrine\ORM\EntityManagerInterface;
 
 interface ObjectInterface
 {
     public const DEFAULT_TAG = 'default';
 
-    public function create(EntityManagerInterface $em): void;
+    public function create(): void;
 
     public function tag(): string;
 
