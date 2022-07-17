@@ -13,24 +13,34 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Menu;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Evrinoma\MenuBundle\Entity\MenuItem;
+use Evrinoma\MenuBundle\Dto\Preserve\MenuApiDto;
 use Evrinoma\MenuBundle\Registry\ObjectInterface;
 use Evrinoma\SecurityBundle\Voter\RoleInterface;
 
 final class PredefinedMenu implements ObjectInterface
 {
-    public function create(EntityManagerInterface $em): void
+    /**
+     * @var string
+     */
+    protected static string $dtoClass = MenuApiDto::class;
+
+    /**
+     * @param string $dtoClass
+     */
+    public function __construct(string $dtoClass)
     {
-        $logout = new MenuItem();
+        self::$dtoClass = $dtoClass;
+    }
+
+    public function create(): void
+    {
+        $logout = new self::$dtoClass();
         $logout
-            ->setRole([RoleInterface::ROLE_SUPER_ADMIN, RoleInterface::ROLE_USER])
             ->setName('Logout')
+            ->setRoles([RoleInterface::ROLE_SUPER_ADMIN, RoleInterface::ROLE_USER])
             ->setRoute('security_logout')
             ->setAttributes(['class' => 'logout'])
             ->setTag($this->tag());
-
-        $em->persist($logout);
     }
 
     public function order(): int
