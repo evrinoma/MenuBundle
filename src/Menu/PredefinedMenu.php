@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Menu;
 
+use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\MenuBundle\Dto\Preserve\MenuApiDto;
 use Evrinoma\MenuBundle\Registry\ObjectInterface;
 use Evrinoma\SecurityBundle\Voter\RoleInterface;
@@ -22,7 +23,7 @@ final class PredefinedMenu implements ObjectInterface
     /**
      * @var string
      */
-    protected static string $dtoClass = MenuApiDto::class;
+    private static string $dtoClass = MenuApiDto::class;
 
     /**
      * @param string $dtoClass
@@ -32,7 +33,7 @@ final class PredefinedMenu implements ObjectInterface
         self::$dtoClass = $dtoClass;
     }
 
-    public function create(): void
+    public function create(): DtoInterface
     {
         $logout = new self::$dtoClass();
         $logout
@@ -41,6 +42,8 @@ final class PredefinedMenu implements ObjectInterface
             ->setRoute('security_logout')
             ->setAttributes(['class' => 'logout'])
             ->setTag($this->tag());
+
+        return $logout;
     }
 
     public function order(): int
