@@ -22,7 +22,7 @@ use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
 use Evrinoma\MenuBundle\Manager\CommandManagerInterface;
 use Evrinoma\MenuBundle\Manager\QueryManagerInterface;
 use Evrinoma\MenuBundle\PreValidator\DtoPreValidatorInterface;
-use Evrinoma\MenuBundle\Registry\ObjectRegistryInterface;
+use Evrinoma\MenuBundle\Provider\DtoProviderInterface;
 use Evrinoma\UtilsBundle\Controller\AbstractApiController;
 use Evrinoma\UtilsBundle\Controller\ApiControllerInterface;
 use Evrinoma\UtilsBundle\Rest\RestInterface;
@@ -59,9 +59,9 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      */
     private DtoPreValidatorInterface $preValidator;
     /**
-     * @var ObjectRegistryInterface
+     * @var DtoProviderInterface
      */
-    private ObjectRegistryInterface  $objectRegistry;
+    private DtoProviderInterface  $provider;
 
     /**
      * @param SerializerInterface      $serializer
@@ -70,7 +70,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      * @param CommandManagerInterface  $commandManager
      * @param QueryManagerInterface    $queryManager
      * @param DtoPreValidatorInterface $preValidator
-     * @param ObjectRegistryInterface  $objectRegistry
+     * @param DtoProviderInterface     $provider
      * @param string                   $dtoClass
      */
     public function __construct(
@@ -80,7 +80,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
         CommandManagerInterface $commandManager,
         QueryManagerInterface $queryManager,
         DtoPreValidatorInterface $preValidator,
-        ObjectRegistryInterface $objectRegistry,
+        DtoProviderInterface $provider,
         string $dtoClass
     ) {
         parent::__construct($serializer);
@@ -89,7 +89,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
         $this->commandManager = $commandManager;
         $this->queryManager = $queryManager;
         $this->preValidator = $preValidator;
-        $this->objectRegistry = $objectRegistry;
+        $this->provider = $provider;
         $this->dtoClass = $dtoClass;
     }
 
@@ -488,33 +488,12 @@ final class MenuApiController extends AbstractApiController implements ApiContro
         try {
             $json = [];
 
-            $dtoSplitByLevel = [];
-            $recursive = function ($menuApiDto, $hash, $level = 0) use (&$recursive, &$dtoSplitByLevel) {
-                $dtoSplitByLevel[$level][$hash][] = $menuApiDto;
-                if ($menuApiDto->hasChildMenuApiDto()) {
-                    foreach ($menuApiDto->getChildMenuApiDto() as $child) {
-                        $recursive($child, $child->hasChildMenuApiDto() ? $hash.'_'.uniqid() : $hash, $level + 1);
-                    }
-                }
-            };
-
-            foreach ($this->objectRegistry->getObjects() as $tag) {
-                foreach ($tag as $item) {
-                    $menuApiDto = $item->create();
-                    $recursive($menuApiDto, uniqid());
-                }
-            }
-
             $connection->beginTransaction();
-            foreach (array_reverse($dtoSplitByLevel) as $level) {
-                foreach ($level as $keyItem => $items) {
-                    foreach ($items as $item) {
-                        $this->preValidator->onPost($item);
-                        $menuItem = $commandManager->post($item);
-                        $em->flush();
-                        $item->setId($menuItem->getId());
-                    }
-                }
+            foreach ($this->provider->toDto()->getReverse() as $item) {
+                $this->preValidator->onPost($item);
+                $menuItem = $commandManager->post($item);
+                $em->flush();
+                $item->setId($menuItem->getId());
             }
             $connection->commit();
         } catch (\Exception $e) {

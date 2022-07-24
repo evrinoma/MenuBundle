@@ -106,6 +106,8 @@ class EvrinomaMenuExtension extends Extension
 //
 //        $this->wireConstraintTag($container);
 
+        $this->wireBridge($container, $config['preserve_dto']);
+
         if ($config['decorates']) {
             $remap = [];
             foreach ($config['decorates'] as $key => $service) {
@@ -162,6 +164,12 @@ class EvrinomaMenuExtension extends Extension
                 }
             }
         }
+    }
+
+    private function wireBridge(ContainerBuilder $container, string $class): void
+    {
+        $definitionBridgeCreate = $container->getDefinition('evrinoma.'.$this->getAlias().'.bridge.create');
+        $definitionBridgeCreate->setArgument(4, $class);
     }
 
 //    private function wireConstraintTag(ContainerBuilder $container): void

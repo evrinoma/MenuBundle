@@ -12,7 +12,7 @@ services:
       - '@evrinoma.menu.command.manager'
       - '@evrinoma.menu.query.manager'
       - '@evrinoma.menu.pre.validator'
-      - '@evrinoma.menu.object.registry'
+      - '@evrinoma.menu.provider.dto'
     autowire: true
 
   evrinoma.menu.factory:
@@ -108,3 +108,31 @@ services:
     autowire: true
     tags:
       - { name: evrinoma.menu }
+
+  evrinoma.menu.provider.dto:
+    class: Evrinoma\MenuBundle\Provider\DtoProvider
+    public: true
+    arguments:
+      - '@evrinoma.menu.object.registry'
+
+  Evrinoma\MenuBundle\Provider\DtoProviderInterface:
+    alias: evrinoma.menu.provider.dto
+
+  evrinoma.menu.command.create:
+    class: Evrinoma\MenuBundle\Command\MenuCreateCommand
+    arguments:
+      - '@evrinoma.menu.bridge.create'
+    tags: { - name: console.command }
+
+  Evrinoma\MenuBundle\Command\MenuCreateCommand:
+    alias: evrinoma.menu.command.create
+    public: true
+
+  evrinoma.menu.bridge.create:
+    class: Evrinoma\MenuBundle\Command\Bridge\MenuCreateBridge
+    arguments:
+      - '@doctrine'
+      - '@evrinoma.menu.command.manager'
+      - '@evrinoma.menu.pre.validator'
+      - '@evrinoma.menu.provider.dto'
+    autowire: true
