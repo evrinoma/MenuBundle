@@ -12,6 +12,7 @@ services:
       - '@evrinoma.menu.command.manager'
       - '@evrinoma.menu.query.manager'
       - '@evrinoma.menu.pre.validator'
+      - '@evrinoma.menu.object.registry'
     autowire: true
 
   evrinoma.menu.factory:
@@ -94,3 +95,16 @@ services:
   Evrinoma\MenuBundle\Form\Rest\MenuTagChoiceType:
     alias: evrinoma.menu.form.rest.tag
     public: true
+
+  evrinoma.menu.object.registry:
+    class: Evrinoma\MenuBundle\Registry\ObjectRegistry
+    public: true
+    arguments:
+
+  Evrinoma\MenuBundle\Registry\ObjectRegistryInterface:
+    alias: evrinoma.menu.object.registry
+
+  Evrinoma\MenuBundle\Menu\PredefinedMenu:
+    autowire: true
+    tags:
+      - { name: evrinoma.menu }
