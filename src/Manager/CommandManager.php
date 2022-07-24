@@ -131,6 +131,29 @@ final class CommandManager implements CommandManagerInterface, RestInterface
         }
     }
 
+    /**
+     * @param MenuApiDtoInterface $dto
+     *
+     * @throws MenuCannotBeRemovedException
+     * @throws MenuNotFoundException
+     */
+    public function remove(MenuApiDtoInterface $dto): void
+    {
+        try {
+            $menuItems = $this->repository->findByCriteria($dto);
+        } catch (MenuNotFoundException $e) {
+            throw $e;
+        }
+        foreach ($menuItems as $menu) {
+            $this->mediator->onDelete($dto, $menu);
+            try {
+                $this->repository->remove($menu);
+            } catch (MenuCannotBeRemovedException $e) {
+                throw $e;
+            }
+        }
+    }
+
     public function getRestStatus(): int
     {
         return $this->status;

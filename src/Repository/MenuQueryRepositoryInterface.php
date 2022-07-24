@@ -17,6 +17,7 @@ use Doctrine\ORM\ORMException;
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
 use Evrinoma\MenuBundle\Exception\MenuProxyException;
+use Evrinoma\MenuBundle\Exception\MenuTagNotFoundException;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
 
 interface MenuQueryRepositoryInterface
@@ -26,7 +27,7 @@ interface MenuQueryRepositoryInterface
      *
      * @return array
      *
-     * @throws MenuNotFoundException
+     * @throws MenuTagNotFoundException
      */
     public function findTags(MenuApiDtoInterface $dto): array;
 

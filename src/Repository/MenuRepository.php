@@ -22,6 +22,7 @@ use Evrinoma\MenuBundle\Exception\MenuCannotBeRemovedException;
 use Evrinoma\MenuBundle\Exception\MenuCannotBeSavedException;
 use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
 use Evrinoma\MenuBundle\Exception\MenuProxyException;
+use Evrinoma\MenuBundle\Exception\MenuTagNotFoundException;
 use Evrinoma\MenuBundle\Mediator\QueryMediatorInterface;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
 
@@ -147,7 +148,7 @@ class MenuRepository extends ServiceEntityRepository implements MenuRepositoryIn
      *
      * @return array
      *
-     * @throws MenuNotFoundException
+     * @throws MenuTagNotFoundException
      */
     public function findTags(MenuApiDtoInterface $dto): array
     {
@@ -158,7 +159,7 @@ class MenuRepository extends ServiceEntityRepository implements MenuRepositoryIn
         $tags = $this->mediator->getResultTag($dto, $builder);
 
         if (0 === \count($tags)) {
-            throw new MenuNotFoundException('Cannot find tags by findTags');
+            throw new MenuTagNotFoundException('Cannot find tags by findTags');
         }
 
         return $tags;

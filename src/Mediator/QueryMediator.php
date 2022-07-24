@@ -54,6 +54,10 @@ class QueryMediator extends AbstractQueryMediator implements QueryMediatorInterf
                 ->andWhere($alias.'.name like :name')
                 ->setParameter('name', '%'.$dto->getName().'%');
         }
+        if ($dto->hasRoot() && $dto->isRoot()) {
+            $builder
+                ->andWhere($alias.'.parent is NULL');
+        }
     }
 
     public function createQueryTag(MenuApiDtoInterface $dto, QueryBuilder $builder): void

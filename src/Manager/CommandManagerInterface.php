@@ -47,4 +47,12 @@ interface CommandManagerInterface
      * @throws MenuNotFoundException
      */
     public function delete(MenuApiDtoInterface $dto): void;
+
+    /**
+     * @param MenuApiDtoInterface $dto
+     *
+     * @throws MenuCannotBeRemovedException
+     * @throws MenuNotFoundException
+     */
+    public function remove(MenuApiDtoInterface $dto): void;
 }
