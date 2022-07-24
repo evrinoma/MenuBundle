@@ -27,18 +27,17 @@ final class ObjectRegistry implements ObjectRegistryInterface
         if (!\array_key_exists($item->order(), $this->menuItems)) {
             $this->menuItems[$item->tag()][$item->order()] = $item;
         } else {
-            throw new ObjetRegistryException('Object '.\get_class($item).'override another Object');
+            throw new ObjetRegistryException('The Object '.\get_class($item).'trying to override another Object');
         }
     }
 
-
-    public function getObjects():\Generator
+    public function getObjects(): \Generator
     {
         if (\count($this->menuItems)) {
             foreach ($this->menuItems as $tag) {
                 if (\count($tag)) {
                     ksort($tag);
-                    yield  $tag;
+                    yield $tag;
                 }
             }
         }

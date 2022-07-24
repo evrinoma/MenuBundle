@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\DependencyInjection\Compiler;
 
-use Evrinoma\MenuBundle\Registry\ObjectRegistry;
+use Evrinoma\MenuBundle\Registry\ObjectRegistryInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -25,11 +25,11 @@ class ObjectRegistryPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has(ObjectRegistry::class)) {
+        if (!$container->has(ObjectRegistryInterface::class)) {
             return;
         }
 
-        $definition = $container->findDefinition(ObjectRegistry::class);
+        $definition = $container->findDefinition(ObjectRegistryInterface::class);
 
         $taggedServices = $container->findTaggedServiceIds('evrinoma.menu');
 

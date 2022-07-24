@@ -13,12 +13,13 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Registry;
 
+use Evrinoma\DtoBundle\Dto\DtoInterface;
 
 interface ObjectInterface
 {
     public const DEFAULT_TAG = 'default';
 
-    public function create(): void;
+    public function create(): DtoInterface;
 
     public function tag(): string;
 

@@ -17,5 +17,5 @@ interface ObjectRegistryInterface
 {
     public function addObject(ObjectInterface $item): void;
 
-    public function getObjects():\Generator;
+    public function getObjects(): \Generator;
 }
