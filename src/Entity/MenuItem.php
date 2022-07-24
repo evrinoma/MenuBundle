@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Evrinoma\UtilsBundle\Entity\IdTrait;
 use Evrinoma\UtilsBundle\Entity\RelationTrait;
-use Evrinoma\UtilsBundle\Entity\RoleTrait;
+use Evrinoma\UtilsBundle\Entity\RolesTrait;
 
 /**
  * @ORM\Entity
@@ -27,7 +27,7 @@ class MenuItem
 {
     use IdTrait;
     use RelationTrait;
-    use RoleTrait;
+    use RolesTrait;
 
     /**
      * @var MenuItem
