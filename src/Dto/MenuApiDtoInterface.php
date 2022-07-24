@@ -19,12 +19,13 @@ use Evrinoma\DtoCommon\ValueObject\Immutable\NameInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\AttributesInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\ChildMenuApiDtoInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\RolesInterface;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\RootInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\RouteInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\RouteParametersInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\TagInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\UriInterface;
 
-interface MenuApiDtoInterface extends DtoInterface, IdInterface, NameInterface, RouteInterface, AttributesInterface, RolesInterface, UriInterface, TagInterface, RouteParametersInterface, ChildMenuApiDtoInterface
+interface MenuApiDtoInterface extends DtoInterface, IdInterface, NameInterface, RouteInterface, AttributesInterface, RolesInterface, UriInterface, TagInterface, RouteParametersInterface, ChildMenuApiDtoInterface, RootInterface
 {
     /**
      * @param DtoInterface $dto

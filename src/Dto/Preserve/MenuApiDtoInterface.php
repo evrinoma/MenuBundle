@@ -16,14 +16,15 @@ namespace Evrinoma\MenuBundle\Dto\Preserve;
 use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\DtoCommon\ValueObject\Mutable\IdInterface;
 use Evrinoma\DtoCommon\ValueObject\Mutable\NameInterface;
-use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\ChildMenuApiDtoInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\AttributesInterface;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\ChildMenuApiDtoInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RolesInterface;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RootInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RouteInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RouteParametersInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\TagInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\UriInterface;
 
-interface MenuApiDtoInterface extends DtoInterface, IdInterface, NameInterface, RouteInterface, AttributesInterface, RolesInterface, UriInterface, TagInterface, RouteParametersInterface, ChildMenuApiDtoInterface
+interface MenuApiDtoInterface extends DtoInterface, IdInterface, NameInterface, RouteInterface, AttributesInterface, RolesInterface, UriInterface, TagInterface, RouteParametersInterface, ChildMenuApiDtoInterface, RootInterface
 {
 }

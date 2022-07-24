@@ -21,6 +21,7 @@ use Evrinoma\DtoCommon\ValueObject\Mutable\NameTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\AttributesTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\ChildMenuApiDtoTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RolesTrait;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RootTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RouteParametersTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RouteTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\TagTrait;
@@ -34,6 +35,7 @@ class MenuApiDto extends AbstractDto implements MenuApiDtoInterface
     use IdTrait;
     use NameTrait;
     use RolesTrait;
+    use RootTrait;
     use RouteParametersTrait;
     use RouteTrait;
     use TagTrait;
@@ -45,7 +47,6 @@ class MenuApiDto extends AbstractDto implements MenuApiDtoInterface
      * @var MenuApiDtoInterface[]
      */
     protected array $childMenuApiDto = [];
-
 
     /**
      * @param MenuApiDtoInterface $dto
@@ -76,6 +77,7 @@ class MenuApiDto extends AbstractDto implements MenuApiDtoInterface
             $id = $request->get(MenuApiDtoInterface::ID);
             $attributes = $request->get(MenuApiDtoInterface::ATTRIBUTES, []);
             $roles = $request->get(MenuApiDtoInterface::ROLES, []);
+            $root = $request->get(MenuApiDtoInterface::ROOT, []);
             if ($id) {
                 $this->setId($id);
             }
@@ -96,6 +98,9 @@ class MenuApiDto extends AbstractDto implements MenuApiDtoInterface
             }
             if ($tag) {
                 $this->setTag($tag);
+            }
+            if ($root) {
+                $this->setRoot($tag);
             }
         }
 

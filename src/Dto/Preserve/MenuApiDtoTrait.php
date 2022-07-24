@@ -18,6 +18,7 @@ use Evrinoma\DtoCommon\ValueObject\Preserve\NameTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Preserve\AttributesTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Preserve\ChildMenuApiDtoTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Preserve\RolesTrait;
+use Evrinoma\MenuBundle\DtoCommon\ValueObject\Preserve\RootTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Preserve\RouteParametersTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Preserve\RouteTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Preserve\TagTrait;
@@ -30,6 +31,7 @@ trait MenuApiDtoTrait
     use IdTrait;
     use NameTrait;
     use RolesTrait;
+    use RootTrait;
     use RouteParametersTrait;
     use RouteTrait;
     use TagTrait;
