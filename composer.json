@@ -16,8 +16,7 @@
         "php": "^7.4 || ^8.0",
         "evrinoma/dto-bundle": "dev-master",
         "evrinoma/utils-bundle": "dev-master",
-        "nelmio/api-doc-bundle": "^4",
-        "knplabs/knp-menu-bundle": "^3.0"
+        "nelmio/api-doc-bundle": "^4"
     },
     "autoload": {
         "psr-4": {
