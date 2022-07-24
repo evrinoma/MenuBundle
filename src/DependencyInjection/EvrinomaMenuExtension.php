@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Evrinoma\MenuBundle\DependencyInjection;
 
 use Evrinoma\MenuBundle\Dto\MenuApiDto;
+use Evrinoma\MenuBundle\Dto\Preserve\MenuApiDto as PreserveMenuApiDto;
 use Evrinoma\MenuBundle\EvrinomaMenuBundle;
+use Evrinoma\MenuBundle\Menu\PredefinedMenu;
 use Evrinoma\MenuBundle\Repository\MenuCommandRepositoryInterface;
 use Evrinoma\MenuBundle\Repository\MenuQueryRepositoryInterface;
 use Evrinoma\UtilsBundle\DependencyInjection\HelperTrait;
@@ -28,28 +30,13 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class EvrinomaMenuExtension extends Extension
 {
-//    public function load(array $configs, ContainerBuilder $container)
-//    {
-//        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-//        $loader->load('services.yml');
-//
-//        if ($container->has('knp_menu.factory')) {
-//            throw new InvalidConfigurationException('Found the service of registered as \'knp_menu.factory\', could\'t override alias.');
-//        }
-//
-//        $definition = new Definition(OverrideMenuFactory::class);
-//        $definition->addTag('knp_menu.factory');
-//        $alias = new Alias('knp_menu.factory');
-//
-//        $container->addDefinitions(['knp_menu.factory' => $definition]);
-//        $container->addAliases([OverrideMenuFactory::class => $alias]);
-//    }
     use HelperTrait;
 
     public const ENTITY = 'Evrinoma\MenuBundle\Entity';
     public const ENTITY_FACTORY_MENU = 'Evrinoma\MenuBundle\Factory\MenuFactory';
     public const ENTITY_BASE_MENU = self::ENTITY.'\Menu\BaseMenu';
     public const DTO_BASE_MENU = MenuApiDto::class;
+    public const DTO_PRESERVE_BASE_MENU = PreserveMenuApiDto::class;
     /**
      * @var array
      */
@@ -159,6 +146,22 @@ class EvrinomaMenuExtension extends Extension
                 ['' => $remap]
             );
         }
+
+        if ($config['registry']) {
+            foreach ($config['registry'] as $key => $item) {
+                switch (true) {
+                    case str_contains(PredefinedMenu::class, $key)   :
+                        if ($item) {
+                            $predefinedMenu = $container->getDefinition(PredefinedMenu::class);
+                            $predefinedMenu->setArgument(0, $config['preserve_dto']);
+                        } else {
+                            $container->removeDefinition(PredefinedMenu::class);
+                        }
+                        break;
+                    default:
+                }
+            }
+        }
     }
 
 //    private function wireConstraintTag(ContainerBuilder $container): void
@@ -197,7 +200,7 @@ class EvrinomaMenuExtension extends Extension
     private function wireController(ContainerBuilder $container, string $class): void
     {
         $definitionApiController = $container->getDefinition('evrinoma.'.$this->getAlias().'.api.controller');
-        $definitionApiController->setArgument(6, $class);
+        $definitionApiController->setArgument(7, $class);
     }
 
     private function wireValidator(ContainerBuilder $container, string $class): void
