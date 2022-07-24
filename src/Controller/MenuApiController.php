@@ -22,6 +22,7 @@ use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
 use Evrinoma\MenuBundle\Manager\CommandManagerInterface;
 use Evrinoma\MenuBundle\Manager\QueryManagerInterface;
 use Evrinoma\MenuBundle\PreValidator\DtoPreValidatorInterface;
+use Evrinoma\MenuBundle\Registry\ObjectRegistryInterface;
 use Evrinoma\UtilsBundle\Controller\AbstractApiController;
 use Evrinoma\UtilsBundle\Controller\ApiControllerInterface;
 use Evrinoma\UtilsBundle\Rest\RestInterface;
@@ -57,6 +58,10 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      * @var DtoPreValidatorInterface
      */
     private DtoPreValidatorInterface $preValidator;
+    /**
+     * @var ObjectRegistryInterface
+     */
+    private ObjectRegistryInterface  $objectRegistry;
 
     /**
      * @param SerializerInterface      $serializer
@@ -65,6 +70,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      * @param CommandManagerInterface  $commandManager
      * @param QueryManagerInterface    $queryManager
      * @param DtoPreValidatorInterface $preValidator
+     * @param ObjectRegistryInterface  $objectRegistry
      * @param string                   $dtoClass
      */
     public function __construct(
@@ -74,6 +80,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
         CommandManagerInterface $commandManager,
         QueryManagerInterface $queryManager,
         DtoPreValidatorInterface $preValidator,
+        ObjectRegistryInterface $objectRegistry,
         string $dtoClass
     ) {
         parent::__construct($serializer);
@@ -81,8 +88,9 @@ final class MenuApiController extends AbstractApiController implements ApiContro
         $this->factoryDto = $factoryDto;
         $this->commandManager = $commandManager;
         $this->queryManager = $queryManager;
-        $this->dtoClass = $dtoClass;
         $this->preValidator = $preValidator;
+        $this->objectRegistry = $objectRegistry;
+        $this->dtoClass = $dtoClass;
     }
 
     /**
@@ -309,6 +317,37 @@ final class MenuApiController extends AbstractApiController implements ApiContro
     }
 
     /**
+     * @Rest\Delete("/api/menu/remove", options={"expose": true}, name="api_remove_menu")
+     * @OA\Delete(
+     *     tags={"menu"}
+     * )
+     * @OA\Response(response=200, description="Remove all menu items")
+     *
+     * @return JsonResponse
+     */
+    public function removeAction(): JsonResponse
+    {
+        $commandManager = $this->commandManager;
+        $this->commandManager->setRestAccepted();
+
+        try {
+            $json = [];
+            $em = $this->getDoctrine()->getManager();
+
+            $em->transactional(
+                function () use ($commandManager, &$json) {
+                    $commandManager->remove(new $this->dtoClass());
+                    $json = ['OK'];
+                }
+            );
+        } catch (\Exception $e) {
+            $json = $this->setRestStatus($this->commandManager, $e);
+        }
+
+        return $this->json(['message' => 'Remove all items', 'data' => $json], $this->commandManager->getRestStatus());
+    }
+
+    /**
      * @Rest\Get("/api/menu/criteria", options={"expose": true}, name="api_menu_criteria")
      * @OA\Get(
      *     tags={"menu"},
@@ -332,10 +371,33 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      *         )
      *     ),
      *     @OA\Parameter(
+     *         description="route",
+     *         in="query",
+     *         name="route",
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         description="name",
+     *         in="query",
+     *         name="name",
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         description="root Level",
+     *         in="query",
+     *         name="root",
+     *         @OA\Schema(
+     *             type="string",
+     *         )
+     *     ),
+     *     @OA\Parameter(
      *         name="tag",
      *         in="query",
      *         description="tag menu",
-     *         required=true,
      *         @OA\Schema(
      *             type="array",
      *             @OA\Items(
@@ -406,5 +468,60 @@ final class MenuApiController extends AbstractApiController implements ApiContro
         }
 
         return $this->setSerializeGroup('api_get_menu')->json(['message' => 'Get menu', 'data' => $json], $this->queryManager->getRestStatus());
+    }
+
+    /**
+     * @Rest\Post("/api/menu/registry/create", name="api_registry_create_menu")
+     * @OA\Post(tags={"menu"})
+     * @OA\Response(response=200, description="Returns the rewards of default generated menu")
+     *
+     * @return JsonResponse
+     */
+    public function registryAction(): JsonResponse
+    {
+        $commandManager = $this->commandManager;
+
+        $this->commandManager->setRestCreated();
+        $em = $this->getDoctrine()->getManager();
+
+        $connection = $em->getConnection();
+        try {
+            $json = [];
+
+            $dtoSplitByLevel = [];
+            $recursive = function ($menuApiDto, $hash, $level = 0) use (&$recursive, &$dtoSplitByLevel) {
+                $dtoSplitByLevel[$level][$hash][] = $menuApiDto;
+                if ($menuApiDto->hasChildMenuApiDto()) {
+                    foreach ($menuApiDto->getChildMenuApiDto() as $child) {
+                        $recursive($child, $child->hasChildMenuApiDto() ? $hash.'_'.uniqid() : $hash, $level + 1);
+                    }
+                }
+            };
+
+            foreach ($this->objectRegistry->getObjects() as $tag) {
+                foreach ($tag as $item) {
+                    $menuApiDto = $item->create();
+                    $recursive($menuApiDto, uniqid());
+                }
+            }
+
+            $connection->beginTransaction();
+            foreach (array_reverse($dtoSplitByLevel) as $level) {
+                foreach ($level as $keyItem => $items) {
+                    foreach ($items as $item) {
+                        $this->preValidator->onPost($item);
+                        $menuItem = $commandManager->post($item);
+                        $em->flush();
+                        $item->setId($menuItem->getId());
+                    }
+                }
+            }
+            $connection->commit();
+        } catch (\Exception $e) {
+            $connection->rollBack();
+            $json = $this->setRestStatus($this->commandManager, $e);
+        }
+
+        return $this->setSerializeGroup('api_post_registry_menu')->json(['message' => 'Create menu from registry', 'data' => $json], $this->commandManager->getRestStatus());
     }
 }
