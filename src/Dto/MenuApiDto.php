@@ -77,7 +77,7 @@ class MenuApiDto extends AbstractDto implements MenuApiDtoInterface
             $id = $request->get(MenuApiDtoInterface::ID);
             $attributes = $request->get(MenuApiDtoInterface::ATTRIBUTES, []);
             $roles = $request->get(MenuApiDtoInterface::ROLES, []);
-            $root = $request->get(MenuApiDtoInterface::ROOT, []);
+            $root = $request->get(MenuApiDtoInterface::ROOT);
             if ($id) {
                 $this->setId($id);
             }
@@ -99,8 +99,8 @@ class MenuApiDto extends AbstractDto implements MenuApiDtoInterface
             if ($tag) {
                 $this->setTag($tag);
             }
-            if ($root) {
-                $this->setRoot($tag);
+            if (isset($root)) {
+                $this->setRoot();
             }
         }
 
