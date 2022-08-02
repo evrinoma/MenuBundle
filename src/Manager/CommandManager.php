@@ -23,14 +23,10 @@ use Evrinoma\MenuBundle\Factory\MenuFactoryInterface;
 use Evrinoma\MenuBundle\Mediator\CommandMediatorInterface;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
 use Evrinoma\MenuBundle\Repository\MenuCommandRepositoryInterface;
-use Evrinoma\UtilsBundle\Rest\RestInterface;
-use Evrinoma\UtilsBundle\Rest\RestTrait;
 use Evrinoma\UtilsBundle\Validator\ValidatorInterface;
 
-final class CommandManager implements CommandManagerInterface, RestInterface
+final class CommandManager implements CommandManagerInterface
 {
-    use RestTrait;
-
     private MenuCommandRepositoryInterface $repository;
     private ValidatorInterface            $validator;
     private MenuFactoryInterface           $factory;
@@ -152,10 +148,5 @@ final class CommandManager implements CommandManagerInterface, RestInterface
                 throw $e;
             }
         }
-    }
-
-    public function getRestStatus(): int
-    {
-        return $this->status;
     }
 }

@@ -19,13 +19,9 @@ use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
 use Evrinoma\MenuBundle\Exception\MenuProxyException;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
 use Evrinoma\MenuBundle\Repository\MenuQueryRepositoryInterface;
-use Evrinoma\UtilsBundle\Rest\RestInterface;
-use Evrinoma\UtilsBundle\Rest\RestTrait;
 
-final class QueryManager implements QueryManagerInterface, RestInterface
+final class QueryManager implements QueryManagerInterface
 {
-    use RestTrait;
-
     private MenuQueryRepositoryInterface $repository;
 
     public function __construct(MenuQueryRepositoryInterface $repository)
@@ -72,11 +68,6 @@ final class QueryManager implements QueryManagerInterface, RestInterface
         }
 
         return $menu;
-    }
-
-    public function getRestStatus(): int
-    {
-        return $this->status;
     }
 
     /**

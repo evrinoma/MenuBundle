@@ -43,11 +43,11 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      */
     private ?Request $request;
     /**
-     * @var QueryManagerInterface|RestInterface
+     * @var QueryManagerInterface
      */
     private QueryManagerInterface $queryManager;
     /**
-     * @var CommandManagerInterface|RestInterface
+     * @var CommandManagerInterface
      */
     private CommandManagerInterface $commandManager;
     /**
@@ -99,23 +99,23 @@ final class MenuApiController extends AbstractApiController implements ApiContro
      *
      * @return array
      */
-    public function setRestStatus(RestInterface $manager, \Exception $e): array
+    public function setRestStatus(\Exception $e): array
     {
         switch (true) {
             case $e instanceof MenuCannotBeSavedException:
-                $manager->setRestNotImplemented();
+                $this->setRestNotImplemented();
                 break;
             case $e instanceof UniqueConstraintViolationException:
-                $manager->setRestConflict();
+                $this->setRestConflict();
                 break;
             case $e instanceof MenuNotFoundException:
-                $manager->setRestNotFound();
+                $this->setRestNotFound();
                 break;
             case $e instanceof MenuInvalidException:
-                $manager->setRestUnprocessableEntity();
+                $this->setRestUnprocessableEntity();
                 break;
             default:
-                $manager->setRestBadRequest();
+                $this->setRestBadRequest();
         }
 
         return ['errors' => $e->getMessage()];
@@ -171,7 +171,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
         $menuApiDto = $this->factoryDto->setRequest($this->request)->createDto($this->dtoClass);
         $commandManager = $this->commandManager;
 
-        $this->commandManager->setRestCreated();
+        $this->setRestCreated();
         try {
             $this->preValidator->onPost($menuApiDto);
 
@@ -184,10 +184,10 @@ final class MenuApiController extends AbstractApiController implements ApiContro
                 }
             );
         } catch (\Exception $e) {
-            $json = $this->setRestStatus($this->commandManager, $e);
+            $json = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_post_menu')->json(['message' => 'Create menu', 'data' => $json], $this->commandManager->getRestStatus());
+        return $this->setSerializeGroup('api_post_menu')->json(['message' => 'Create menu', 'data' => $json], $this->getRestStatus());
     }
 
     /**
@@ -254,10 +254,10 @@ final class MenuApiController extends AbstractApiController implements ApiContro
                 }
             );
         } catch (\Exception $e) {
-            $json = $this->setRestStatus($this->commandManager, $e);
+            $json = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_put_menu')->json(['message' => 'Save menu', 'data' => $json], $this->commandManager->getRestStatus());
+        return $this->setSerializeGroup('api_put_menu')->json(['message' => 'Save menu', 'data' => $json], $this->getRestStatus());
     }
 
     /**
@@ -296,7 +296,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
         $menuApiDto = $this->factoryDto->setRequest($this->request)->createDto($this->dtoClass);
 
         $commandManager = $this->commandManager;
-        $this->commandManager->setRestAccepted();
+        $this->setRestAccepted();
 
         try {
             $this->preValidator->onDelete($menuApiDto);
@@ -310,10 +310,10 @@ final class MenuApiController extends AbstractApiController implements ApiContro
                 }
             );
         } catch (\Exception $e) {
-            $json = $this->setRestStatus($this->commandManager, $e);
+            $json = $this->setRestStatus($e);
         }
 
-        return $this->json(['message' => 'Delete menu', 'data' => $json], $this->commandManager->getRestStatus());
+        return $this->json(['message' => 'Delete menu', 'data' => $json], $this->getRestStatus());
     }
 
     /**
@@ -328,7 +328,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
     public function removeAction(): JsonResponse
     {
         $commandManager = $this->commandManager;
-        $this->commandManager->setRestAccepted();
+        $this->setRestAccepted();
 
         try {
             $json = [];
@@ -341,10 +341,10 @@ final class MenuApiController extends AbstractApiController implements ApiContro
                 }
             );
         } catch (\Exception $e) {
-            $json = $this->setRestStatus($this->commandManager, $e);
+            $json = $this->setRestStatus($e);
         }
 
-        return $this->json(['message' => 'Remove all items', 'data' => $json], $this->commandManager->getRestStatus());
+        return $this->json(['message' => 'Remove all items', 'data' => $json], $this->getRestStatus());
     }
 
     /**
@@ -420,10 +420,10 @@ final class MenuApiController extends AbstractApiController implements ApiContro
         try {
             $json = $this->queryManager->criteria($menuApiDto);
         } catch (\Exception $e) {
-            $json = $this->setRestStatus($this->queryManager, $e);
+            $json = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_get_menu')->json(['message' => 'Get menu', 'data' => $json], $this->queryManager->getRestStatus());
+        return $this->setSerializeGroup('api_get_menu')->json(['message' => 'Get menu', 'data' => $json], $this->getRestStatus());
     }
 
     /**
@@ -464,10 +464,10 @@ final class MenuApiController extends AbstractApiController implements ApiContro
         try {
             $json = $this->queryManager->get($menuApiDto);
         } catch (\Exception $e) {
-            $json = $this->setRestStatus($this->queryManager, $e);
+            $json = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_get_menu')->json(['message' => 'Get menu', 'data' => $json], $this->queryManager->getRestStatus());
+        return $this->setSerializeGroup('api_get_menu')->json(['message' => 'Get menu', 'data' => $json], $this->getRestStatus());
     }
 
     /**
@@ -481,7 +481,7 @@ final class MenuApiController extends AbstractApiController implements ApiContro
     {
         $commandManager = $this->commandManager;
 
-        $this->commandManager->setRestCreated();
+        $this->setRestCreated();
         $em = $this->getDoctrine()->getManager();
 
         $connection = $em->getConnection();
@@ -498,9 +498,9 @@ final class MenuApiController extends AbstractApiController implements ApiContro
             $connection->commit();
         } catch (\Exception $e) {
             $connection->rollBack();
-            $json = $this->setRestStatus($this->commandManager, $e);
+            $json = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_post_registry_menu')->json(['message' => 'Create menu from registry', 'data' => $json], $this->commandManager->getRestStatus());
+        return $this->setSerializeGroup('api_post_registry_menu')->json(['message' => 'Create menu from registry', 'data' => $json], $this->getRestStatus());
     }
 }
