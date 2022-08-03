@@ -61,6 +61,24 @@ Actions в контроллере разбиты на две группы соз
 # Constraint
 
 ## Description
+Формат ответа от сервера содержит статус код и имеет следующий стандартный формат
+```text
+    [
+        TypeModel::TYPE => string,
+        PayloadModel::PAYLOAD => array,
+        MessageModel::MESSAGE => string,
+    ];
+```
+где
+TYPE - типа ответа
+
+    ERROR - ошибка
+    NOTICE - уведомление
+    INFO - информация
+    DEBUG - отладка
+
+MESSAGE - от кого пришло сообщение
+PAYLOAD - массив данных
 
 ## Notice
 
