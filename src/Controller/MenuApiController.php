@@ -171,10 +171,13 @@ final class MenuApiController extends AbstractWrappedApiController
         $commandManager = $this->commandManager;
 
         $this->setStatusCreated();
+
+        $json = [];
+        $error = [];
+
         try {
             $this->preValidator->onPost($menuApiDto);
 
-            $json = [];
             $em = $this->getDoctrine()->getManager();
 
             $em->transactional(
@@ -183,10 +186,10 @@ final class MenuApiController extends AbstractWrappedApiController
                 }
             );
         } catch (\Exception $e) {
-            $json = $this->setRestStatus($e);
+            $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_post_menu')->JsonResponse('Create menu', $json);
+        return $this->setSerializeGroup('api_post_menu')->JsonResponse('Create menu', $json, $error);
     }
 
     /**
@@ -241,10 +244,12 @@ final class MenuApiController extends AbstractWrappedApiController
         $menuApiDto = $this->factoryDto->setRequest($this->request)->createDto($this->dtoClass);
         $commandManager = $this->commandManager;
 
+        $json = [];
+        $error = [];
+
         try {
             $this->preValidator->onPut($menuApiDto);
 
-            $json = [];
             $em = $this->getDoctrine()->getManager();
 
             $em->transactional(
@@ -253,10 +258,10 @@ final class MenuApiController extends AbstractWrappedApiController
                 }
             );
         } catch (\Exception $e) {
-            $json = $this->setRestStatus($e);
+            $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_put_menu')->JsonResponse('Save menu', $json);
+        return $this->setSerializeGroup('api_put_menu')->JsonResponse('Save menu', $json, $error);
     }
 
     /**
@@ -297,9 +302,12 @@ final class MenuApiController extends AbstractWrappedApiController
         $commandManager = $this->commandManager;
         $this->setStatusAccepted();
 
+        $json = [];
+        $error = [];
+
         try {
             $this->preValidator->onDelete($menuApiDto);
-            $json = [];
+
             $em = $this->getDoctrine()->getManager();
 
             $em->transactional(
@@ -309,10 +317,10 @@ final class MenuApiController extends AbstractWrappedApiController
                 }
             );
         } catch (\Exception $e) {
-            $json = $this->setRestStatus($e);
+            $error = $this->setRestStatus($e);
         }
 
-        return $this->JsonResponse('Delete menu', $json);
+        return $this->JsonResponse('Delete menu', $json, $error);
     }
 
     /**
@@ -329,8 +337,10 @@ final class MenuApiController extends AbstractWrappedApiController
         $commandManager = $this->commandManager;
         $this->setStatusAccepted();
 
+        $json = [];
+        $error = [];
+
         try {
-            $json = [];
             $em = $this->getDoctrine()->getManager();
 
             $em->transactional(
@@ -340,10 +350,10 @@ final class MenuApiController extends AbstractWrappedApiController
                 }
             );
         } catch (\Exception $e) {
-            $json = $this->setRestStatus($e);
+            $error = $this->setRestStatus($e);
         }
 
-        return $this->JsonResponse('Remove all items', $json);
+        return $this->JsonResponse('Remove all items', $json, $error);
     }
 
     /**
@@ -416,13 +426,16 @@ final class MenuApiController extends AbstractWrappedApiController
         /** @var MenuApiDtoInterface $menuApiDto */
         $menuApiDto = $this->factoryDto->setRequest($this->request)->createDto($this->dtoClass);
 
+        $json = [];
+        $error = [];
+
         try {
             $json = $this->queryManager->criteria($menuApiDto);
         } catch (\Exception $e) {
-            $json = $this->setRestStatus($e);
+            $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_get_menu')->JsonResponse('Get menu', $json);
+        return $this->setSerializeGroup('api_get_menu')->JsonResponse('Get menu', $json, $error);
     }
 
     /**
@@ -460,13 +473,16 @@ final class MenuApiController extends AbstractWrappedApiController
         /** @var MenuApiDtoInterface $menuApiDto */
         $menuApiDto = $this->factoryDto->setRequest($this->request)->createDto($this->dtoClass);
 
+        $json = [];
+        $error = [];
+
         try {
             $json[] = $this->queryManager->get($menuApiDto);
         } catch (\Exception $e) {
-            $json = $this->setRestStatus($e);
+            $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_get_menu')->JsonResponse('Get menu', $json);
+        return $this->setSerializeGroup('api_get_menu')->JsonResponse('Get menu', $json, $error);
     }
 
     /**
@@ -483,10 +499,11 @@ final class MenuApiController extends AbstractWrappedApiController
         $this->setStatusCreated();
         $em = $this->getDoctrine()->getManager();
 
+        $json = [];
+        $error = [];
+
         $connection = $em->getConnection();
         try {
-            $json = [];
-
             $connection->beginTransaction();
             foreach ($this->provider->toDto()->getReverse() as $item) {
                 $this->preValidator->onPost($item);
@@ -497,9 +514,9 @@ final class MenuApiController extends AbstractWrappedApiController
             $connection->commit();
         } catch (\Exception $e) {
             $connection->rollBack();
-            $json = $this->setRestStatus($e);
+            $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_post_registry_menu')->JsonResponse('Create menu from registry', $json);
+        return $this->setSerializeGroup('api_post_registry_menu')->JsonResponse('Create menu from registry', $json, $error);
     }
 }
