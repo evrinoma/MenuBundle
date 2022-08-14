@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Mediator;
 
-use Doctrine\ORM\QueryBuilder;
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
+use Evrinoma\UtilsBundle\QueryBuilder\QueryBuilderInterface;
 
 interface QueryMediatorInterface extends TagQueryMediatorInterface
 {
@@ -24,18 +24,18 @@ interface QueryMediatorInterface extends TagQueryMediatorInterface
     public function alias(): string;
 
     /**
-     * @param MenuApiDtoInterface $dto
-     * @param QueryBuilder        $builder
+     * @param MenuApiDtoInterface   $dto
+     * @param QueryBuilderInterface $builder
      *
      * @return mixed
      */
-    public function createQuery(MenuApiDtoInterface $dto, QueryBuilder $builder): void;
+    public function createQuery(MenuApiDtoInterface $dto, QueryBuilderInterface $builder): void;
 
     /**
-     * @param MenuApiDtoInterface $dto
-     * @param QueryBuilder        $builder
+     * @param MenuApiDtoInterface   $dto
+     * @param QueryBuilderInterface $builder
      *
      * @return array
      */
-    public function getResult(MenuApiDtoInterface $dto, QueryBuilder $builder): array;
+    public function getResult(MenuApiDtoInterface $dto, QueryBuilderInterface $builder): array;
 }

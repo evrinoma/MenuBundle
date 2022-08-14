@@ -18,9 +18,13 @@ use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Evrinoma\MenuBundle\Repository\AliasInterface;
 use Evrinoma\UtilsBundle\Mediator\AbstractQueryMediator;
+use Evrinoma\UtilsBundle\Mediator\OrmQueryMediator;
+use Evrinoma\UtilsBundle\QueryBuilder\QueryBuilderInterface;
 
 class QueryMediator extends AbstractQueryMediator implements QueryMediatorInterface
 {
+    use OrmQueryMediator;
+
     protected static string $alias = AliasInterface::MENU;
 
     /**
@@ -29,7 +33,7 @@ class QueryMediator extends AbstractQueryMediator implements QueryMediatorInterf
      *
      * @return mixed
      */
-    public function createQuery(DtoInterface $dto, QueryBuilder $builder): void
+    public function createQuery(DtoInterface $dto, QueryBuilderInterface $builder): void
     {
         $alias = $this->alias();
 
@@ -60,7 +64,7 @@ class QueryMediator extends AbstractQueryMediator implements QueryMediatorInterf
         }
     }
 
-    public function createQueryTag(MenuApiDtoInterface $dto, QueryBuilder $builder): void
+    public function createQueryTag(MenuApiDtoInterface $dto, QueryBuilderInterface $builder): void
     {
         $alias = $this->alias();
 
@@ -69,7 +73,7 @@ class QueryMediator extends AbstractQueryMediator implements QueryMediatorInterf
             ->groupBy($alias.'.tag');
     }
 
-    public function getResultTag(MenuApiDtoInterface $dto, QueryBuilder $builder): array
+    public function getResultTag(MenuApiDtoInterface $dto, QueryBuilderInterface $builder): array
     {
         return array_column($this->getResult($dto, $builder), 'tag');
     }

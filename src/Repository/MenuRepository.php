@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Evrinoma\MenuBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Doctrine\Persistence\ManagerRegistry;
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
@@ -25,9 +25,12 @@ use Evrinoma\MenuBundle\Exception\MenuProxyException;
 use Evrinoma\MenuBundle\Exception\MenuTagNotFoundException;
 use Evrinoma\MenuBundle\Mediator\QueryMediatorInterface;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
+use Evrinoma\UtilsBundle\QueryBuilder\OrmQueryBuilderTrait;
 
 class MenuRepository extends ServiceEntityRepository implements MenuRepositoryInterface
 {
+    use OrmQueryBuilderTrait;
+
     private QueryMediatorInterface $mediator;
 
     /**

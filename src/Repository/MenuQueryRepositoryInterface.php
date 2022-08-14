@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Repository;
 
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Exception\ORMException;
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
 use Evrinoma\MenuBundle\Exception\MenuProxyException;
