@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -25,12 +24,11 @@ use Evrinoma\MenuBundle\Exception\MenuProxyException;
 use Evrinoma\MenuBundle\Exception\MenuTagNotFoundException;
 use Evrinoma\MenuBundle\Mediator\QueryMediatorInterface;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
-use Evrinoma\UtilsBundle\QueryBuilder\OrmQueryBuilderTrait;
+use Evrinoma\UtilsBundle\Repository\Orm\RepositoryWrapper;
+use Evrinoma\UtilsBundle\Repository\RepositoryWrapperInterface;
 
-class MenuRepository extends ServiceEntityRepository implements MenuRepositoryInterface
+class MenuRepository extends RepositoryWrapper implements MenuRepositoryInterface, RepositoryWrapperInterface
 {
-    use OrmQueryBuilderTrait;
-
     private QueryMediatorInterface $mediator;
 
     /**
@@ -55,7 +53,7 @@ class MenuRepository extends ServiceEntityRepository implements MenuRepositoryIn
     public function save(MenuInterface $menu): bool
     {
         try {
-            $this->getEntityManager()->persist($menu);
+            $this->persistWrapped($menu);
         } catch (ORMInvalidArgumentException $e) {
             throw new MenuCannotBeSavedException($e->getMessage());
         }
@@ -74,7 +72,7 @@ class MenuRepository extends ServiceEntityRepository implements MenuRepositoryIn
     public function remove(MenuInterface $menu): bool
     {
         try {
-            $this->getEntityManager()->remove($menu);
+            $this->removeWrapped($menu);
         } catch (ORMInvalidArgumentException $e) {
             throw new MenuCannotBeRemovedException($e->getMessage());
         }
@@ -91,7 +89,7 @@ class MenuRepository extends ServiceEntityRepository implements MenuRepositoryIn
      */
     public function findByCriteria(MenuApiDtoInterface $dto): array
     {
-        $builder = $this->createQueryBuilder($this->mediator->alias());
+        $builder = $this->createQueryBuilderWrapped($this->mediator->alias());
 
         $this->mediator->createQuery($dto, $builder);
 
@@ -116,7 +114,7 @@ class MenuRepository extends ServiceEntityRepository implements MenuRepositoryIn
     public function find($id, $lockMode = null, $lockVersion = null): MenuInterface
     {
         /** @var MenuInterface $menu */
-        $menu = parent::find($id);
+        $menu = $this->findWrapped($id);
 
         if (null === $menu) {
             throw new MenuNotFoundException("Cannot find menu with id $id");
@@ -135,11 +133,9 @@ class MenuRepository extends ServiceEntityRepository implements MenuRepositoryIn
      */
     public function proxy(string $id): MenuInterface
     {
-        $em = $this->getEntityManager();
+        $menu = $this->referenceWrapped($id);
 
-        $menu = $em->getReference($this->getEntityName(), $id);
-
-        if (!$em->contains($menu)) {
+        if (!$this->containsWrapped($menu)) {
             throw new MenuProxyException("Proxy doesn't exist with $id");
         }
 
@@ -155,7 +151,7 @@ class MenuRepository extends ServiceEntityRepository implements MenuRepositoryIn
      */
     public function findTags(MenuApiDtoInterface $dto): array
     {
-        $builder = $this->createQueryBuilder($this->mediator->alias());
+        $builder = $this->createQueryBuilderWrapped($this->mediator->alias());
 
         $this->mediator->createQueryTag($dto, $builder);
 
