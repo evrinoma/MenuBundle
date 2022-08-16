@@ -18,12 +18,12 @@ use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Evrinoma\MenuBundle\Repository\AliasInterface;
 use Evrinoma\UtilsBundle\Mediator\AbstractQueryMediator;
-use Evrinoma\UtilsBundle\Mediator\OrmQueryMediatorTrait;
+use Evrinoma\UtilsBundle\Mediator\Orm\QueryMediatorTrait;
 use Evrinoma\UtilsBundle\QueryBuilder\QueryBuilderInterface;
 
 class QueryMediator extends AbstractQueryMediator implements QueryMediatorInterface
 {
-    use OrmQueryMediatorTrait;
+    use QueryMediatorTrait;
 
     protected static string $alias = AliasInterface::MENU;
 
