@@ -72,15 +72,15 @@ class EvrinomaMenuExtension extends Extension
             $definitionFactory->setArgument(0, $config['entity']);
         }
 
-        $doctrineRegistry = null;
+        $registry = null;
 
         if (isset(self::$doctrineDrivers[$config['db_driver']])) {
             $loader->load('doctrine.yml');
             $container->setAlias('evrinoma.'.$this->getAlias().'.doctrine_registry', new Alias(self::$doctrineDrivers[$config['db_driver']]['registry'], false));
-            $doctrineRegistry = new Reference('evrinoma.'.$this->getAlias().'.doctrine_registry');
+            $registry = new Reference('evrinoma.'.$this->getAlias().'.doctrine_registry');
             $container->setParameter('evrinoma.'.$this->getAlias().'.backend_type_'.$config['db_driver'], true);
             $objectManager = $container->getDefinition('evrinoma.'.$this->getAlias().'.object_manager');
-            $objectManager->setFactory([$doctrineRegistry, 'getManager']);
+            $objectManager->setFactory([$registry, 'getManager']);
         }
 
         $this->remapParametersNamespaces(
@@ -94,8 +94,8 @@ class EvrinomaMenuExtension extends Extension
             ]
         );
 
-        if ($doctrineRegistry) {
-            $this->wireRepository($container, $doctrineRegistry, $config['entity']);
+        if ($registry) {
+            $this->wireRepository($container, $registry, $config['entity']);
         }
 
         $this->wireController($container, $config['dto']);
@@ -186,11 +186,11 @@ class EvrinomaMenuExtension extends Extension
 //        }
 //    }
 
-    private function wireRepository(ContainerBuilder $container, Reference $doctrineRegistry, string $class): void
+    private function wireRepository(ContainerBuilder $container, Reference $registry, string $class): void
     {
         $definitionRepository = $container->getDefinition('evrinoma.'.$this->getAlias().'.repository');
         $definitionQueryMediator = $container->getDefinition('evrinoma.'.$this->getAlias().'.query.mediator');
-        $definitionRepository->setArgument(0, $doctrineRegistry);
+        $definitionRepository->setArgument(0, $registry);
         $definitionRepository->setArgument(1, $class);
         $definitionRepository->setArgument(2, $definitionQueryMediator);
         $container->addAliases([MenuCommandRepositoryInterface::class => 'evrinoma.'.$this->getAlias().'.repository']);
