@@ -15,7 +15,9 @@ namespace Evrinoma\MenuBundle\DependencyInjection;
 
 use Evrinoma\MenuBundle\Dto\MenuApiDto;
 use Evrinoma\MenuBundle\Dto\Preserve\MenuApiDto as PreserveMenuApiDto;
+use Evrinoma\MenuBundle\Entity\Menu\BaseMenu;
 use Evrinoma\MenuBundle\EvrinomaMenuBundle;
+use Evrinoma\MenuBundle\Factory\MenuFactory;
 use Evrinoma\MenuBundle\Menu\PredefinedMenu;
 use Evrinoma\MenuBundle\Repository\MenuCommandRepositoryInterface;
 use Evrinoma\MenuBundle\Repository\MenuQueryRepositoryInterface;
@@ -33,8 +35,8 @@ class EvrinomaMenuExtension extends Extension
     use HelperTrait;
 
     public const ENTITY = 'Evrinoma\MenuBundle\Entity';
-    public const ENTITY_FACTORY_MENU = 'Evrinoma\MenuBundle\Factory\MenuFactory';
-    public const ENTITY_BASE_MENU = self::ENTITY.'\Menu\BaseMenu';
+    public const ENTITY_FACTORY_MENU = MenuFactory::class;
+    public const ENTITY_BASE_MENU = BaseMenu::class;
     public const DTO_BASE_MENU = MenuApiDto::class;
     public const DTO_PRESERVE_BASE_MENU = PreserveMenuApiDto::class;
     /**
