@@ -35,6 +35,7 @@ class EvrinomaMenuExtension extends Extension
     use HelperTrait;
 
     public const ENTITY = 'Evrinoma\MenuBundle\Entity';
+    public const MODEL = 'Evrinoma\MenuBundle\Model';
     public const ENTITY_FACTORY_MENU = MenuFactory::class;
     public const ENTITY_BASE_MENU = BaseMenu::class;
     public const DTO_BASE_MENU = MenuApiDto::class;
