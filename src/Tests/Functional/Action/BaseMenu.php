@@ -17,7 +17,6 @@ use Evrinoma\MenuBundle\Dto\MenuApiDto;
 use Evrinoma\MenuBundle\Tests\Functional\Helper\BaseMenuTestTrait;
 use Evrinoma\TestUtilsBundle\Action\AbstractServiceTest;
 
-
 class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
 {
     use BaseMenuTestTrait;
