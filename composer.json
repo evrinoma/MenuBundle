@@ -16,6 +16,7 @@
         "php": "^7.4 || ^8.0",
         "evrinoma/dto-bundle": "dev-master",
         "evrinoma/dto-common": "dev-master",
+        "evrinoma/security-bundle": "dev-master",
         "evrinoma/utils-bundle": "dev-master",
         "nelmio/api-doc-bundle": "^4"
     },
@@ -55,6 +56,10 @@
         "dto-common": {
             "type": "vcs",
             "url": "https://github.com/evrinoma/DtoCommon.git"
+        },
+        "security-bundle": {
+            "type": "vcs",
+            "url": "https://github.com/evrinoma/SecurityBundle.git"
         },
         "test-utils": {
             "type": "vcs",
