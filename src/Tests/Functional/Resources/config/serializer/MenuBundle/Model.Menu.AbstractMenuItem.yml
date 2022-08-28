@@ -40,6 +40,11 @@ Evrinoma\MenuBundle\Model\Menu\AbstractMenuItem:
           api_get_menu, api_post_menu, api_put_menu, app_get_basic_menu, api_post_registry_menu
       ]
       expose: true
+    roles:
+      groups: [
+          api_get_menu, api_post_menu, api_put_menu, app_get_basic_menu, api_post_registry_menu
+      ]
+      expose: true
     tag:
       groups: [
           api_get_menu, api_post_menu, api_put_menu, app_get_basic_menu, api_post_registry_menu

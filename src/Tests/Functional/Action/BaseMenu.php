@@ -14,8 +14,14 @@ declare(strict_types=1);
 namespace Evrinoma\MenuBundle\Tests\Functional\Action;
 
 use Evrinoma\MenuBundle\Dto\MenuApiDto;
+use Evrinoma\MenuBundle\Registry\ObjectInterface;
 use Evrinoma\MenuBundle\Tests\Functional\Helper\BaseMenuTestTrait;
+use Evrinoma\MenuBundle\Tests\Functional\ValueObject\Menu\Id;
+use Evrinoma\MenuBundle\Tests\Functional\ValueObject\Menu\Name;
 use Evrinoma\TestUtilsBundle\Action\AbstractServiceTest;
+use Evrinoma\UtilsBundle\Model\Rest\PayloadModel;
+use PHPUnit\Framework\Assert;
+use Symfony\Component\HttpFoundation\Response;
 
 class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
 {
@@ -36,11 +42,121 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
     {
         return [
             'class' => static::getDtoClass(),
+            'id' => Id::default(),
+            'route_parameters' => ['alias', 'cam'],
+            'attributes' => ['D' => 'd', 'E' => 'e', 'F' => 'f'],
+            'route' => 'core_home',
+            'name' => Name::value(),
+            'roles' => ['A', 'B', 'C'],
+            'uri' => '#',
+            'tag' => ObjectInterface::DEFAULT_TAG,
+            'child_menu' => [['id' => id::value()]],
         ];
     }
 
     public function actionPost(): void
     {
+        $this->createMenu();
+        $this->testResponseStatusCreated();
+
+        $query = static::getDefault(['name' => 'nameA', 'child_menu' => [['id' => '1'], ['id' => '2']]]);
+        $this->post($query);
+        $this->testResponseStatusCreated();
+
+        $query = static::getDefault(['name' => 'nameB', 'child_menu' => []]);
+
+        $this->post($query);
+        $this->testResponseStatusCreated();
+
+        $query = static::getDefault(['name' => 'nameC']);
+        unset($query['child_menu']);
+        $this->post($query);
+        $this->testResponseStatusCreated();
+    }
+
+    public function actionDelete(): void
+    {
+        $find = $this->assertGet(Id::value());
+
+        $this->delete(Id::value());
+        $this->testResponseStatusAccepted();
+
+        $delete = $this->assertGet(Id::value(), Response::HTTP_NOT_FOUND);
+    }
+
+    public function actionGet(): void
+    {
+        $find = $this->assertGet(Id::value());
+    }
+
+    public function actionGetNotFound(): void
+    {
+        $response = $this->get(Id::wrong());
+        Assert::assertArrayHasKey(PayloadModel::PAYLOAD, $response);
+        $this->testResponseStatusNotFound();
+    }
+
+    public function actionDeleteNotFound(): void
+    {
+        $response = $this->delete(Id::wrong());
+        Assert::assertArrayHasKey(PayloadModel::PAYLOAD, $response);
+        $this->testResponseStatusNotFound();
+    }
+
+    public function actionDeleteUnprocessable(): void
+    {
+        $this->delete(Id::empty());
+        $this->testResponseStatusUnprocessable();
+    }
+
+    public function actionPutNotFound(): void
+    {
+        $updated = $this->put(static::getDefault(['id' => Id::wrong()]));
+        $this->testResponseStatusNotFound();
+    }
+
+    public function actionPutUnprocessable(): void
+    {
+        $updated = $this->put(static::getDefault(['id' => Id::empty()]));
+        $this->testResponseStatusUnprocessable();
+    }
+
+    public function actionPostUnprocessable(): void
+    {
+        $this->postWrong();
+        $this->testResponseStatusUnprocessable();
+
+        $query = static::getDefault();
+        unset($query['roles']);
+        $this->post($query);
+        $this->testResponseStatusUnprocessable();
+
+        $query = static::getDefault();
+        unset($query['name']);
+        $this->post($query);
+        $this->testResponseStatusUnprocessable();
+
+        $query = static::getDefault();
+        unset($query['tag']);
+        $this->post($query);
+        $this->testResponseStatusUnprocessable();
+
+        $query = static::getDefault();
+        unset($query['route']);
+        unset($query['child_menu']);
+        $this->post($query);
+        $this->testResponseStatusUnprocessable();
+
+        $query = static::getDefault();
+        unset($query['route']);
+        unset($query['uri']);
+        $this->post($query);
+        $this->testResponseStatusUnprocessable();
+
+        $query = static::getDefault();
+        unset($query['route']);
+        $this->post(static::getDefault(['child_menu' => [['id' => Id::empty()]]]));
+        $this->testResponseStatusUnprocessable();
     }
 
     public function actionCriteriaNotFound(): void
@@ -51,43 +167,50 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
     {
     }
 
-    public function actionDelete(): void
-    {
-    }
-
     public function actionPut(): void
     {
-    }
+        $find = $this->assertGet(Id::value());
 
-    public function actionGet(): void
-    {
-    }
+        $query = static::getDefault(['id' => Id::value()]);
+        unset($query['child_menu']);
 
-    public function actionGetNotFound(): void
-    {
-    }
+        $updated = $this->put($query);
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey(PayloadModel::PAYLOAD, $updated);
+        Assert::assertNotEquals($updated[PayloadModel::PAYLOAD], $find[PayloadModel::PAYLOAD]);
 
-    public function actionDeleteNotFound(): void
-    {
-    }
+        $criteria = $this->get(Id::value());
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey(PayloadModel::PAYLOAD, $criteria);
+        Assert::assertEquals($updated[PayloadModel::PAYLOAD], $criteria[PayloadModel::PAYLOAD]);
 
-    public function actionDeleteUnprocessable(): void
-    {
-    }
+        $find = $this->assertGet(Id::default());
 
-    public function actionPutNotFound(): void
-    {
-    }
+        $query = static::getDefault(['id' => Id::default(),  'child_menu' => array_merge($find[PayloadModel::PAYLOAD][0]['children'], [['id' => Id::value()]])]);
 
-    public function actionPutUnprocessable(): void
-    {
+        $updated = $this->put($query);
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey(PayloadModel::PAYLOAD, $updated);
+        Assert::assertNotEquals($updated[PayloadModel::PAYLOAD], $find[PayloadModel::PAYLOAD]);
+
+        $criteria = $this->get(Id::default());
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey(PayloadModel::PAYLOAD, $criteria);
+
+        Assert::assertArrayHasKey('children', $criteria[PayloadModel::PAYLOAD][0]);
+        usort($criteria[PayloadModel::PAYLOAD][0]['children'], function ($a, $b) {
+            return (int) ($a['id'] > $b['id']);
+        });
+        Assert::assertArrayHasKey('children', $updated[PayloadModel::PAYLOAD][0]);
+        usort($updated[PayloadModel::PAYLOAD][0]['children'], function ($a, $b) {
+            return (int) ($a['id'] > $b['id']);
+        });
+
+        Assert::assertEquals($updated[PayloadModel::PAYLOAD], $criteria[PayloadModel::PAYLOAD]);
     }
 
     public function actionPostDuplicate(): void
     {
-    }
-
-    public function actionPostUnprocessable(): void
-    {
+        Assert::markTestIncomplete('This test has not been implemented yet.');
     }
 }

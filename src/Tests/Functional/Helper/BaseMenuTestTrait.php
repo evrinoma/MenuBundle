@@ -13,17 +13,29 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Tests\Functional\Helper;
 
+use Evrinoma\UtilsBundle\Model\Rest\ErrorModel;
 use Evrinoma\UtilsBundle\Model\Rest\PayloadModel;
 use PHPUnit\Framework\Assert;
+use Symfony\Component\HttpFoundation\Response;
 
 trait BaseMenuTestTrait
 {
-    protected function assertGet(string $id): array
+    protected function assertGet(string $id, int $status = Response::HTTP_OK): array
     {
         $find = $this->get($id);
-        $this->testResponseStatusOK();
 
-        $this->checkResult($find);
+        switch ($status) {
+            case Response::HTTP_OK:
+                $this->testResponseStatusOK();
+                $this->checkResult($find);
+                break;
+            case Response::HTTP_NOT_FOUND:
+                $this->testResponseStatusNotFound();
+                Assert::assertArrayHasKey(PayloadModel::PAYLOAD, $find);
+                Assert::assertCount(0, $find[PayloadModel::PAYLOAD]);
+                Assert::assertCount(1, $find[ErrorModel::ERROR]);
+                break;
+        }
 
         return $find;
     }
@@ -44,5 +56,17 @@ trait BaseMenuTestTrait
 
     protected function checkMenu($entity): void
     {
+        Assert::assertArrayHasKey('id', $entity);
+        Assert::assertArrayHasKey('name', $entity);
+        Assert::assertArrayHasKey('route_parameters', $entity);
+        Assert::assertArrayHasKey('attributes', $entity);
+        Assert::assertArrayHasKey('tag', $entity);
+        Assert::assertArrayHasKey('children', $entity);
+        Assert::assertArrayHasKey('roles', $entity);
+        if (0 === \count($entity['children'])) {
+            Assert::assertArrayHasKey('route', $entity);
+        } else {
+            Assert::assertArrayHasKey('uri', $entity);
+        }
     }
 }
