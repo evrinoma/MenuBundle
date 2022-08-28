@@ -1,0 +1,5 @@
+services:
+  evrinoma.menu.fixtures.menu:
+    class: Evrinoma\MenuBundle\Fixtures\MenuFixtures
+    tags:
+      - { name: doctrine.fixture.orm }

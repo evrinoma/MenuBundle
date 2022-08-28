@@ -1,0 +1,9 @@
+services:
+  evrinoma.menu.test.functional.action.menu:
+    class: Evrinoma\MenuBundle\Tests\Functional\Action\BaseMenu
+    public: true
+    arguments:
+
+  Evrinoma\MenuBundle\Tests\Functional\Action\BaseMenu:
+    alias: evrinoma.menu.test.functional.action.menu
+    public: true
