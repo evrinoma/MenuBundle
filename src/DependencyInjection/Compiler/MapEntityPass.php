@@ -36,7 +36,7 @@ class MapEntityPass extends AbstractMapEntity implements CompilerPassInterface
             $this->cleanMetadata($driver, [EvrinomaMenuExtension::ENTITY]);
 
             $entityMenu = $container->getParameter('evrinoma.menu.entity');
-            if ((str_contains($entityMenu, EvrinomaMenuExtension::ENTITY))) {
+            if (str_contains($entityMenu, EvrinomaMenuExtension::ENTITY)) {
                 $this->loadMetadata($driver, $referenceAnnotationReader, '%s/Model/Menu', '%s/Entity/Menu');
             }
             $this->addResolveTargetEntity([$entityMenu => [MenuInterface::class => []]], false);
