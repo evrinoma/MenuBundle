@@ -21,7 +21,7 @@ use Evrinoma\UtilsBundle\Entity\RolesTrait;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="menu_items")
+ * @ORM\Table(name="e_menu_items")
  */
 class MenuItem
 {
