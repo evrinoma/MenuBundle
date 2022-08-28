@@ -59,7 +59,7 @@ class CommandMediator extends AbstractCommandMediator implements CommandMediator
                     throw new MenuCannotBeSavedException('Child element shouldn\'t have a parent');
                 }
 
-                $menu->setParent($entity);
+                $entity->addChild($menu);
             }
 
             $entity
@@ -101,9 +101,9 @@ class CommandMediator extends AbstractCommandMediator implements CommandMediator
                     throw new MenuCannotBeCreatedException('Child element doesn\'t exist');
                 }
 
-                if ($menu->hasParent()) {
-                    throw new MenuCannotBeCreatedException('Child element shouldn\'t have a parent');
-                }
+//                if ($menu->hasParent()) {
+//                    throw new MenuCannotBeCreatedException('Child element shouldn\'t have a parent');
+//                }
 
                 $menu->setParent($entity);
             }
