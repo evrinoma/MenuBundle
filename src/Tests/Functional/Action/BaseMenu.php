@@ -19,6 +19,7 @@ use Evrinoma\MenuBundle\Tests\Functional\Helper\BaseMenuTestTrait;
 use Evrinoma\MenuBundle\Tests\Functional\ValueObject\Menu\Id;
 use Evrinoma\MenuBundle\Tests\Functional\ValueObject\Menu\Name;
 use Evrinoma\TestUtilsBundle\Action\AbstractServiceTest;
+use Evrinoma\UtilsBundle\Model\Rest\ErrorModel;
 use Evrinoma\UtilsBundle\Model\Rest\PayloadModel;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Response;
@@ -161,10 +162,98 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
 
     public function actionCriteriaNotFound(): void
     {
+        $query = static::getDefault(['name' => Name::wrong()]);
+        unset($query['tag']);
+        unset($query['route']);
+        unset($query['id']);
+
+        $response = $this->criteria($query);
+        $this->testResponseStatusNotFound();
+        Assert::assertArrayHasKey(ErrorModel::ERROR, $response);
+
+        $query = static::getDefault(['id' => Id::wrong()]);
+        unset($query['tag']);
+        unset($query['route']);
+        unset($query['name']);
+
+        $response = $this->criteria($query);
+        $this->testResponseStatusNotFound();
+        Assert::assertArrayHasKey(ErrorModel::ERROR, $response);
     }
 
     public function actionCriteria(): void
     {
+        $query = static::getDefault();
+        unset($query['tag']);
+        unset($query['route']);
+        unset($query['name']);
+
+        $response = $this->criteria($query);
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey(PayloadModel::PAYLOAD, $response);
+        Assert::assertCount(1, $response[PayloadModel::PAYLOAD]);
+        $entity = $response[PayloadModel::PAYLOAD][0];
+        $this->checkMenu($entity);
+        Assert::assertEquals($entity['id'], $query['id']);
+
+        $query = static::getDefault();
+        unset($query['id']);
+        unset($query['route']);
+        unset($query['name']);
+
+        $response = $this->criteria($query);
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey(PayloadModel::PAYLOAD, $response);
+        Assert::assertCount(6, $response[PayloadModel::PAYLOAD]);
+        foreach ($response[PayloadModel::PAYLOAD] as $entity) {
+            $this->checkMenu($entity);
+            Assert::assertEquals($entity['tag'], $query['tag']);
+        }
+
+        $query = static::getDefault();
+        $query['route'] = 'route_test_0';
+        unset($query['id']);
+        unset($query['tag']);
+        unset($query['name']);
+
+        $response = $this->criteria($query);
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey(PayloadModel::PAYLOAD, $response);
+        Assert::assertCount(1, $response[PayloadModel::PAYLOAD]);
+        $entity = $response[PayloadModel::PAYLOAD][0];
+        $this->checkMenu($entity);
+        Assert::assertEquals($entity['route'], $query['route']);
+
+        $query = static::getDefault();
+        $query['name'] = Name::default();
+        unset($query['id']);
+        unset($query['tag']);
+        unset($query['route']);
+
+        $response = $this->criteria($query);
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey(PayloadModel::PAYLOAD, $response);
+        Assert::assertCount(12, $response[PayloadModel::PAYLOAD]);
+        foreach ($response[PayloadModel::PAYLOAD] as $entity) {
+            $this->checkMenu($entity);
+            Assert::assertThat(strtolower($entity['name']), Assert::stringContains(strtolower($query['name'])));
+        }
+
+        $query = static::getDefault();
+        $query['root'] = true;
+        unset($query['id']);
+        unset($query['tag']);
+        unset($query['route']);
+        unset($query['name']);
+
+        $response = $this->criteria($query);
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey(PayloadModel::PAYLOAD, $response);
+        Assert::assertCount(8, $response[PayloadModel::PAYLOAD]);
+        foreach ($response[PayloadModel::PAYLOAD] as $entity) {
+            Assert::assertArrayNotHasKey('parent', $response);
+            $this->checkMenu($entity);
+        }
     }
 
     public function actionPut(): void
