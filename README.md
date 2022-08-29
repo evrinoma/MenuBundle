@@ -14,6 +14,7 @@
         services:
           pre_validator - переопределение сервиса валидатора user
           create_bridge - переопределение сервиса моста между командой и логикой создания menu
+          handler - переопределение сервиса обработчика сущностей
         registry:
           PredefinedMenu - выключение default menu 
 

@@ -22,6 +22,7 @@ use Evrinoma\MenuBundle\Menu\PredefinedMenu;
 use Evrinoma\MenuBundle\Repository\MenuCommandRepositoryInterface;
 use Evrinoma\MenuBundle\Repository\MenuQueryRepositoryInterface;
 use Evrinoma\UtilsBundle\DependencyInjection\HelperTrait;
+use Evrinoma\UtilsBundle\Handler\BaseHandler;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -40,6 +41,8 @@ class EvrinomaMenuExtension extends Extension
     public const ENTITY_BASE_MENU = BaseMenu::class;
     public const DTO_BASE_MENU = MenuApiDto::class;
     public const DTO_PRESERVE_BASE_MENU = PreserveMenuApiDto::class;
+    public const HANDLER = BaseHandler::class;
+
     /**
      * @var array
      */
@@ -141,6 +144,9 @@ class EvrinomaMenuExtension extends Extension
                         case 'pre_validator':
                             $remap['pre_validator'] = 'evrinoma.'.$this->getAlias().'.services.pre.validator';
                             break;
+                        case 'handler':
+                            $remap['handler'] = 'evrinoma.'.$this->getAlias().'.services.handler';
+                            break;
                     }
                 }
             }
@@ -211,7 +217,7 @@ class EvrinomaMenuExtension extends Extension
     private function wireController(ContainerBuilder $container, string $class): void
     {
         $definitionApiController = $container->getDefinition('evrinoma.'.$this->getAlias().'.api.controller');
-        $definitionApiController->setArgument(7, $class);
+        $definitionApiController->setArgument(8, $class);
     }
 
     private function wireValidator(ContainerBuilder $container, string $class): void

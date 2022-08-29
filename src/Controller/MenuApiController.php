@@ -24,6 +24,7 @@ use Evrinoma\MenuBundle\Manager\QueryManagerInterface;
 use Evrinoma\MenuBundle\PreValidator\DtoPreValidatorInterface;
 use Evrinoma\MenuBundle\Provider\DtoProviderInterface;
 use Evrinoma\UtilsBundle\Controller\AbstractWrappedApiController;
+use Evrinoma\UtilsBundle\Handler\HandlerInterface;
 use Evrinoma\UtilsBundle\Rest\RestInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use JMS\Serializer\SerializerInterface;
@@ -61,6 +62,10 @@ final class MenuApiController extends AbstractWrappedApiController
      * @var DtoProviderInterface
      */
     private DtoProviderInterface  $provider;
+    /**
+     * @var HandlerInterface
+     */
+    private HandlerInterface  $handler;
 
     /**
      * @param SerializerInterface      $serializer
@@ -70,6 +75,7 @@ final class MenuApiController extends AbstractWrappedApiController
      * @param QueryManagerInterface    $queryManager
      * @param DtoPreValidatorInterface $preValidator
      * @param DtoProviderInterface     $provider
+     * @param HandlerInterface         $handler
      * @param string                   $dtoClass
      */
     public function __construct(
@@ -80,6 +86,7 @@ final class MenuApiController extends AbstractWrappedApiController
         QueryManagerInterface $queryManager,
         DtoPreValidatorInterface $preValidator,
         DtoProviderInterface $provider,
+        HandlerInterface $handler,
         string $dtoClass
     ) {
         parent::__construct($serializer);
@@ -90,6 +97,7 @@ final class MenuApiController extends AbstractWrappedApiController
         $this->preValidator = $preValidator;
         $this->provider = $provider;
         $this->dtoClass = $dtoClass;
+        $this->handler = $handler;
     }
 
     /**
@@ -174,6 +182,7 @@ final class MenuApiController extends AbstractWrappedApiController
 
         $json = [];
         $error = [];
+        $group = 'api_post_menu';
 
         try {
             $this->preValidator->onPost($menuApiDto);
@@ -185,11 +194,13 @@ final class MenuApiController extends AbstractWrappedApiController
                     $json[] = $commandManager->post($menuApiDto);
                 }
             );
+
+            $this->handler->onPost($json, $group);
         } catch (\Exception $e) {
             $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_post_menu')->JsonResponse('Create menu', $json, $error);
+        return $this->setSerializeGroup($group)->JsonResponse('Create menu', $json, $error);
     }
 
     /**
@@ -246,6 +257,7 @@ final class MenuApiController extends AbstractWrappedApiController
 
         $json = [];
         $error = [];
+        $group = 'api_put_menu';
 
         try {
             $this->preValidator->onPut($menuApiDto);
@@ -257,11 +269,13 @@ final class MenuApiController extends AbstractWrappedApiController
                     $json[] = $commandManager->put($menuApiDto);
                 }
             );
+
+            $this->handler->onPut($json, $group);
         } catch (\Exception $e) {
             $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_put_menu')->JsonResponse('Save menu', $json, $error);
+        return $this->setSerializeGroup($group)->JsonResponse('Save menu', $json, $error);
     }
 
     /**
@@ -428,14 +442,16 @@ final class MenuApiController extends AbstractWrappedApiController
 
         $json = [];
         $error = [];
+        $group = 'api_get_menu';
 
         try {
             $json = $this->queryManager->criteria($menuApiDto);
+            $this->handler->onCriteria($json, $group);
         } catch (\Exception $e) {
             $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_get_menu')->JsonResponse('Get menu', $json, $error);
+        return $this->setSerializeGroup($group)->JsonResponse('Get menu', $json, $error);
     }
 
     /**
@@ -475,14 +491,16 @@ final class MenuApiController extends AbstractWrappedApiController
 
         $json = [];
         $error = [];
+        $group = 'api_get_menu';
 
         try {
             $json[] = $this->queryManager->get($menuApiDto);
+            $this->handler->onGet($json, $group);
         } catch (\Exception $e) {
             $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_get_menu')->JsonResponse('Get menu', $json, $error);
+        return $this->setSerializeGroup($group)->JsonResponse('Get menu', $json, $error);
     }
 
     /**
@@ -501,6 +519,7 @@ final class MenuApiController extends AbstractWrappedApiController
 
         $json = [];
         $error = [];
+        $group = 'api_post_registry_menu';
 
         $connection = $em->getConnection();
         try {
@@ -517,6 +536,6 @@ final class MenuApiController extends AbstractWrappedApiController
             $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup('api_post_registry_menu')->JsonResponse('Create menu from registry', $json, $error);
+        return $this->setSerializeGroup($group)->JsonResponse('Create menu from registry', $json, $error);
     }
 }
