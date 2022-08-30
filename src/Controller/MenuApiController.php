@@ -67,17 +67,6 @@ final class MenuApiController extends AbstractWrappedApiController
      */
     private HandlerInterface  $handler;
 
-    /**
-     * @param SerializerInterface      $serializer
-     * @param RequestStack             $requestStack
-     * @param FactoryDtoInterface      $factoryDto
-     * @param CommandManagerInterface  $commandManager
-     * @param QueryManagerInterface    $queryManager
-     * @param DtoPreValidatorInterface $preValidator
-     * @param DtoProviderInterface     $provider
-     * @param HandlerInterface         $handler
-     * @param string                   $dtoClass
-     */
     public function __construct(
         SerializerInterface $serializer,
         RequestStack $requestStack,
