@@ -51,7 +51,7 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('services')->addDefaultsIfNotSet()->children()
             ->scalarNode('pre_validator')->defaultNull()->info('This option is used to pre_validator overriding')->end()
             ->scalarNode('create_bridge')->defaultNull()->info('This option is used to create_bridge overriding')->end()
-            ->scalarNode('handler')->cannotBeEmpty()->defaultValue(EvrinomaMenuExtension::HANDLER)->info('This option is used to dto class override')->end()
+            ->scalarNode('handler')->cannotBeEmpty()->defaultValue(EvrinomaMenuExtension::HANDLER)->info('This option is used to handler override')->end()
             ->end()->end()
             ->arrayNode('registry')->addDefaultsIfNotSet()->children()
             ->booleanNode('PredefinedMenu')->defaultTrue()->info('This option is used to enable logout menu item')->end()
