@@ -29,7 +29,7 @@ Evrinoma\MenuBundle\Model\Menu\AbstractMenuItem:
       expose: true
     route:
       groups: [
-          api_get_menu, api_post_menu, api_put_menu , app_get_basic_menu, api_post_registry_menu
+          API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU
       ]
     routeParameters:
       groups: [
