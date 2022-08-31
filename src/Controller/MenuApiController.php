@@ -23,6 +23,7 @@ use Evrinoma\MenuBundle\Manager\CommandManagerInterface;
 use Evrinoma\MenuBundle\Manager\QueryManagerInterface;
 use Evrinoma\MenuBundle\PreValidator\DtoPreValidatorInterface;
 use Evrinoma\MenuBundle\Provider\DtoProviderInterface;
+use Evrinoma\MenuBundle\Serializer\GroupInterface;
 use Evrinoma\UtilsBundle\Controller\AbstractWrappedApiController;
 use Evrinoma\UtilsBundle\Controller\ApiControllerInterface;
 use Evrinoma\UtilsBundle\Handler\HandlerInterface;
@@ -172,7 +173,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
 
         $json = [];
         $error = [];
-        $group = 'api_post_menu';
+        $group = GroupInterface::API_POST_MENU;
 
         try {
             $this->preValidator->onPost($menuApiDto);
@@ -247,7 +248,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
 
         $json = [];
         $error = [];
-        $group = 'api_put_menu';
+        $group = GroupInterface::API_PUT_MENU;
 
         try {
             $this->preValidator->onPut($menuApiDto);
@@ -432,7 +433,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
 
         $json = [];
         $error = [];
-        $group = 'api_get_menu';
+        $group = GroupInterface::API_CRITERIA_MENU;
 
         try {
             $json = $this->queryManager->criteria($menuApiDto);
@@ -481,7 +482,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
 
         $json = [];
         $error = [];
-        $group = 'api_get_menu';
+        $group = GroupInterface::API_GET_MENU;
 
         try {
             $json[] = $this->queryManager->get($menuApiDto);
@@ -509,7 +510,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
 
         $json = [];
         $error = [];
-        $group = 'api_post_registry_menu';
+        $group = GroupInterface::API_POST_REGISTRY_MENU;
 
         $connection = $em->getConnection();
         try {

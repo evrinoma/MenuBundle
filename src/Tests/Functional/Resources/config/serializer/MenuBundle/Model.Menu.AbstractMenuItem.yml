@@ -3,28 +3,28 @@ Evrinoma\MenuBundle\Model\Menu\AbstractMenuItem:
   properties:
     id:
       groups: [
-          api_get_menu, api_post_menu, api_put_menu, app_get_basic_menu, api_post_registry_menu
+          API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
       ]
       expose: true
     name:
       groups: [
-          api_get_menu, api_post_menu, api_put_menu, app_get_basic_menu, api_post_registry_menu
+          API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
       ]
     parent:
       type: Evrinoma\MenuBundle\Entity\Menu\BaseMenu
       groups: [
-          api_get_menu, api_post_menu, api_put_menu, app_get_basic_menu, api_post_registry_menu
+          API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
       ]
       expose: true
     children:
       type: ArrayCollection<Evrinoma\MenuBundle\Entity\Menu\BaseMenu>
       groups: [
-          api_get_menu, api_post_menu, api_put_menu, app_get_basic_menu, api_post_registry_menu
+          API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
       ]
       expose: true
     uri:
       groups: [
-          api_get_menu, api_post_menu, api_put_menu, app_get_basic_menu, api_post_registry_menu
+          API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
       ]
       expose: true
     route:
@@ -33,20 +33,20 @@ Evrinoma\MenuBundle\Model\Menu\AbstractMenuItem:
       ]
     routeParameters:
       groups: [
-          api_get_menu, api_post_menu, api_put_menu, app_get_basic_menu, api_post_registry_menu
+          API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
       ]
     attributes:
       groups: [
-          api_get_menu, api_post_menu, api_put_menu, app_get_basic_menu, api_post_registry_menu
+          API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
       ]
       expose: true
     roles:
       groups: [
-          api_get_menu, api_post_menu, api_put_menu, app_get_basic_menu, api_post_registry_menu
+          API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
       ]
       expose: true
     tag:
       groups: [
-          api_get_menu, api_post_menu, api_put_menu, app_get_basic_menu, api_post_registry_menu
+          API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
       ]
       expose: true
