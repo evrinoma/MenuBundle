@@ -24,6 +24,7 @@ use Evrinoma\MenuBundle\Manager\QueryManagerInterface;
 use Evrinoma\MenuBundle\PreValidator\DtoPreValidatorInterface;
 use Evrinoma\MenuBundle\Provider\DtoProviderInterface;
 use Evrinoma\UtilsBundle\Controller\AbstractWrappedApiController;
+use Evrinoma\UtilsBundle\Controller\ApiControllerInterface;
 use Evrinoma\UtilsBundle\Handler\HandlerInterface;
 use Evrinoma\UtilsBundle\Rest\RestInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -34,7 +35,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class MenuApiController extends AbstractWrappedApiController
+final class MenuApiController extends AbstractWrappedApiController implements ApiControllerInterface
 {
     private string $dtoClass;
 
