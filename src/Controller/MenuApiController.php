@@ -19,14 +19,10 @@ use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Evrinoma\MenuBundle\Exception\MenuCannotBeSavedException;
 use Evrinoma\MenuBundle\Exception\MenuInvalidException;
 use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
-use Evrinoma\MenuBundle\Manager\CommandManagerInterface;
-use Evrinoma\MenuBundle\Manager\QueryManagerInterface;
-use Evrinoma\MenuBundle\PreValidator\DtoPreValidatorInterface;
-use Evrinoma\MenuBundle\Provider\DtoProviderInterface;
+use Evrinoma\MenuBundle\Facade\Menu\FacadeInterface;
 use Evrinoma\MenuBundle\Serializer\GroupInterface;
 use Evrinoma\UtilsBundle\Controller\AbstractWrappedApiController;
 use Evrinoma\UtilsBundle\Controller\ApiControllerInterface;
-use Evrinoma\UtilsBundle\Handler\HandlerInterface;
 use Evrinoma\UtilsBundle\Rest\RestInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use JMS\Serializer\SerializerInterface;
@@ -40,55 +36,24 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
 {
     private string $dtoClass;
 
-    /**
-     * @var ?Request
-     */
     private ?Request $request;
-    /**
-     * @var QueryManagerInterface
-     */
-    private QueryManagerInterface $queryManager;
-    /**
-     * @var CommandManagerInterface
-     */
-    private CommandManagerInterface $commandManager;
-    /**
-     * @var FactoryDtoInterface
-     */
+
     private FactoryDtoInterface $factoryDto;
-    /**
-     * @var DtoPreValidatorInterface
-     */
-    private DtoPreValidatorInterface $preValidator;
-    /**
-     * @var DtoProviderInterface
-     */
-    private DtoProviderInterface  $provider;
-    /**
-     * @var HandlerInterface
-     */
-    private HandlerInterface  $handler;
+
+    private FacadeInterface $facade;
 
     public function __construct(
         SerializerInterface $serializer,
         RequestStack $requestStack,
         FactoryDtoInterface $factoryDto,
-        CommandManagerInterface $commandManager,
-        QueryManagerInterface $queryManager,
-        DtoPreValidatorInterface $preValidator,
-        DtoProviderInterface $provider,
-        HandlerInterface $handler,
+        FacadeInterface $facade,
         string $dtoClass
     ) {
         parent::__construct($serializer);
         $this->request = $requestStack->getCurrentRequest();
         $this->factoryDto = $factoryDto;
-        $this->commandManager = $commandManager;
-        $this->queryManager = $queryManager;
-        $this->preValidator = $preValidator;
-        $this->provider = $provider;
         $this->dtoClass = $dtoClass;
-        $this->handler = $handler;
+        $this->facade = $facade;
     }
 
     /**
@@ -167,7 +132,6 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
     {
         /** @var MenuApiDtoInterface $menuApiDto */
         $menuApiDto = $this->factoryDto->setRequest($this->request)->createDto($this->dtoClass);
-        $commandManager = $this->commandManager;
 
         $this->setStatusCreated();
 
@@ -176,17 +140,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
         $group = GroupInterface::API_POST_MENU;
 
         try {
-            $this->preValidator->onPost($menuApiDto);
-
-            $em = $this->getDoctrine()->getManager();
-
-            $em->transactional(
-                function () use ($menuApiDto, $commandManager, &$json) {
-                    $json[] = $commandManager->post($menuApiDto);
-                }
-            );
-
-            $this->handler->onPost($json, $group);
+            $this->facade->post($menuApiDto, $group, $json);
         } catch (\Exception $e) {
             $error = $this->setRestStatus($e);
         }
@@ -244,24 +198,13 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
     {
         /** @var MenuApiDtoInterface $fcrApiDto */
         $menuApiDto = $this->factoryDto->setRequest($this->request)->createDto($this->dtoClass);
-        $commandManager = $this->commandManager;
 
         $json = [];
         $error = [];
         $group = GroupInterface::API_PUT_MENU;
 
         try {
-            $this->preValidator->onPut($menuApiDto);
-
-            $em = $this->getDoctrine()->getManager();
-
-            $em->transactional(
-                function () use ($menuApiDto, $commandManager, &$json) {
-                    $json[] = $commandManager->put($menuApiDto);
-                }
-            );
-
-            $this->handler->onPut($json, $group);
+            $this->facade->put($menuApiDto, $group, $json);
         } catch (\Exception $e) {
             $error = $this->setRestStatus($e);
         }
@@ -304,23 +247,13 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
         /** @var MenuApiDtoInterface $menuApiDto */
         $menuApiDto = $this->factoryDto->setRequest($this->request)->createDto($this->dtoClass);
 
-        $commandManager = $this->commandManager;
         $this->setStatusAccepted();
 
         $json = [];
         $error = [];
 
         try {
-            $this->preValidator->onDelete($menuApiDto);
-
-            $em = $this->getDoctrine()->getManager();
-
-            $em->transactional(
-                function () use ($menuApiDto, $commandManager, &$json) {
-                    $commandManager->delete($menuApiDto);
-                    $json = ['OK'];
-                }
-            );
+            $this->facade->delete($menuApiDto, '', $json);
         } catch (\Exception $e) {
             $error = $this->setRestStatus($e);
         }
@@ -339,21 +272,13 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
      */
     public function removeAction(): JsonResponse
     {
-        $commandManager = $this->commandManager;
         $this->setStatusAccepted();
 
         $json = [];
         $error = [];
 
         try {
-            $em = $this->getDoctrine()->getManager();
-
-            $em->transactional(
-                function () use ($commandManager, &$json) {
-                    $commandManager->remove(new $this->dtoClass());
-                    $json = ['OK'];
-                }
-            );
+            $this->facade->delete(new $this->dtoClass(), '', $json);
         } catch (\Exception $e) {
             $error = $this->setRestStatus($e);
         }
@@ -436,8 +361,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
         $group = GroupInterface::API_CRITERIA_MENU;
 
         try {
-            $json = $this->queryManager->criteria($menuApiDto);
-            $this->handler->onCriteria($json, $group);
+            $this->facade->criteria($menuApiDto, $group, $json);
         } catch (\Exception $e) {
             $error = $this->setRestStatus($e);
         }
@@ -485,8 +409,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
         $group = GroupInterface::API_GET_MENU;
 
         try {
-            $json[] = $this->queryManager->get($menuApiDto);
-            $this->handler->onGet($json, $group);
+            $this->facade->get($menuApiDto, $group, $json);
         } catch (\Exception $e) {
             $error = $this->setRestStatus($e);
         }
@@ -503,27 +426,15 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
      */
     public function registryAction(): JsonResponse
     {
-        $commandManager = $this->commandManager;
-
         $this->setStatusCreated();
-        $em = $this->getDoctrine()->getManager();
 
         $json = [];
         $error = [];
         $group = GroupInterface::API_POST_REGISTRY_MENU;
 
-        $connection = $em->getConnection();
         try {
-            $connection->beginTransaction();
-            foreach ($this->provider->toDto()->getReverse() as $item) {
-                $this->preValidator->onPost($item);
-                $menuItem = $commandManager->post($item);
-                $em->flush();
-                $item->setId($menuItem->getId());
-            }
-            $connection->commit();
+            $this->facade->registry($group, $json);
         } catch (\Exception $e) {
-            $connection->rollBack();
             $error = $this->setRestStatus($e);
         }
 

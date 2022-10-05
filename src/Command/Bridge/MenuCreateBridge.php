@@ -13,12 +13,9 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Command\Bridge;
 
-use Doctrine\Persistence\ManagerRegistry;
 use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\MenuBundle\Dto\Preserve\MenuApiDtoInterface as PreserveMenuApiDtoInterface;
-use Evrinoma\MenuBundle\Manager\CommandManagerInterface;
-use Evrinoma\MenuBundle\PreValidator\DtoPreValidator;
-use Evrinoma\MenuBundle\Provider\DtoProvider;
+use Evrinoma\MenuBundle\Facade\Menu\FacadeInterface;
 use Evrinoma\UtilsBundle\Command\BridgeInterface;
 use Symfony\Component\Console\Input\InputInterface;
 
@@ -26,36 +23,15 @@ class MenuCreateBridge implements BridgeInterface
 {
     protected static string $dtoClass;
 
-    /**
-     * @var DtoPreValidator
-     */
-    protected DtoPreValidator $preValidator;
-    /**
-     * @var CommandManagerInterface
-     */
-    protected CommandManagerInterface $commandManager;
-    /**
-     * @var ManagerRegistry
-     */
-    protected ManagerRegistry $managerRegistry;
-    /**
-     * @var DtoProvider
-     */
-    private DtoProvider       $provider;
+    private FacadeInterface $facade;
 
     /**
-     * @param ManagerRegistry         $managerRegistry
-     * @param CommandManagerInterface $commandManager
-     * @param DtoPreValidator         $preValidator
-     * @param DtoProvider             $provider
-     * @param string                  $dtoClass
+     * @param FacadeInterface $facade
+     * @param string          $dtoClass
      */
-    public function __construct(ManagerRegistry $managerRegistry, CommandManagerInterface $commandManager, DtoPreValidator $preValidator, DtoProvider $provider, string $dtoClass)
+    public function __construct(FacadeInterface $facade, string $dtoClass)
     {
-        $this->managerRegistry = $managerRegistry;
-        $this->commandManager = $commandManager;
-        $this->preValidator = $preValidator;
-        $this->provider = $provider;
+        $this->facade = $facade;
         static::$dtoClass = $dtoClass;
     }
 
@@ -74,23 +50,9 @@ EOT;
 
     public function action(DtoInterface $dto): void
     {
-        $commandManager = $this->commandManager;
+        $data = [];
 
-        $em = $this->managerRegistry->getManager();
-
-        $connection = $em->getConnection();
-        try {
-            $connection->beginTransaction();
-            foreach ($this->provider->toDto()->getReverse() as $item) {
-                $this->preValidator->onPost($item);
-                $menuItem = $commandManager->post($item);
-                $em->flush();
-                $item->setId($menuItem->getId());
-            }
-            $connection->commit();
-        } catch (\Exception $e) {
-            $connection->rollBack();
-        }
+        $this->facade->registry('', $data);
     }
 
     public function argumentQuestioners(InputInterface $input): array

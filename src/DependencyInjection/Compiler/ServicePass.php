@@ -28,8 +28,8 @@ class ServicePass extends AbstractRecursivePass
         if ($servicePreValidator) {
             $servicePreValidator = $container->getParameter('evrinoma.'.EvrinomaMenuBundle::BUNDLE.'.services.pre.validator');
             $preValidator = $container->getDefinition($servicePreValidator);
-            $apiController = $container->getDefinition('evrinoma.'.EvrinomaMenuBundle::BUNDLE.'.api.controller');
-            $apiController->setArgument(5, $preValidator);
+            $facade = $container->getDefinition('evrinoma.'.EvrinomaMenuBundle::BUNDLE.'.facade');
+            $facade->setArgument(4, $preValidator);
         }
         $serviceBridgeCreate = $container->hasParameter('evrinoma.'.EvrinomaMenuBundle::BUNDLE.'.services.bridge.create');
         if ($serviceBridgeCreate) {
@@ -42,8 +42,8 @@ class ServicePass extends AbstractRecursivePass
         if ($serviceHandler) {
             $serviceHandler = $container->getParameter('evrinoma.'.EvrinomaMenuBundle::BUNDLE.'.services.handler');
             $handler = $container->getDefinition($serviceHandler);
-            $apiController = $container->getDefinition('evrinoma.'.EvrinomaMenuBundle::BUNDLE.'.api.controller');
-            $apiController->setArgument(7, $handler);
+            $facade = $container->getDefinition('evrinoma.'.EvrinomaMenuBundle::BUNDLE.'.facade');
+            $facade->setArgument(5, $handler);
         }
     }
 }

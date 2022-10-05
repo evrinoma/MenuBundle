@@ -9,12 +9,20 @@ services:
       - '@jms_serializer'
       - '@request_stack'
       - '@evrinoma.dto.factory'
+      - '@evrinoma.menu.facade'
+    autowire: true
+
+  evrinoma.menu.facade:
+    class: Evrinoma\MenuBundle\Facade\Menu\Facade
+    arguments:
+      - '@doctrine'
       - '@evrinoma.menu.command.manager'
       - '@evrinoma.menu.query.manager'
-      - '@evrinoma.menu.pre.validator'
       - '@evrinoma.menu.provider.dto'
-      - '@evrinoma.utils.handler.base_handler'
     autowire: true
+
+  Evrinoma\MenuBundle\Facade\Menu\FacadeInterface:
+    alias: evrinoma.menu.facade
 
   evrinoma.menu.factory:
     class: Evrinoma\MenuBundle\Factory\MenuFactory
@@ -132,8 +140,5 @@ services:
   evrinoma.menu.bridge.create:
     class: Evrinoma\MenuBundle\Command\Bridge\MenuCreateBridge
     arguments:
-      - '@doctrine'
-      - '@evrinoma.menu.command.manager'
-      - '@evrinoma.menu.pre.validator'
-      - '@evrinoma.menu.provider.dto'
+      - '@evrinoma.menu.facade'
     autowire: true
