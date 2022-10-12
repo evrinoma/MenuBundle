@@ -22,23 +22,23 @@ use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
 use Evrinoma\MenuBundle\Factory\MenuFactoryInterface;
 use Evrinoma\MenuBundle\Mediator\CommandMediatorInterface;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
-use Evrinoma\MenuBundle\Repository\MenuCommandRepositoryInterface;
+use Evrinoma\MenuBundle\Repository\MenuRepositoryInterface;
 use Evrinoma\UtilsBundle\Validator\ValidatorInterface;
 
 final class CommandManager implements CommandManagerInterface
 {
-    private MenuCommandRepositoryInterface $repository;
+    private MenuRepositoryInterface $repository;
     private ValidatorInterface            $validator;
     private MenuFactoryInterface           $factory;
     private CommandMediatorInterface      $mediator;
 
     /**
      * @param ValidatorInterface             $validator
-     * @param MenuCommandRepositoryInterface $repository
+     * @param MenuRepositoryInterface $repository
      * @param MenuFactoryInterface           $factory
      * @param CommandMediatorInterface       $mediator
      */
-    public function __construct(ValidatorInterface $validator, MenuCommandRepositoryInterface $repository, MenuFactoryInterface $factory, CommandMediatorInterface $mediator)
+    public function __construct(ValidatorInterface $validator, MenuRepositoryInterface $repository, MenuFactoryInterface $factory, CommandMediatorInterface $mediator)
     {
         $this->validator = $validator;
         $this->repository = $repository;
