@@ -37,10 +37,10 @@ Actions в контроллере разбиты на две группы соз
 
 группы сериализации
 
-    1. api_get_menu - получение menu
-    2. api_post_menu - создание menu
-    3. api_put_menu -  редактирование menu
-    4. api_post_registry_menu -  создание menu из registry
+    1. API_GET_MENU, API_CRITERIA_MENU - получение menu
+    2. API_POST_MENU - создание menu
+    3. API_PUT_MENU -  редактирование menu
+    4. API_POST_REGISTRY_MENU -  создание menu из registry
 
 # Статусы:
 
