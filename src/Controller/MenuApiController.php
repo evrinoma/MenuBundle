@@ -278,7 +278,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
         $error = [];
 
         try {
-            $this->facade->delete(new $this->dtoClass(), '', $json);
+            $this->facade->remove(new $this->dtoClass(), '', $json);
         } catch (\Exception $e) {
             $error = $this->setRestStatus($e);
         }
