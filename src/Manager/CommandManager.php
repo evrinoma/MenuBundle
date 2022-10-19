@@ -33,10 +33,10 @@ final class CommandManager implements CommandManagerInterface
     private CommandMediatorInterface      $mediator;
 
     /**
-     * @param ValidatorInterface             $validator
-     * @param MenuRepositoryInterface $repository
-     * @param MenuFactoryInterface           $factory
-     * @param CommandMediatorInterface       $mediator
+     * @param ValidatorInterface       $validator
+     * @param MenuRepositoryInterface  $repository
+     * @param MenuFactoryInterface     $factory
+     * @param CommandMediatorInterface $mediator
      */
     public function __construct(ValidatorInterface $validator, MenuRepositoryInterface $repository, MenuFactoryInterface $factory, CommandMediatorInterface $mediator)
     {
