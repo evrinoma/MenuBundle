@@ -1,6 +1,6 @@
 # Configuration
 
-    contractor:
+    menu:
         db_driver: orm модель данных
         factory: App\Menu\Factory\MenuFactory фабрика для создания объектов,
                  недостающие значения можно разрешить только на уровне Mediator
