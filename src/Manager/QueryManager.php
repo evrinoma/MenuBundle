@@ -18,7 +18,7 @@ use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
 use Evrinoma\MenuBundle\Exception\MenuProxyException;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
-use Evrinoma\MenuBundle\Repository\MenuQueryRepositoryInterface;
+use Evrinoma\MenuBundle\Repository\Menu\MenuQueryRepositoryInterface;
 
 final class QueryManager implements QueryManagerInterface
 {

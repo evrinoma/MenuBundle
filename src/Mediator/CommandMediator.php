@@ -19,7 +19,7 @@ use Evrinoma\MenuBundle\Exception\MenuCannotBeCreatedException;
 use Evrinoma\MenuBundle\Exception\MenuCannotBeSavedException;
 use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
-use Evrinoma\MenuBundle\Repository\MenuQueryRepositoryInterface;
+use Evrinoma\MenuBundle\Repository\Menu\MenuQueryRepositoryInterface;
 use Evrinoma\UtilsBundle\Mediator\AbstractCommandMediator;
 
 class CommandMediator extends AbstractCommandMediator implements CommandMediatorInterface

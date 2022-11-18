@@ -40,6 +40,7 @@ abstract class AbstractMenuItem implements MenuInterface
 
     /**
      * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="Evrinoma\MenuBundle\Model\Menu\MenuInterface", mappedBy="parent")
      */
     protected $children = null;

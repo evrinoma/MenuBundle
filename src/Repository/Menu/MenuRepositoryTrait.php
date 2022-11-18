@@ -11,11 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Evrinoma\MenuBundle\Repository;
+namespace Evrinoma\MenuBundle\Repository\Menu;
 
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\ORMInvalidArgumentException;
-use Doctrine\Persistence\ManagerRegistry;
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Evrinoma\MenuBundle\Exception\MenuCannotBeRemovedException;
 use Evrinoma\MenuBundle\Exception\MenuCannotBeSavedException;
@@ -24,23 +23,10 @@ use Evrinoma\MenuBundle\Exception\MenuProxyException;
 use Evrinoma\MenuBundle\Exception\MenuTagNotFoundException;
 use Evrinoma\MenuBundle\Mediator\QueryMediatorInterface;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
-use Evrinoma\UtilsBundle\Repository\Orm\RepositoryWrapper;
-use Evrinoma\UtilsBundle\Repository\RepositoryWrapperInterface;
 
-class MenuRepository extends RepositoryWrapper implements MenuRepositoryInterface, RepositoryWrapperInterface
+trait MenuRepositoryTrait
 {
     private QueryMediatorInterface $mediator;
-
-    /**
-     * @param ManagerRegistry        $registry
-     * @param string                 $entityClass
-     * @param QueryMediatorInterface $mediator
-     */
-    public function __construct(ManagerRegistry $registry, string $entityClass, QueryMediatorInterface $mediator)
-    {
-        parent::__construct($registry, $entityClass);
-        $this->mediator = $mediator;
-    }
 
     /**
      * @param MenuInterface $menu

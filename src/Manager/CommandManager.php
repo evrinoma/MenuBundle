@@ -22,7 +22,7 @@ use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
 use Evrinoma\MenuBundle\Factory\MenuFactoryInterface;
 use Evrinoma\MenuBundle\Mediator\CommandMediatorInterface;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
-use Evrinoma\MenuBundle\Repository\MenuRepositoryInterface;
+use Evrinoma\MenuBundle\Repository\Menu\MenuRepositoryInterface;
 use Evrinoma\UtilsBundle\Validator\ValidatorInterface;
 
 final class CommandManager implements CommandManagerInterface

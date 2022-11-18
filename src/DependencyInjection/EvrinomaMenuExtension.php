@@ -19,8 +19,8 @@ use Evrinoma\MenuBundle\Entity\Menu\BaseMenu;
 use Evrinoma\MenuBundle\EvrinomaMenuBundle;
 use Evrinoma\MenuBundle\Factory\MenuFactory;
 use Evrinoma\MenuBundle\Menu\PredefinedMenu;
-use Evrinoma\MenuBundle\Repository\MenuCommandRepositoryInterface;
-use Evrinoma\MenuBundle\Repository\MenuQueryRepositoryInterface;
+use Evrinoma\MenuBundle\Repository\Menu\MenuCommandRepositoryInterface;
+use Evrinoma\MenuBundle\Repository\Menu\MenuQueryRepositoryInterface;
 use Evrinoma\UtilsBundle\DependencyInjection\HelperTrait;
 use Evrinoma\UtilsBundle\Handler\BaseHandler;
 use Symfony\Component\Config\FileLocator;
@@ -98,8 +98,8 @@ class EvrinomaMenuExtension extends Extension
             ]
         );
 
-        if ($registry) {
-            $this->wireRepository($container, $registry, $config['entity']);
+        if ($registry && isset(self::$doctrineDrivers[$config['db_driver']])) {
+            $this->wireRepository($container, $registry, $config['entity'], $config['db_driver']);
         }
 
         $this->wireController($container, $config['dto']);
@@ -193,13 +193,14 @@ class EvrinomaMenuExtension extends Extension
 //        }
 //    }
 
-    private function wireRepository(ContainerBuilder $container, Reference $registry, string $class): void
+    private function wireRepository(ContainerBuilder $container, Reference $registry, string $class, string $driver): void
     {
-        $definitionRepository = $container->getDefinition('evrinoma.'.$this->getAlias().'.repository');
+        $definitionRepository = $container->getDefinition('evrinoma.'.$this->getAlias().'.'.$driver.'.repository');
         $definitionQueryMediator = $container->getDefinition('evrinoma.'.$this->getAlias().'.query.mediator');
         $definitionRepository->setArgument(0, $registry);
         $definitionRepository->setArgument(1, $class);
         $definitionRepository->setArgument(2, $definitionQueryMediator);
+        $container->addDefinitions(['evrinoma.'.$this->getAlias().'.repository' => $definitionRepository]);
         $container->addAliases([MenuCommandRepositoryInterface::class => 'evrinoma.'.$this->getAlias().'.repository']);
         $container->addAliases([MenuQueryRepositoryInterface::class => 'evrinoma.'.$this->getAlias().'.repository']);
     }

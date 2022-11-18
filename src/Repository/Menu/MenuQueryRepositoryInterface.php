@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Evrinoma\MenuBundle\Repository;
+namespace Evrinoma\MenuBundle\Repository\Menu;
 
 use Doctrine\ORM\Exception\ORMException;
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;

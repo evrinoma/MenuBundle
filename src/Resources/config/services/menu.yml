@@ -29,8 +29,8 @@ services:
     public: true
     arguments:
 
-  evrinoma.menu.repository:
-    class: Evrinoma\MenuBundle\Repository\MenuRepository
+  evrinoma.menu.orm.repository:
+    class: Evrinoma\MenuBundle\Repository\Orm\Menu\MenuRepository
     public: true
     arguments:
 
