@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Evrinoma\MenuBundle\Tests\Functional\Action;
 
 use Evrinoma\MenuBundle\Dto\MenuApiDto;
+use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Evrinoma\MenuBundle\Registry\ObjectInterface;
 use Evrinoma\MenuBundle\Tests\Functional\Helper\BaseMenuTestTrait;
 use Evrinoma\MenuBundle\Tests\Functional\ValueObject\Menu\Id;
@@ -42,16 +43,16 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
     protected static function defaultData(): array
     {
         return [
-            'class' => static::getDtoClass(),
-            'id' => Id::default(),
-            'route_parameters' => ['alias', 'cam'],
-            'attributes' => ['D' => 'd', 'E' => 'e', 'F' => 'f'],
-            'route' => 'core_home',
-            'name' => Name::value(),
-            'roles' => ['A', 'B', 'C'],
-            'uri' => '#',
-            'tag' => ObjectInterface::DEFAULT_TAG,
-            'child_menu' => [['id' => id::value()]],
+            MenuApiDtoInterface::DTO_CLASS => static::getDtoClass(),
+            MenuApiDtoInterface::ID => Id::default(),
+            MenuApiDtoInterface::ROUTE_PARAMETERS => ['alias', 'cam'],
+            MenuApiDtoInterface::ATTRIBUTES => ['D' => 'd', 'E' => 'e', 'F' => 'f'],
+            MenuApiDtoInterface::ROUTE => 'core_home',
+            MenuApiDtoInterface::NAME => Name::value(),
+            MenuApiDtoInterface::ROLES => ['A', 'B', 'C'],
+            MenuApiDtoInterface::URI => '#',
+            MenuApiDtoInterface::TAG => ObjectInterface::DEFAULT_TAG,
+            MenuApiDtoInterface::CHILD_MENU => [[MenuApiDtoInterface::ID => id::value()]],
         ];
     }
 
@@ -60,17 +61,17 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
         $this->createMenu();
         $this->testResponseStatusCreated();
 
-        $query = static::getDefault(['name' => 'nameA', 'child_menu' => [['id' => '1'], ['id' => '2']]]);
+        $query = static::getDefault([MenuApiDtoInterface::NAME => 'nameA', MenuApiDtoInterface::CHILD_MENU => [[MenuApiDtoInterface::ID => '1'], [MenuApiDtoInterface::ID => '2']]]);
         $this->post($query);
         $this->testResponseStatusCreated();
 
-        $query = static::getDefault(['name' => 'nameB', 'child_menu' => []]);
+        $query = static::getDefault([MenuApiDtoInterface::NAME => 'nameB', MenuApiDtoInterface::CHILD_MENU => []]);
 
         $this->post($query);
         $this->testResponseStatusCreated();
 
-        $query = static::getDefault(['name' => 'nameC']);
-        unset($query['child_menu']);
+        $query = static::getDefault([MenuApiDtoInterface::NAME => 'nameC']);
+        unset($query[MenuApiDtoInterface::CHILD_MENU]);
         $this->post($query);
         $this->testResponseStatusCreated();
     }
@@ -112,13 +113,13 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
 
     public function actionPutNotFound(): void
     {
-        $updated = $this->put(static::getDefault(['id' => Id::wrong()]));
+        $updated = $this->put(static::getDefault([MenuApiDtoInterface::ID => Id::wrong()]));
         $this->testResponseStatusNotFound();
     }
 
     public function actionPutUnprocessable(): void
     {
-        $updated = $this->put(static::getDefault(['id' => Id::empty()]));
+        $updated = $this->put(static::getDefault([MenuApiDtoInterface::ID => Id::empty()]));
         $this->testResponseStatusUnprocessable();
     }
 
@@ -128,53 +129,53 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
         $this->testResponseStatusUnprocessable();
 
         $query = static::getDefault();
-        unset($query['roles']);
+        unset($query[MenuApiDtoInterface::ROLES]);
         $this->post($query);
         $this->testResponseStatusUnprocessable();
 
         $query = static::getDefault();
-        unset($query['name']);
+        unset($query[MenuApiDtoInterface::NAME]);
         $this->post($query);
         $this->testResponseStatusUnprocessable();
 
         $query = static::getDefault();
-        unset($query['tag']);
+        unset($query[MenuApiDtoInterface::TAG]);
         $this->post($query);
         $this->testResponseStatusUnprocessable();
 
         $query = static::getDefault();
-        unset($query['route']);
-        unset($query['child_menu']);
+        unset($query[MenuApiDtoInterface::ROUTE]);
+        unset($query[MenuApiDtoInterface::CHILD_MENU]);
         $this->post($query);
         $this->testResponseStatusUnprocessable();
 
         $query = static::getDefault();
-        unset($query['route']);
-        unset($query['uri']);
+        unset($query[MenuApiDtoInterface::ROUTE]);
+        unset($query[MenuApiDtoInterface::URI]);
         $this->post($query);
         $this->testResponseStatusUnprocessable();
 
         $query = static::getDefault();
-        unset($query['route']);
-        $this->post(static::getDefault(['child_menu' => [['id' => Id::empty()]]]));
+        unset($query[MenuApiDtoInterface::ROUTE]);
+        $this->post(static::getDefault([MenuApiDtoInterface::CHILD_MENU => [[MenuApiDtoInterface::ID => Id::empty()]]]));
         $this->testResponseStatusUnprocessable();
     }
 
     public function actionCriteriaNotFound(): void
     {
-        $query = static::getDefault(['name' => Name::wrong()]);
-        unset($query['tag']);
-        unset($query['route']);
-        unset($query['id']);
+        $query = static::getDefault([MenuApiDtoInterface::NAME => Name::wrong()]);
+        unset($query[MenuApiDtoInterface::TAG]);
+        unset($query[MenuApiDtoInterface::ROUTE]);
+        unset($query[MenuApiDtoInterface::ID]);
 
         $response = $this->criteria($query);
         $this->testResponseStatusNotFound();
         Assert::assertArrayHasKey(ErrorModel::ERROR, $response);
 
-        $query = static::getDefault(['id' => Id::wrong()]);
-        unset($query['tag']);
-        unset($query['route']);
-        unset($query['name']);
+        $query = static::getDefault([MenuApiDtoInterface::ID => Id::wrong()]);
+        unset($query[MenuApiDtoInterface::TAG]);
+        unset($query[MenuApiDtoInterface::ROUTE]);
+        unset($query[MenuApiDtoInterface::NAME]);
 
         $response = $this->criteria($query);
         $this->testResponseStatusNotFound();
@@ -184,9 +185,9 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
     public function actionCriteria(): void
     {
         $query = static::getDefault();
-        unset($query['tag']);
-        unset($query['route']);
-        unset($query['name']);
+        unset($query[MenuApiDtoInterface::TAG]);
+        unset($query[MenuApiDtoInterface::ROUTE]);
+        unset($query[MenuApiDtoInterface::NAME]);
 
         $response = $this->criteria($query);
         $this->testResponseStatusOK();
@@ -194,12 +195,12 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
         Assert::assertCount(1, $response[PayloadModel::PAYLOAD]);
         $entity = $response[PayloadModel::PAYLOAD][0];
         $this->checkMenu($entity);
-        Assert::assertEquals($entity['id'], $query['id']);
+        Assert::assertEquals($entity[MenuApiDtoInterface::ID], $query[MenuApiDtoInterface::ID]);
 
         $query = static::getDefault();
-        unset($query['id']);
-        unset($query['route']);
-        unset($query['name']);
+        unset($query[MenuApiDtoInterface::ID]);
+        unset($query[MenuApiDtoInterface::ROUTE]);
+        unset($query[MenuApiDtoInterface::NAME]);
 
         $response = $this->criteria($query);
         $this->testResponseStatusOK();
@@ -207,14 +208,14 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
         Assert::assertCount(6, $response[PayloadModel::PAYLOAD]);
         foreach ($response[PayloadModel::PAYLOAD] as $entity) {
             $this->checkMenu($entity);
-            Assert::assertEquals($entity['tag'], $query['tag']);
+            Assert::assertEquals($entity[MenuApiDtoInterface::TAG], $query[MenuApiDtoInterface::TAG]);
         }
 
         $query = static::getDefault();
-        $query['route'] = 'route_test_0';
-        unset($query['id']);
-        unset($query['tag']);
-        unset($query['name']);
+        $query[MenuApiDtoInterface::ROUTE] = 'route_test_0';
+        unset($query[MenuApiDtoInterface::ID]);
+        unset($query[MenuApiDtoInterface::TAG]);
+        unset($query[MenuApiDtoInterface::NAME]);
 
         $response = $this->criteria($query);
         $this->testResponseStatusOK();
@@ -222,13 +223,13 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
         Assert::assertCount(1, $response[PayloadModel::PAYLOAD]);
         $entity = $response[PayloadModel::PAYLOAD][0];
         $this->checkMenu($entity);
-        Assert::assertEquals($entity['route'], $query['route']);
+        Assert::assertEquals($entity[MenuApiDtoInterface::ROUTE], $query[MenuApiDtoInterface::ROUTE]);
 
         $query = static::getDefault();
-        $query['name'] = Name::default();
-        unset($query['id']);
-        unset($query['tag']);
-        unset($query['route']);
+        $query[MenuApiDtoInterface::NAME] = Name::default();
+        unset($query[MenuApiDtoInterface::ID]);
+        unset($query[MenuApiDtoInterface::TAG]);
+        unset($query[MenuApiDtoInterface::ROUTE]);
 
         $response = $this->criteria($query);
         $this->testResponseStatusOK();
@@ -236,20 +237,20 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
         Assert::assertCount(12, $response[PayloadModel::PAYLOAD]);
         foreach ($response[PayloadModel::PAYLOAD] as $entity) {
             $this->checkMenu($entity);
-            Assert::assertThat(strtolower($entity['name']), Assert::stringContains(strtolower($query['name'])));
+            Assert::assertThat(strtolower($entity[MenuApiDtoInterface::NAME]), Assert::stringContains(strtolower($query[MenuApiDtoInterface::NAME])));
         }
 
         $query = static::getDefault();
-        $query['root'] = true;
-        unset($query['id']);
-        unset($query['tag']);
-        unset($query['route']);
-        unset($query['name']);
+        $query[MenuApiDtoInterface::ROUTE] = true;
+        unset($query[MenuApiDtoInterface::ID]);
+        unset($query[MenuApiDtoInterface::TAG]);
+        unset($query[MenuApiDtoInterface::ROUTE]);
+        unset($query[MenuApiDtoInterface::NAME]);
 
         $response = $this->criteria($query);
         $this->testResponseStatusOK();
         Assert::assertArrayHasKey(PayloadModel::PAYLOAD, $response);
-        Assert::assertCount(8, $response[PayloadModel::PAYLOAD]);
+        Assert::assertCount(12, $response[PayloadModel::PAYLOAD]);
         foreach ($response[PayloadModel::PAYLOAD] as $entity) {
             Assert::assertArrayNotHasKey('parent', $response);
             $this->checkMenu($entity);
@@ -260,8 +261,8 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
     {
         $find = $this->assertGet(Id::value());
 
-        $query = static::getDefault(['id' => Id::value()]);
-        unset($query['child_menu']);
+        $query = static::getDefault([MenuApiDtoInterface::ID => Id::value()]);
+        unset($query[MenuApiDtoInterface::CHILD_MENU]);
 
         $updated = $this->put($query);
         $this->testResponseStatusOK();
@@ -275,7 +276,7 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
 
         $find = $this->assertGet(Id::default());
 
-        $query = static::getDefault(['id' => Id::default(),  'child_menu' => array_merge($find[PayloadModel::PAYLOAD][0]['children'], [['id' => Id::value()]])]);
+        $query = static::getDefault([MenuApiDtoInterface::ID => Id::default(),  MenuApiDtoInterface::CHILD_MENU => array_merge($find[PayloadModel::PAYLOAD][0]['children'], [[MenuApiDtoInterface::ID => Id::value()]])]);
 
         $updated = $this->put($query);
         $this->testResponseStatusOK();
@@ -288,11 +289,11 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
 
         Assert::assertArrayHasKey('children', $criteria[PayloadModel::PAYLOAD][0]);
         usort($criteria[PayloadModel::PAYLOAD][0]['children'], function ($a, $b) {
-            return (int) ($a['id'] > $b['id']);
+            return (int) ($a[MenuApiDtoInterface::ID] > $b[MenuApiDtoInterface::ID]);
         });
         Assert::assertArrayHasKey('children', $updated[PayloadModel::PAYLOAD][0]);
         usort($updated[PayloadModel::PAYLOAD][0]['children'], function ($a, $b) {
-            return (int) ($a['id'] > $b['id']);
+            return (int) ($a[MenuApiDtoInterface::ID] > $b[MenuApiDtoInterface::ID]);
         });
 
         Assert::assertEquals($updated[PayloadModel::PAYLOAD], $criteria[PayloadModel::PAYLOAD]);

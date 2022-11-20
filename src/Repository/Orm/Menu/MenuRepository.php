@@ -15,8 +15,8 @@ namespace Evrinoma\MenuBundle\Repository\Orm\Menu;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Evrinoma\MenuBundle\Mediator\QueryMediatorInterface;
-use Evrinoma\MenuBundle\Repository\Menu\MenuRepositoryTrait;
 use Evrinoma\MenuBundle\Repository\Menu\MenuRepositoryInterface;
+use Evrinoma\MenuBundle\Repository\Menu\MenuRepositoryTrait;
 use Evrinoma\UtilsBundle\Repository\Orm\RepositoryWrapper;
 use Evrinoma\UtilsBundle\Repository\RepositoryWrapperInterface;
 

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Tests\Functional\Helper;
 
+use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Evrinoma\UtilsBundle\Model\Rest\ErrorModel;
 use Evrinoma\UtilsBundle\Model\Rest\PayloadModel;
 use PHPUnit\Framework\Assert;
@@ -56,17 +57,17 @@ trait BaseMenuTestTrait
 
     protected function checkMenu($entity): void
     {
-        Assert::assertArrayHasKey('id', $entity);
-        Assert::assertArrayHasKey('name', $entity);
-        Assert::assertArrayHasKey('route_parameters', $entity);
-        Assert::assertArrayHasKey('attributes', $entity);
-        Assert::assertArrayHasKey('tag', $entity);
+        Assert::assertArrayHasKey(MenuApiDtoInterface::ID, $entity);
+        Assert::assertArrayHasKey(MenuApiDtoInterface::NAME, $entity);
+        Assert::assertArrayHasKey(MenuApiDtoInterface::ROUTE_PARAMETERS, $entity);
+        Assert::assertArrayHasKey(MenuApiDtoInterface::ATTRIBUTES, $entity);
+        Assert::assertArrayHasKey(MenuApiDtoInterface::TAG, $entity);
         Assert::assertArrayHasKey('children', $entity);
-        Assert::assertArrayHasKey('roles', $entity);
+        Assert::assertArrayHasKey(MenuApiDtoInterface::ROLES, $entity);
         if (0 === \count($entity['children'])) {
-            Assert::assertArrayHasKey('route', $entity);
+            Assert::assertArrayHasKey(MenuApiDtoInterface::ROUTE, $entity);
         } else {
-            Assert::assertArrayHasKey('uri', $entity);
+            Assert::assertArrayHasKey(MenuApiDtoInterface::URI, $entity);
         }
     }
 }
