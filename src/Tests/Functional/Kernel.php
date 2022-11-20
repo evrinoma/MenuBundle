@@ -28,7 +28,12 @@ class Kernel extends AbstractApiKernel
      */
     public function registerBundles()
     {
-        return array_merge(parent::registerBundles(), [new \Evrinoma\DtoBundle\EvrinomaDtoBundle(), new \Evrinoma\MenuBundle\EvrinomaMenuBundle()]);
+        return array_merge(
+            parent::registerBundles(), [
+                new \Evrinoma\DtoBundle\EvrinomaDtoBundle(),
+                new \Evrinoma\MenuBundle\EvrinomaMenuBundle(),
+            ]
+        );
     }
 
     protected function getBundleConfig(): array
