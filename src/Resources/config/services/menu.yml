@@ -15,7 +15,6 @@ services:
   evrinoma.menu.facade:
     class: Evrinoma\MenuBundle\Facade\Menu\Facade
     arguments:
-      - '@doctrine'
       - '@evrinoma.menu.command.manager'
       - '@evrinoma.menu.query.manager'
       - '@evrinoma.menu.provider.dto'

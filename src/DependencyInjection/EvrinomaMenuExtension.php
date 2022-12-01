@@ -21,6 +21,8 @@ use Evrinoma\MenuBundle\Factory\MenuFactory;
 use Evrinoma\MenuBundle\Menu\PredefinedMenu;
 use Evrinoma\MenuBundle\Repository\Menu\MenuCommandRepositoryInterface;
 use Evrinoma\MenuBundle\Repository\Menu\MenuQueryRepositoryInterface;
+use Evrinoma\UtilsBundle\Adaptor\AdaptorRegistry;
+use Evrinoma\UtilsBundle\Adaptor\AdaptorRegistryInterface;
 use Evrinoma\UtilsBundle\DependencyInjection\HelperTrait;
 use Evrinoma\UtilsBundle\Handler\BaseHandler;
 use Symfony\Component\Config\FileLocator;
@@ -85,6 +87,14 @@ class EvrinomaMenuExtension extends Extension
             $container->setParameter('evrinoma.'.$this->getAlias().'.backend_type_'.$config['db_driver'], true);
             $objectManager = $container->getDefinition('evrinoma.'.$this->getAlias().'.object_manager');
             $objectManager->setFactory([$registry, 'getManager']);
+        }
+
+        if (isset(self::$doctrineDrivers[$config['db_driver']]) && 'api' === $config['db_driver']) {
+            // @ToDo
+        }
+
+        if (null !== $registry) {
+            $this->wireAdaptorRegistry($container, $registry);
         }
 
         $this->remapParametersNamespaces(
@@ -173,6 +183,15 @@ class EvrinomaMenuExtension extends Extension
                 }
             }
         }
+    }
+
+    private function wireAdaptorRegistry(ContainerBuilder $container, Reference $registry): void
+    {
+        $definitionAdaptor = new Definition(AdaptorRegistry::class);
+        $definitionAdaptor->addArgument($registry);
+        $alias = new Alias('evrinoma.'.$this->getAlias().'.adaptor');
+        $container->addDefinitions(['evrinoma.'.$this->getAlias().'.adaptor' => $definitionAdaptor]);
+        $container->addAliases([AdaptorRegistryInterface::class => $alias]);
     }
 
     private function wireBridge(ContainerBuilder $container, string $class): void
