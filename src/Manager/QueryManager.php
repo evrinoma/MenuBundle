@@ -80,7 +80,7 @@ final class QueryManager implements QueryManagerInterface
     public function get(MenuApiDtoInterface $dto): MenuInterface
     {
         try {
-            $menu = $this->repository->find($dto->getId());
+            $menu = $this->repository->find($dto->idToString());
         } catch (MenuNotFoundException $e) {
             throw $e;
         }

@@ -86,7 +86,7 @@ final class CommandManager implements CommandManagerInterface
     public function put(MenuApiDtoInterface $dto): MenuInterface
     {
         try {
-            $menu = $this->repository->find($dto->getId());
+            $menu = $this->repository->find($dto->idToString());
         } catch (MenuNotFoundException $e) {
             throw $e;
         }
@@ -115,7 +115,7 @@ final class CommandManager implements CommandManagerInterface
     public function delete(MenuApiDtoInterface $dto): void
     {
         try {
-            $menu = $this->repository->find($dto->getId());
+            $menu = $this->repository->find($dto->idToString());
         } catch (MenuNotFoundException $e) {
             throw $e;
         }
