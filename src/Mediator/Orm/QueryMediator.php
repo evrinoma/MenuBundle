@@ -11,11 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Evrinoma\MenuBundle\Mediator;
+namespace Evrinoma\MenuBundle\Mediator\Orm;
 
 use Doctrine\ORM\QueryBuilder;
 use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
+use Evrinoma\MenuBundle\Mediator\QueryMediatorInterface;
 use Evrinoma\MenuBundle\Repository\AliasInterface;
 use Evrinoma\UtilsBundle\Mediator\AbstractQueryMediator;
 use Evrinoma\UtilsBundle\Mediator\Orm\QueryMediatorTrait;

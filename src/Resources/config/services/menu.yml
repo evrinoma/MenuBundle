@@ -60,16 +60,13 @@ services:
   Evrinoma\MenuBundle\Validator\MenuValidator:
     alias: evrinoma.menu.validator
 
-  evrinoma.menu.query.mediator:
-    class: Evrinoma\MenuBundle\Mediator\QueryMediator
+  evrinoma.menu.query.orm.mediator:
+    class: Evrinoma\MenuBundle\Mediator\Orm\QueryMediator
     public: true
     arguments:
 
-  Evrinoma\MenuBundle\Mediator\QueryMediator:
-    alias: evrinoma.menu.query.mediator
-
-  Evrinoma\MenuBundle\Mediator\QueryMediatorInterface:
-    alias: evrinoma.menu.query.mediator
+  Evrinoma\MenuBundle\Mediator\Orm\QueryMediator:
+    alias: evrinoma.menu.query.orm.mediator
 
   evrinoma.menu.command.mediator:
     class: Evrinoma\MenuBundle\Mediator\CommandMediator
