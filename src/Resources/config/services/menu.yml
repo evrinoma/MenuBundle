@@ -18,6 +18,7 @@ services:
       - '@evrinoma.menu.command.manager'
       - '@evrinoma.menu.query.manager'
       - '@evrinoma.menu.provider.dto'
+      - '@evrinoma.menu.adaptor'
     autowire: true
 
   Evrinoma\MenuBundle\Facade\Menu\FacadeInterface:

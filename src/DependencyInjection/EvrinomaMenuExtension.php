@@ -23,7 +23,6 @@ use Evrinoma\MenuBundle\Menu\PredefinedMenu;
 use Evrinoma\MenuBundle\Repository\Menu\MenuCommandRepositoryInterface;
 use Evrinoma\MenuBundle\Repository\Menu\MenuQueryRepositoryInterface;
 use Evrinoma\UtilsBundle\Adaptor\AdaptorRegistry;
-use Evrinoma\UtilsBundle\Adaptor\AdaptorRegistryInterface;
 use Evrinoma\UtilsBundle\DependencyInjection\HelperTrait;
 use Evrinoma\UtilsBundle\Handler\BaseHandler;
 use Symfony\Component\Config\FileLocator;
@@ -198,9 +197,7 @@ class EvrinomaMenuExtension extends Extension
     {
         $definitionAdaptor = new Definition(AdaptorRegistry::class);
         $definitionAdaptor->addArgument($registry);
-        $alias = new Alias('evrinoma.'.$this->getAlias().'.adaptor');
         $container->addDefinitions(['evrinoma.'.$this->getAlias().'.adaptor' => $definitionAdaptor]);
-        $container->addAliases([AdaptorRegistryInterface::class => $alias]);
     }
 
     private function wireBridge(ContainerBuilder $container, string $class): void
