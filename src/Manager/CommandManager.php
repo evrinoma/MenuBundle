@@ -19,7 +19,7 @@ use Evrinoma\MenuBundle\Exception\MenuCannotBeRemovedException;
 use Evrinoma\MenuBundle\Exception\MenuCannotBeSavedException;
 use Evrinoma\MenuBundle\Exception\MenuInvalidException;
 use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
-use Evrinoma\MenuBundle\Factory\MenuFactoryInterface;
+use Evrinoma\MenuBundle\Factory\Menu\FactoryInterface;
 use Evrinoma\MenuBundle\Mediator\CommandMediatorInterface;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
 use Evrinoma\MenuBundle\Repository\Menu\MenuRepositoryInterface;
@@ -29,16 +29,16 @@ final class CommandManager implements CommandManagerInterface
 {
     private MenuRepositoryInterface $repository;
     private ValidatorInterface            $validator;
-    private MenuFactoryInterface           $factory;
+    private FactoryInterface           $factory;
     private CommandMediatorInterface      $mediator;
 
     /**
      * @param ValidatorInterface       $validator
      * @param MenuRepositoryInterface  $repository
-     * @param MenuFactoryInterface     $factory
+     * @param FactoryInterface         $factory
      * @param CommandMediatorInterface $mediator
      */
-    public function __construct(ValidatorInterface $validator, MenuRepositoryInterface $repository, MenuFactoryInterface $factory, CommandMediatorInterface $mediator)
+    public function __construct(ValidatorInterface $validator, MenuRepositoryInterface $repository, FactoryInterface $factory, CommandMediatorInterface $mediator)
     {
         $this->validator = $validator;
         $this->repository = $repository;

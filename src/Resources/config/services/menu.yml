@@ -25,7 +25,7 @@ services:
     alias: evrinoma.menu.facade
 
   evrinoma.menu.factory:
-    class: Evrinoma\MenuBundle\Factory\MenuFactory
+    class: Evrinoma\MenuBundle\Factory\Menu\Factory
     public: true
     arguments:
 

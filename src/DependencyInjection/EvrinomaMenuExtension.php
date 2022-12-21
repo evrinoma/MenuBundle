@@ -17,7 +17,7 @@ use Evrinoma\MenuBundle\Dto\MenuApiDto;
 use Evrinoma\MenuBundle\Dto\Preserve\MenuApiDto as PreserveMenuApiDto;
 use Evrinoma\MenuBundle\Entity\Menu\BaseMenu;
 use Evrinoma\MenuBundle\EvrinomaMenuBundle;
-use Evrinoma\MenuBundle\Factory\MenuFactory;
+use Evrinoma\MenuBundle\Factory\Menu\Factory as MenuFactory;
 use Evrinoma\MenuBundle\Mediator\QueryMediatorInterface;
 use Evrinoma\MenuBundle\Menu\PredefinedMenu;
 use Evrinoma\MenuBundle\Repository\Menu\MenuCommandRepositoryInterface;

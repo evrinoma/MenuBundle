@@ -2,7 +2,7 @@
 
     menu:
         db_driver: orm модель данных
-        factory: App\Menu\Factory\MenuFactory фабрика для создания объектов,
+        factory: App\Menu\Factory\Menu\Factory фабрика для создания объектов,
                  недостающие значения можно разрешить только на уровне Mediator
         entity: App\Menu\Entity\Menu сущность
         constraints: Вкл/выкл проверки полей сущности по умолчанию

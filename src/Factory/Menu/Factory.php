@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Evrinoma\MenuBundle\Factory;
+namespace Evrinoma\MenuBundle\Factory\Menu;
 
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Evrinoma\MenuBundle\Entity\Menu\BaseMenu;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
 
-class MenuFactory implements MenuFactoryInterface
+class Factory implements FactoryInterface
 {
     private static string $entityClass = BaseMenu::class;
 
