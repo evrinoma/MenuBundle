@@ -161,7 +161,7 @@ class MenuFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
         $referenceName = self::getReferenceName();
         $i = 0;
 
-        $this->entityGenerator($manager, $referenceName, $i, static::$data);
+        $this->entityGenerator($manager, $referenceName, $i, $this->getData());
 
         return $this;
     }
@@ -170,7 +170,7 @@ class MenuFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
     {
         foreach ($data as $record) {
             /** @var MenuInterface $entity */
-            $entity = new static::$class();
+            $entity = $this->getEntity();
 
             $entity
                 ->setName($record[MenuApiDtoInterface::NAME])
@@ -194,6 +194,8 @@ class MenuFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
                     ->setRoute($record[MenuApiDtoInterface::ROUTE])
                     ->setUri();
             }
+
+            $this->expandEntity($entity);
 
             $this->addReference($referenceName.$i, $entity);
             $manager->persist($entity);
