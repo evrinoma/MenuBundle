@@ -25,6 +25,8 @@ trait ChildMenuApiDtoTrait
      */
     protected array $childMenuApiDto = [];
 
+    protected static string $classMenusApiDto = MenuApiDto::class;
+
     /**
      * @return \Generator
      */
@@ -35,7 +37,7 @@ trait ChildMenuApiDtoTrait
             if ($child) {
                 foreach ($child as $menu) {
                     $newRequest = $this->getCloneRequest();
-                    $menu[DtoInterface::DTO_CLASS] = MenuApiDto::class;
+                    $menu[DtoInterface::DTO_CLASS] = static::$classMenusApiDto;
                     $newRequest->request->add($menu);
 
                     yield $newRequest;
