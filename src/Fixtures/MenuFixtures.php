@@ -195,7 +195,7 @@ class MenuFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
                     ->setUri();
             }
 
-            $this->expandEntity($entity);
+            $this->expandEntity($entity, $record);
 
             $this->addReference($referenceName.$i, $entity);
             $manager->persist($entity);
