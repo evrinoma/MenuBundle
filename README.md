@@ -23,7 +23,7 @@
                  недостающие значения можно разрешить только на уровне Mediator
         entity: App\Menu\Entity\Menu сущность
         constraints: Вкл/выкл проверки полей сущности по умолчанию
-        dto_class: App\Menu\Dto\MenuDto класс dto с которым работает сущность
+        dto: App\Menu\Dto\MenuDto класс dto с которым работает сущность
         preserve_dto: App\Menu\Dto\Preserve\MenuDto мутабельный класс dto используется для генерации пользователя через консольную команду
         decorates:
           command - декоратор mediator команд пользователя 
