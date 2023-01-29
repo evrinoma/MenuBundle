@@ -341,7 +341,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
      *             type="array",
      *             @OA\Items(
      *                 type="string",
-     *                 ref=@Model(type=Evrinoma\MenuBundle\Form\Rest\MenuTagChoiceType::class),
+     *                 ref=@Model(type=Evrinoma\MenuBundle\Form\Rest\MenuTagChoiceType::class, options={"data": "tag"}),
      *             ),
      *         ),
      *         style="form"

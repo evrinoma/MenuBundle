@@ -13,7 +13,8 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Form\Rest;
 
-use Evrinoma\MenuBundle\Dto\Preserve\MenuApiDto;
+use Doctrine\DBAL\Exception\TableNotFoundException;
+use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Evrinoma\MenuBundle\Exception\MenuTagNotFoundException;
 use Evrinoma\MenuBundle\Manager\QueryManagerInterface;
 use Evrinoma\UtilsBundle\Form\Rest\RestChoiceType;
@@ -23,29 +24,40 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuTagChoiceType extends AbstractType
 {
-    /**
-     * @var QueryManagerInterface
-     */
+    protected static string $dtoClass;
+
     private QueryManagerInterface $queryManager;
 
-    /**
-     * ServerType constructor.
-     */
-    public function __construct(QueryManagerInterface $queryManager)
+    public function __construct(QueryManagerInterface $queryManager, string $dtoClass)
     {
         $this->queryManager = $queryManager;
+        static::$dtoClass = $dtoClass;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $callback = function (Options $options) {
+            $value = [];
             try {
-                $tags = $this->queryManager->tags(new MenuApiDto());
-            } catch (MenuTagNotFoundException $exception) {
-                $tags = [];
+                if ($options->offsetExists('data')) {
+                    switch ($options->offsetGet('data')) {
+                        case MenuApiDtoInterface::TAG:
+                            $value = $this->queryManager->tags(new static::$dtoClass());
+                            break;
+                        default:
+                            $criteria = $this->queryManager->criteria(new static::$dtoClass());
+                            foreach ($criteria as $entity) {
+                                $value[] = $entity->getId();
+                            }
+                    }
+                } else {
+                    throw new MenuTagNotFoundException();
+                }
+            } catch (TableNotFoundException|MenuTagNotFoundException $e) {
+                $value = RestChoiceType::REST_CHOICES_DEFAULT;
             }
 
-            return $tags;
+            return $value;
         };
         $resolver->setDefault(RestChoiceType::REST_COMPONENT_NAME, 'tag');
         $resolver->setDefault(RestChoiceType::REST_DESCRIPTION, 'tagList');

@@ -92,14 +92,14 @@ services:
   Evrinoma\MenuBundle\PreValidator\DtoPreValidatorInterface:
     alias: evrinoma.menu.pre.validator
 
-  evrinoma.menu.form.rest.tag:
+  evrinoma.menu.menu.form.rest.tag:
     class: Evrinoma\MenuBundle\Form\Rest\MenuTagChoiceType
     arguments:
       - '@evrinoma.menu.query.manager'
     tags: { - name: form.type }
 
   Evrinoma\MenuBundle\Form\Rest\MenuTagChoiceType:
-    alias: evrinoma.menu.form.rest.tag
+    alias: evrinoma.menu.menu.form.rest.tag
     public: true
 
   evrinoma.menu.object.registry:
