@@ -61,16 +61,24 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
         $this->createMenu();
         $this->testResponseStatusCreated();
 
-        $query = static::getDefault([MenuApiDtoInterface::NAME => 'nameA', MenuApiDtoInterface::CHILD_MENU => [[MenuApiDtoInterface::ID => '1'], [MenuApiDtoInterface::ID => '2']]]);
+        $query = static::getDefault([
+            MenuApiDtoInterface::NAME => 'nameA',
+            MenuApiDtoInterface::CHILD_MENU => [[MenuApiDtoInterface::ID => '1'], [MenuApiDtoInterface::ID => '2']],
+        ]);
         $this->post($query);
         $this->testResponseStatusCreated();
 
-        $query = static::getDefault([MenuApiDtoInterface::NAME => 'nameB', MenuApiDtoInterface::CHILD_MENU => []]);
+        $query = static::getDefault([
+            MenuApiDtoInterface::NAME => 'nameB',
+            MenuApiDtoInterface::CHILD_MENU => [],
+        ]);
 
         $this->post($query);
         $this->testResponseStatusCreated();
 
-        $query = static::getDefault([MenuApiDtoInterface::NAME => 'nameC']);
+        $query = static::getDefault([
+            MenuApiDtoInterface::NAME => 'nameC',
+        ]);
         unset($query[MenuApiDtoInterface::CHILD_MENU]);
         $this->post($query);
         $this->testResponseStatusCreated();
@@ -107,19 +115,23 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
 
     public function actionDeleteUnprocessable(): void
     {
-        $this->delete(Id::empty());
+        $this->delete(Id::blank());
         $this->testResponseStatusUnprocessable();
     }
 
     public function actionPutNotFound(): void
     {
-        $updated = $this->put(static::getDefault([MenuApiDtoInterface::ID => Id::wrong()]));
+        $updated = $this->put(static::getDefault([
+            MenuApiDtoInterface::ID => Id::wrong(),
+        ]));
         $this->testResponseStatusNotFound();
     }
 
     public function actionPutUnprocessable(): void
     {
-        $updated = $this->put(static::getDefault([MenuApiDtoInterface::ID => Id::empty()]));
+        $updated = $this->put(static::getDefault([
+            MenuApiDtoInterface::ID => Id::blank(),
+        ]));
         $this->testResponseStatusUnprocessable();
     }
 
@@ -157,7 +169,9 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
 
         $query = static::getDefault();
         unset($query[MenuApiDtoInterface::ROUTE]);
-        $this->post(static::getDefault([MenuApiDtoInterface::CHILD_MENU => [[MenuApiDtoInterface::ID => Id::empty()]]]));
+        $this->post(static::getDefault([
+            MenuApiDtoInterface::CHILD_MENU => [[MenuApiDtoInterface::ID => Id::blank()]],
+        ]));
         $this->testResponseStatusUnprocessable();
     }
 
@@ -276,7 +290,10 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
 
         $find = $this->assertGet(Id::default());
 
-        $query = static::getDefault([MenuApiDtoInterface::ID => Id::default(),  MenuApiDtoInterface::CHILD_MENU => array_merge($find[PayloadModel::PAYLOAD][0]['children'], [[MenuApiDtoInterface::ID => Id::value()]])]);
+        $query = static::getDefault([
+            MenuApiDtoInterface::ID => Id::default(),
+            MenuApiDtoInterface::CHILD_MENU => array_merge($find[PayloadModel::PAYLOAD][0]['children'], [[MenuApiDtoInterface::ID => Id::value()]]),
+        ]);
 
         $updated = $this->put($query);
         $this->testResponseStatusOK();
