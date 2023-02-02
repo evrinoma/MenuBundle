@@ -158,7 +158,7 @@ class MenuFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
      */
     protected function create(ObjectManager $manager): self
     {
-        $referenceName = self::getReferenceName();
+        $referenceName = static::getReferenceName();
         $i = 0;
 
         $this->entityGenerator($manager, $referenceName, $i, $this->getData());
