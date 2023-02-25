@@ -23,7 +23,6 @@ use Evrinoma\MenuBundle\Facade\Menu\FacadeInterface;
 use Evrinoma\MenuBundle\Serializer\GroupInterface;
 use Evrinoma\UtilsBundle\Controller\AbstractWrappedApiController;
 use Evrinoma\UtilsBundle\Controller\ApiControllerInterface;
-use Evrinoma\UtilsBundle\Rest\RestInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use JMS\Serializer\SerializerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -57,7 +56,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
     }
 
     /**
-     * @param \Exception    $e
+     * @param \Exception $e
      *
      * @return array
      */
