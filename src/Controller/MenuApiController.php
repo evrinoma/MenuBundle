@@ -57,7 +57,6 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
     }
 
     /**
-     * @param RestInterface $manager
      * @param \Exception    $e
      *
      * @return array
@@ -142,6 +141,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
         try {
             $this->facade->post($menuApiDto, $group, $json);
         } catch (\Exception $e) {
+            $json = [];
             $error = $this->setRestStatus($e);
         }
 
@@ -206,6 +206,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
         try {
             $this->facade->put($menuApiDto, $group, $json);
         } catch (\Exception $e) {
+            $json = [];
             $error = $this->setRestStatus($e);
         }
 
@@ -255,6 +256,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
         try {
             $this->facade->delete($menuApiDto, '', $json);
         } catch (\Exception $e) {
+            $json = [];
             $error = $this->setRestStatus($e);
         }
 
@@ -280,6 +282,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
         try {
             $this->facade->remove(new $this->dtoClass(), '', $json);
         } catch (\Exception $e) {
+            $json = [];
             $error = $this->setRestStatus($e);
         }
 
@@ -363,6 +366,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
         try {
             $this->facade->criteria($menuApiDto, $group, $json);
         } catch (\Exception $e) {
+            $json = [];
             $error = $this->setRestStatus($e);
         }
 
@@ -411,6 +415,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
         try {
             $this->facade->get($menuApiDto, $group, $json);
         } catch (\Exception $e) {
+            $json = [];
             $error = $this->setRestStatus($e);
         }
 
@@ -435,6 +440,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
         try {
             $this->facade->registry($group, $json);
         } catch (\Exception $e) {
+            $json = [];
             $error = $this->setRestStatus($e);
         }
 
