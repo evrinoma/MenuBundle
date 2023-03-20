@@ -16,7 +16,7 @@ namespace Evrinoma\MenuBundle\Dto;
 use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\DtoCommon\ValueObject\Immutable\IdInterface;
 use Evrinoma\DtoCommon\ValueObject\Immutable\NameInterface;
-use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\AttributesInterface;
+use Evrinoma\DtoCommon\ValueObject\Immutable\AttributesInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\ChildMenuApiDtoInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\RolesInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable\RootInterface;
