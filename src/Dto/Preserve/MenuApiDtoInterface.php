@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Evrinoma\MenuBundle\Dto\Preserve;
 
 use Evrinoma\DtoBundle\Dto\DtoInterface;
+use Evrinoma\DtoCommon\ValueObject\Mutable\AttributesInterface;
 use Evrinoma\DtoCommon\ValueObject\Mutable\IdInterface;
 use Evrinoma\DtoCommon\ValueObject\Mutable\NameInterface;
-use Evrinoma\DtoCommon\ValueObject\Mutable\AttributesInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\ChildMenuApiDtoInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RolesInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RootInterface;
