@@ -13,12 +13,13 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\Model\Menu;
 
+use Evrinoma\UtilsBundle\Entity\AttributesInterface;
 use Evrinoma\UtilsBundle\Entity\IdInterface;
 use Evrinoma\UtilsBundle\Entity\NameInterface;
 use Evrinoma\UtilsBundle\Entity\RelationInterface;
 use Evrinoma\UtilsBundle\Entity\RolesInterface;
 
-interface MenuInterface extends IdInterface, RolesInterface, RelationInterface, NameInterface
+interface MenuInterface extends IdInterface, RolesInterface, RelationInterface, NameInterface, AttributesInterface
 {
     /**
      * @return string
@@ -41,11 +42,6 @@ interface MenuInterface extends IdInterface, RolesInterface, RelationInterface, 
     public function getUri(): ?string;
 
     /**
-     * @return array|null
-     */
-    public function getAttributes(): ?array;
-
-    /**
      * @return array
      */
     public function toRoute(): array;
@@ -59,11 +55,6 @@ interface MenuInterface extends IdInterface, RolesInterface, RelationInterface, 
      * @return array
      */
     public function toRouteParameters(): array;
-
-    /**
-     * @return array
-     */
-    public function toAttributes(): array;
 
     /**
      * @return array
@@ -90,13 +81,6 @@ interface MenuInterface extends IdInterface, RolesInterface, RelationInterface, 
      * @return MenuInterface
      */
     public function setUri(string $uri = null): MenuInterface;
-
-    /**
-     * @param array $attributes
-     *
-     * @return MenuInterface
-     */
-    public function setAttributes(array $attributes): MenuInterface;
 
     /**
      * @param array $routeParameters

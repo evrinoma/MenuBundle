@@ -15,6 +15,7 @@ namespace Evrinoma\MenuBundle\Model\Menu;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Evrinoma\UtilsBundle\Entity\AttributesTrait;
 use Evrinoma\UtilsBundle\Entity\IdTrait;
 use Evrinoma\UtilsBundle\Entity\NameTrait;
 use Evrinoma\UtilsBundle\Entity\RelationTrait;
@@ -25,6 +26,7 @@ use Evrinoma\UtilsBundle\Entity\RolesTrait;
  */
 abstract class AbstractMenuItem implements MenuInterface
 {
+    use AttributesTrait;
     use IdTrait;
     use NameTrait;
     use RelationTrait;
@@ -67,13 +69,6 @@ abstract class AbstractMenuItem implements MenuInterface
     protected ?string $uri = null;
 
     /**
-     * @var array|null
-     *
-     * @ORM\Column(name="attributes", type="array", nullable=true)
-     */
-    protected ?array $attributes = null;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="tag", type="string")
@@ -113,14 +108,6 @@ abstract class AbstractMenuItem implements MenuInterface
     }
 
     /**
-     * @return array|null
-     */
-    public function getAttributes(): ?array
-    {
-        return $this->attributes;
-    }
-
-    /**
      * @return array
      */
     public function toRoute(): array
@@ -142,14 +129,6 @@ abstract class AbstractMenuItem implements MenuInterface
     public function toRouteParameters(): array
     {
         return $this->getRouteParameters() ? ['routeParameters' => $this->getRouteParameters()] : [];
-    }
-
-    /**
-     * @return array|null
-     */
-    public function toAttributes(): array
-    {
-        return $this->getAttributes() ? ['attributes' => $this->getAttributes()] : [];
     }
 
     public function getOptions(): array
@@ -189,18 +168,6 @@ abstract class AbstractMenuItem implements MenuInterface
     public function setUri(string $uri = null): MenuInterface
     {
         $this->uri = $uri;
-
-        return $this;
-    }
-
-    /**
-     * @param array $attributes
-     *
-     * @return MenuInterface
-     */
-    public function setAttributes(array $attributes): MenuInterface
-    {
-        $this->attributes = $attributes;
 
         return $this;
     }
