@@ -199,7 +199,7 @@ class MenuFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
 
             $this->addReference($referenceName.$i, $entity);
             $manager->persist($entity);
-            ++$i;
+            $i++;
         }
     }
 }
