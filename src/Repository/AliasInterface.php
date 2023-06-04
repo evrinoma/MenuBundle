@@ -16,4 +16,5 @@ namespace Evrinoma\MenuBundle\Repository;
 interface AliasInterface
 {
     public const MENU = 'menu';
+    public const MENUS = AliasInterface::MENU . 's';
 }
