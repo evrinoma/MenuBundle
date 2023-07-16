@@ -1,0 +1,52 @@
+Evrinoma\MenuBundle\Model\Menu\AbstractMenuItem:
+  exclusion_policy: ALL
+  properties:
+    id:
+      groups: [
+        API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
+      ]
+      expose: true
+    name:
+      groups: [
+        API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
+      ]
+    parent:
+      type: Evrinoma\MenuBundle\Entity\Menu\BaseMenu
+      groups: [
+        API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
+      ]
+      expose: true
+    children:
+      type: ArrayCollection<Evrinoma\MenuBundle\Entity\Menu\BaseMenu>
+      groups: [
+        API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
+      ]
+      expose: true
+    uri:
+      groups: [
+        API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
+      ]
+      expose: true
+    route:
+      groups: [
+          API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU
+      ]
+    routeParameters:
+      groups: [
+        API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
+      ]
+    attributes:
+      groups: [
+        API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
+      ]
+      expose: true
+    roles:
+      groups: [
+        API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
+      ]
+      expose: true
+    tag:
+      groups: [
+        API_GET_MENU, API_POST_MENU, API_PUT_MENU, APP_GET_BASIC_MENU, API_POST_REGISTRY_MENU,
+      ]
+      expose: true

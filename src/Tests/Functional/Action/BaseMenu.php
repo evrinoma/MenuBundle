@@ -313,6 +313,13 @@ class BaseMenu extends AbstractServiceTest implements BaseMenuTestInterface
             return (int) ($a[MenuApiDtoInterface::ID] > $b[MenuApiDtoInterface::ID]);
         });
 
+        foreach ($updated[PayloadModel::PAYLOAD][0]['children'] as $key => $child) {
+            usort($child['parent']['children'], function ($a, $b) {
+                return (int) ($a[MenuApiDtoInterface::ID] > $b[MenuApiDtoInterface::ID]);
+            });
+            $updated[PayloadModel::PAYLOAD][0]['children'][$key] = $child;
+        }
+
         Assert::assertEquals($updated[PayloadModel::PAYLOAD], $criteria[PayloadModel::PAYLOAD]);
     }
 

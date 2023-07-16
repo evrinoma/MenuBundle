@@ -6,7 +6,7 @@ services:
   evrinoma.menu.api.controller:
     class: Evrinoma\MenuBundle\Controller\MenuApiController
     arguments:
-      - '@jms_serializer'
+      - '@evrinoma.utils.serializer'
       - '@request_stack'
       - '@evrinoma.dto.factory'
       - '@evrinoma.menu.facade'
@@ -139,3 +139,11 @@ services:
     arguments:
       - '@evrinoma.menu.facade'
     autowire: true
+
+  evrinoma.menu.serializer.menu:
+    class: Evrinoma\MenuBundle\Serializer\Symfony\ConfigurationMenu
+    public: true
+    arguments:
+      - '%kernel.project_dir%'
+    tags:
+      - { name: 'evrinoma.serializer' }
