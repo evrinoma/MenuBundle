@@ -1,0 +1,6 @@
+services:
+  evrinoma.menu.serializer.menu:
+    class: Evrinoma\MenuBundle\Serializer\Symfony\ConfigurationMenu
+    public: true
+    tags:
+      - { name: 'evrinoma.serializer' }

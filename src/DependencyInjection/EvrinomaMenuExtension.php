@@ -124,6 +124,11 @@ class EvrinomaMenuExtension extends Extension
 //
 //        $this->wireConstraintTag($container);
 
+        if ($config['serializer']['enabled']) {
+            $loader->load('serializers.yml');
+            $this->wireSerializer($container, $config['serializer']['path']);
+        }
+
         $this->wireForm($container, $config['dto'], 'menu', 'tag');
 
         $this->wireBridge($container, $config['preserve_dto']);
@@ -206,6 +211,16 @@ class EvrinomaMenuExtension extends Extension
     {
         $definitionBridgeCreate = $container->getDefinition('evrinoma.'.$this->getAlias().'.bridge.create');
         $definitionBridgeCreate->setArgument(1, $class);
+    }
+
+    private function wireSerializer(ContainerBuilder $container, string $path): void
+    {
+        foreach ($container->findTaggedServiceIds('evrinoma.serializer') as $key => $item) {
+            if (strcmp('evrinoma.'.$this->getAlias(), $key)) {
+                $definition = $container->getDefinition($key);
+                $definition->setArgument(0, $path);
+            }
+        }
     }
 
 //    private function wireConstraintTag(ContainerBuilder $container): void
