@@ -3,4 +3,4 @@ jms_serializer:
     directories:
       MenuBundle:
         namespace_prefix: "Evrinoma\\MenuBundle"
-        path: '%kernel.root_dir%/src/Serializer/JMS/serializer/MenuBundle'
+        path: '%kernel.root_dir%/src/Resources/serializer/JMS/serializer/MenuBundle'

@@ -17,5 +17,5 @@ use Evrinoma\UtilsBundle\Serialize\AbstractConfiguration;
 
 class ConfigurationMenu extends AbstractConfiguration
 {
-    protected string $fileName = '/src/Serializer/Symfony/yml/MenuBundle/Model.Menu.AbstractMenuItem.yml';
+    protected string $fileName = '/src/Resources/serializer/Symfony/serializer/MenuBundle/Model.Menu.AbstractMenuItem.yml';
 }

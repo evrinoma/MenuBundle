@@ -140,10 +140,3 @@ services:
       - '@evrinoma.menu.facade'
     autowire: true
 
-  evrinoma.menu.serializer.menu:
-    class: Evrinoma\MenuBundle\Serializer\Symfony\ConfigurationMenu
-    public: true
-    arguments:
-      - '%kernel.project_dir%'
-    tags:
-      - { name: 'evrinoma.serializer' }
