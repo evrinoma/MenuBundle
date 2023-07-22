@@ -15,6 +15,9 @@ namespace Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable;
 
 trait RolesTrait
 {
+    /**
+     * @var string[]
+     */
     private array $roles = [];
 
     /**

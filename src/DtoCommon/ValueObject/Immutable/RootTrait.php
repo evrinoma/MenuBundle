@@ -15,7 +15,7 @@ namespace Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable;
 
 trait RootTrait
 {
-    private ?bool  $root = null;
+    private ?bool $root = null;
 
     /**
      * @return bool

@@ -15,6 +15,9 @@ namespace Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable;
 
 trait RouteParametersTrait
 {
+    /**
+     * @var string[]
+     */
     private array $routeParameters = [];
 
     /**
