@@ -115,7 +115,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
      *                 @OA\Property(
      *                     property="child_menu",
      *                     type="array",
-     *                     @OA\Items(type="object", ref=@Model(type=Evrinoma\MenuBundle\Dto\MenuApiDto::class))
+     *                     @OA\Items(type="object", @OA\Property(property="id", type="string", example="2"))
      *                 ),
      *                 @OA\Property(property="tag", type="string")
      *             )
@@ -182,7 +182,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
      *                 @OA\Property(
      *                     property="child_menu",
      *                     type="array",
-     *                     @OA\Items(type="object", ref=@Model(type=Evrinoma\MenuBundle\Dto\MenuApiDto::class))
+     *                     @OA\Items(type="object", @OA\Property(property="id", type="string", example="2"))
      *                 ),
      *                 @OA\Property(property="tag", type="string")
      *             )
