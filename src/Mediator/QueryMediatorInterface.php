@@ -16,7 +16,7 @@ namespace Evrinoma\MenuBundle\Mediator;
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Evrinoma\UtilsBundle\QueryBuilder\QueryBuilderInterface;
 
-interface QueryMediatorInterface extends TagQueryMediatorInterface
+interface QueryMediatorInterface extends RawMediatorInterface
 {
     /**
      * @return string

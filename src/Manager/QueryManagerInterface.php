@@ -18,7 +18,7 @@ use Evrinoma\MenuBundle\Exception\MenuNotFoundException;
 use Evrinoma\MenuBundle\Exception\MenuProxyException;
 use Evrinoma\MenuBundle\Model\Menu\MenuInterface;
 
-interface QueryManagerInterface
+interface QueryManagerInterface extends RawQueryManagerInterface
 {
     /**
      * @param MenuApiDtoInterface $dto
@@ -46,13 +46,4 @@ interface QueryManagerInterface
      * @throws MenuProxyException
      */
     public function proxy(MenuApiDtoInterface $dto): MenuInterface;
-
-    /**
-     * @param MenuApiDtoInterface $dto
-     *
-     * @return array
-     *
-     * @throws MenuNotFoundException
-     */
-    public function tags(MenuApiDtoInterface $dto): array;
 }
