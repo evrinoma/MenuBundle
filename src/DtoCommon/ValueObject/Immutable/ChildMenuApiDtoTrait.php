@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Evrinoma\MenuBundle\DtoCommon\ValueObject\Immutable;
 
-use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\MenuBundle\Dto\MenuApiDto;
 use Evrinoma\MenuBundle\Dto\MenuApiDtoInterface;
 use Symfony\Component\HttpFoundation\Request;
