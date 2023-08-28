@@ -33,14 +33,10 @@ trait ChildMenuApiDtoTrait
     public function genRequestChildMenuApiDto(?Request $request): ?\Generator
     {
         if ($request) {
-            $child = $request->get(ChildMenuApiDtoInterface::CHILD_MENU);
-            if ($child) {
-                foreach ($child as $menu) {
-                    $newRequest = $this->getCloneRequest();
-                    $menu[DtoInterface::DTO_CLASS] = static::$classMenusApiDto;
-                    $newRequest->request->add($menu);
-
-                    yield $newRequest;
+            $entities = $request->get(ChildMenuApiDtoInterface::CHILD_MENU);
+            if ($entities) {
+                foreach ($entities as $entity) {
+                    yield $this->toRequest($entity, static::$classMenusApiDto);
                 }
             }
         }
