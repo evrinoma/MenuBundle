@@ -122,7 +122,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
      *         )
      *     )
      * )
-     * @OA\Response(response=200, description="Create menu")
+     * @OA\Response(response=201, description="Create menu")
      *
      * @return JsonResponse
      */
