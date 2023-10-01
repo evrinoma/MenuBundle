@@ -59,8 +59,10 @@ Actions в контроллере разбиты на две группы соз
 
     1. API_GET_MENU, API_CRITERIA_MENU - получение menu
     2. API_POST_MENU - создание menu
-    3. API_PUT_MENU -  редактирование menu
-    4. API_POST_REGISTRY_MENU -  создание menu из registry
+    3. API_PUT_MENU - редактирование menu
+    4. API_POST_REGISTRY_MENU - создание menu из registry
+    5. API_DELETE_MENU - удаление menu
+    6. API_REMOVE_MENU - удаление всех menu
 
 # Статусы:
 

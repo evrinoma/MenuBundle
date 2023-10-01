@@ -17,6 +17,8 @@ interface GroupInterface
 {
     public const API_POST_MENU = 'API_POST_MENU';
     public const API_PUT_MENU = 'API_PUT_MENU';
+    public const API_DELETE_MENU = 'API_DELETE_MENU';
+    public const API_REMOVE_MENU = 'API_REMOVE_MENU';
     public const API_GET_MENU = 'API_GET_MENU';
     public const API_CRITERIA_MENU = self::API_GET_MENU;
     public const API_POST_REGISTRY_MENU = 'API_POST_REGISTRY_MENU';

@@ -50,7 +50,7 @@ final class Facade implements FacadeInterface
         $this->provider = $provider;
     }
 
-    public function remove(DtoInterface $dto, string $group, array &$data): void
+    public function remove(DtoInterface $dto, string &$group, array &$data): void
     {
         $commandManager = $this->commandManager;
 

@@ -18,7 +18,7 @@ use Evrinoma\UtilsBundle\Facade\FacadeInterface as BaseFacadeInterface;
 
 interface FacadeInterface extends BaseFacadeInterface
 {
-    public function remove(DtoInterface $dto, string $group, array &$data): void;
+    public function remove(DtoInterface $dto, string &$group, array &$data): void;
 
     public function registry(string $group, array &$data): void;
 }

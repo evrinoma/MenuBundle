@@ -144,7 +144,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
             $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup($group)->JsonResponse('Create menu', $json, $error);
+        return $this->setSerializeGroup($group)->jsonResponse('Create menu', $json, $error);
     }
 
     /**
@@ -209,7 +209,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
             $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup($group)->JsonResponse('Save menu', $json, $error);
+        return $this->setSerializeGroup($group)->jsonResponse('Save menu', $json, $error);
     }
 
     /**
@@ -251,15 +251,16 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
 
         $json = [];
         $error = [];
+        $group = GroupInterface::API_DELETE_MENU;
 
         try {
-            $this->facade->delete($menuApiDto, '', $json);
+            $this->facade->delete($menuApiDto, $group, $json);
         } catch (\Exception $e) {
             $json = [];
             $error = $this->setRestStatus($e);
         }
 
-        return $this->JsonResponse('Delete menu', $json, $error);
+        return $this->setSerializeGroup($group)->jsonResponse('Delete menu', $json, $error);
     }
 
     /**
@@ -277,15 +278,16 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
 
         $json = [];
         $error = [];
+        $group = GroupInterface::API_REMOVE_MENU;
 
         try {
-            $this->facade->remove(new $this->dtoClass(), '', $json);
+            $this->facade->remove(new $this->dtoClass(), $group, $json);
         } catch (\Exception $e) {
             $json = [];
             $error = $this->setRestStatus($e);
         }
 
-        return $this->JsonResponse('Remove all items', $json, $error);
+        return $this->setSerializeGroup($group)->jsonResponse('Remove all items', $json, $error);
     }
 
     /**
@@ -369,7 +371,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
             $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup($group)->JsonResponse('Get menu', $json, $error);
+        return $this->setSerializeGroup($group)->jsonResponse('Get menu', $json, $error);
     }
 
     /**
@@ -418,7 +420,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
             $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup($group)->JsonResponse('Get menu', $json, $error);
+        return $this->setSerializeGroup($group)->jsonResponse('Get menu', $json, $error);
     }
 
     /**
@@ -443,6 +445,6 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
             $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup($group)->JsonResponse('Create menu from registry', $json, $error);
+        return $this->setSerializeGroup($group)->jsonResponse('Create menu from registry', $json, $error);
     }
 }
