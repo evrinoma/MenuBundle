@@ -78,7 +78,7 @@ abstract class AbstractMenuItem implements MenuInterface
     /**
      * @return string
      */
-    public function getTag(): string
+    public function getTag(): ?string
     {
         return $this->tag;
     }
@@ -131,7 +131,7 @@ abstract class AbstractMenuItem implements MenuInterface
         return $this->getRouteParameters() ? ['routeParameters' => $this->getRouteParameters()] : [];
     }
 
-    public function getOptions(): array
+    public function getOptions(): ?array
     {
         return $this->toUri() + $this->toRoute() + $this->toAttributes() + $this->toRouteParameters();
     }

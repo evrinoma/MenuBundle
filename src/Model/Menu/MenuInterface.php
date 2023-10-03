@@ -24,7 +24,7 @@ interface MenuInterface extends IdInterface, RolesInterface, RelationInterface, 
     /**
      * @return string
      */
-    public function getTag(): string;
+    public function getTag(): ?string;
 
     /**
      * @return string|null
@@ -59,7 +59,7 @@ interface MenuInterface extends IdInterface, RolesInterface, RelationInterface, 
     /**
      * @return array
      */
-    public function getOptions(): array;
+    public function getOptions(): ?array;
 
     /**
      * @param string $tag
