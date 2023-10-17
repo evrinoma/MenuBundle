@@ -32,7 +32,7 @@ final class Facade implements FacadeInterface
 
     protected DtoPreValidatorInterface $preValidator;
 
-    protected DtoProviderInterface  $provider;
+    protected DtoProviderInterface $provider;
 
     public function __construct(
         CommandManagerInterface $commandManager,

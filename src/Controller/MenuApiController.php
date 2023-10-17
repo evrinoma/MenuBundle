@@ -265,9 +265,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
 
     /**
      * @Rest\Delete("/api/menu/remove", options={"expose": true}, name="api_remove_menu")
-     * @OA\Delete(
-     *     tags={"menu"}
-     * )
+     * @OA\Delete(tags={"menu"})
      * @OA\Response(response=200, description="Remove all menu items")
      *
      * @return JsonResponse
