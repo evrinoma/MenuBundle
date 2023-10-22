@@ -144,7 +144,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
             $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup($group)->jsonResponse('Create menu', $json, $error);
+        return $this->setSerializeGroup($group)->setSerializeCircularReferenceLimit(2)->jsonResponse('Create menu', $json, $error);
     }
 
     /**
@@ -209,7 +209,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
             $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup($group)->jsonResponse('Save menu', $json, $error);
+        return $this->setSerializeGroup($group)->setSerializeCircularReferenceLimit(2)->jsonResponse('Save menu', $json, $error);
     }
 
     /**
@@ -369,7 +369,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
             $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup($group)->jsonResponse('Get menu', $json, $error);
+        return $this->setSerializeGroup($group)->setSerializeCircularReferenceLimit(2)->jsonResponse('Get menu', $json, $error);
     }
 
     /**
@@ -418,7 +418,7 @@ final class MenuApiController extends AbstractWrappedApiController implements Ap
             $error = $this->setRestStatus($e);
         }
 
-        return $this->setSerializeGroup($group)->jsonResponse('Get menu', $json, $error);
+        return $this->setSerializeGroup($group)->setSerializeCircularReferenceLimit(2)->jsonResponse('Get menu', $json, $error);
     }
 
     /**
