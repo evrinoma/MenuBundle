@@ -28,9 +28,9 @@ use Evrinoma\UtilsBundle\Validator\ValidatorInterface;
 final class CommandManager implements CommandManagerInterface
 {
     private MenuRepositoryInterface $repository;
-    private ValidatorInterface            $validator;
-    private FactoryInterface           $factory;
-    private CommandMediatorInterface      $mediator;
+    private ValidatorInterface $validator;
+    private FactoryInterface $factory;
+    private CommandMediatorInterface $mediator;
 
     /**
      * @param ValidatorInterface       $validator

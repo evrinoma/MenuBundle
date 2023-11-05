@@ -17,7 +17,7 @@ use Evrinoma\MenuBundle\Registry\ObjectRegistryInterface;
 
 class DtoProvider implements DtoProviderInterface
 {
-    private array                   $dtoSplitByLevel = [];
+    private array $dtoSplitByLevel = [];
     private ObjectRegistryInterface $objectRegistry;
 
     public function __construct(ObjectRegistryInterface $objectRegistry)
