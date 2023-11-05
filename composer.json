@@ -74,6 +74,10 @@
             "type": "vcs",
             "url": "https://github.com/evrinoma/DtoCommon.git"
         },
+        "role": {
+            "type": "vcs",
+            "url": "https://github.com/evrinoma/RoleBundle.git"
+        },
         "security-bundle": {
             "type": "vcs",
             "url": "https://github.com/evrinoma/SecurityBundle.git"
