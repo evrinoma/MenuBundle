@@ -20,7 +20,7 @@ use Evrinoma\DtoCommon\ValueObject\Mutable\AttributesTrait;
 use Evrinoma\DtoCommon\ValueObject\Mutable\IdTrait;
 use Evrinoma\DtoCommon\ValueObject\Mutable\NameTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\ChildMenuApiDtoTrait;
-use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RolesTrait;
+use Evrinoma\DtoCommon\ValueObject\Mutable\RolesTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RootTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RouteParametersTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RouteTrait;

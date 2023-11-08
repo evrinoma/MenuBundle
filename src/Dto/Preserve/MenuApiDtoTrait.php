@@ -17,7 +17,7 @@ use Evrinoma\DtoCommon\ValueObject\Preserve\AttributesTrait;
 use Evrinoma\DtoCommon\ValueObject\Preserve\IdTrait;
 use Evrinoma\DtoCommon\ValueObject\Preserve\NameTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Preserve\ChildMenuApiDtoTrait;
-use Evrinoma\MenuBundle\DtoCommon\ValueObject\Preserve\RolesTrait;
+use Evrinoma\DtoCommon\ValueObject\Preserve\RolesTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Preserve\RootTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Preserve\RouteParametersTrait;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Preserve\RouteTrait;

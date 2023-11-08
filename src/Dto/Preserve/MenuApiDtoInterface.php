@@ -18,7 +18,7 @@ use Evrinoma\DtoCommon\ValueObject\Mutable\AttributesInterface;
 use Evrinoma\DtoCommon\ValueObject\Mutable\IdInterface;
 use Evrinoma\DtoCommon\ValueObject\Mutable\NameInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\ChildMenuApiDtoInterface;
-use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RolesInterface;
+use Evrinoma\DtoCommon\ValueObject\Mutable\RolesInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RootInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RouteInterface;
 use Evrinoma\MenuBundle\DtoCommon\ValueObject\Mutable\RouteParametersInterface;
