@@ -36,7 +36,7 @@ class DtoPreValidator extends AbstractPreValidator implements DtoPreValidatorInt
         $this->checkId($dto);
     }
 
-    private function check(DtoInterface $dto): void
+    protected function check(DtoInterface $dto): void
     {
         /** @var MenuApiDtoInterface $dto */
         if (!$dto->hasRoles()) {
@@ -64,7 +64,7 @@ class DtoPreValidator extends AbstractPreValidator implements DtoPreValidatorInt
         }
     }
 
-    private function checkId(DtoInterface $dto): void
+    protected function checkId(DtoInterface $dto): void
     {
         /** @var MenuApiDtoInterface $dto */
         if (!$dto->hasId()) {
